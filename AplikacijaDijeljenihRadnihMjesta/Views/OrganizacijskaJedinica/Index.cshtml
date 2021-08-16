@@ -1,0 +1,86 @@
+﻿@model IEnumerable<AplikacijaDijeljenihRadnihMjesta.Models.ViewModel.OrgJedinicaVM>
+
+<link rel="stylesheet" type="text/css" href="~/css/Stranica.css" media="screen" 7 />
+<partial name="Upozorenja" view-data="ViewData" />
+@{
+    ViewData["index"] = "ADMIN";
+}
+<body>
+    <div class="container p-3 mojaTablica">
+        <div id="title" class="row pt-4">
+            <div class="col-6">
+                <h2 >Popis organizacijskih jedinica</h2>
+            </div>
+        </div>
+        <div class="col-12 text-right" style="margin-bottom:10px;">
+            <a asp-controller="OrganizacijskaJedinica" asp-action="Create">
+                <i class="fas fa-plus"></i> &nbsp;
+            </a>
+        </div>
+        
+
+        @if (Model != null && Model.Count() > 0)
+        {
+            <table class="table table-bordered table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>
+                            Naziv
+                        </th>
+                        <th>
+                            Djelatnici
+                        </th>
+                        <th>
+                            Informacije o djelatnicima
+                        </th>
+                        <th>
+                            Lokacije
+                        </th>
+                        <th>
+                            Informacije o lokacijama
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var obj in Model)
+                    {
+                        <tr>
+                            <td id="items" width="20%">@obj.Naziv</td>
+                            <td id="items" width="10%">@obj.BrojDjelatnika </td>
+                            <td class="text-center">
+                                <div class="w-25 btn-group" role="group">
+                                    <a asp-controller="Djelatnik" asp-route-orgJedID="@obj.Id" asp-action="Index" class="btn btn-primary "><i class="fas fa-info-circle"></i></a>
+                                </div>
+                            </td>
+                            <td id="items" width="10%">@obj.BrojLokacija </td>
+                            <td class="text-center">
+                                <div class="w-25 btn-group" role="group">
+                                    <a asp-controller="Lokacija" asp-route-orgJedID="@obj.Id" asp-route-nazivOrgJed="@obj.Naziv" asp-action="Index" class="btn btn-primary "><i class="fas fa-info-circle"></i></a>
+
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="w-75 btn-group" role="group">
+                                    <a asp-controller="OrganizacijskaJedinica" asp-route-Id="@obj.Id" asp-action="Edit" class="btn btn-primary "><i class="fas fa-edit"></i></a>
+                                    <a asp-controller="OrganizacijskaJedinica" asp-route-Id="@obj.Id" onclick="return confirm('Jeste li sigurni da želite obrisati?')" asp-action="Delete" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        }
+        else
+        {
+            <p>Ne postoji niti jedna organizacijska jedinica!</p>
+        }
+    </div>
+</body>
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+}

@@ -1,0 +1,132 @@
+﻿@model AplikacijaDijeljenihRadnihMjesta.Models.ViewModel.RezervacijaVM
+<partial name="Upozorenja" view-data="ViewData" />
+<link rel="stylesheet" type="text/css" href="~/css/Stranica.css" media="screen" 7 />
+
+@{
+
+    ViewData["index"] = TempData["uloga"];
+}
+
+<div class="container p-3">
+
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Zahtjevi za rezervaciju</h2>
+        </div>
+    </div>
+    <br /><br />
+    <form method="post" asp-controller="Rezervacije" asp-action="Index" >
+        <div class="row">
+            <div class="col-md-4" style="padding-right:0px!important;margin-top:10px">
+                <div>
+                    <label asp-for="@Model.Lokacija">Odaberi adresu: </label>
+                    <select asp-for="@Model.Lokacija" asp-items="@Model.Lokacije">
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-8" style="padding-right:0px!important">
+                <input type="submit" name="submitButton1" style="font-size: 1em !important;" class="btn btn-primary" value="Filtriraj" />
+
+            </div>
+
+        </div>
+    </form>
+
+    <form method="post" asp-controller="Rezervacije" asp-action="Index" >
+        @if (Model.Rezervacije != null && Model.Rezervacije.Count() > 0)
+        {
+            <table class="table table-bordered table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>
+                            Datum
+                        </th>
+                        <th>
+                            Lokacija
+                        </th>
+                        <th>
+                            Radno mjesto
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < @Model.Rezervacije.Count(); i++)
+                    {
+                    <tr>
+                        <td id="items" width="10%">@Html.HiddenFor(m => m.Rezervacije[i].ZeljeniDatum) @Model.Rezervacije[i].ZeljeniDatum.ToShortDateString()</td>
+                        <td id="items" width="40%">@Html.HiddenFor(m => m.Lokacija) @Model.Rezervacije[i].Adresa</td>
+                        @if (@Model.Rezervacije[i].Status == "Otkazano")
+                        {
+                            <td id="items" width="30%" style="color:red;"> Otkazano </td>
+                        }
+                        else
+                        {
+                            <td id="items" width="30%" >@Html.HiddenFor(m => m.Rezervacije[i].SifraRadnogMjesta) @Model.Rezervacije[i].SifraRadnogMjesta</td>
+
+                        }
+                        <td class="text-center">
+                            <div class="w-70 btn-group" role="group">
+                                @Html.HiddenFor(m => m.Rezervacije[i].Rezervirano)
+                                @Html.HiddenFor(m => m.Rezervacije[i].ZauzetoRadnoMjesto)
+                                @Html.HiddenFor(m => m.Rezervacije[i].Status)
+                                @if (Model.Rezervacije[i].Rezervirano || Model.Rezervacije[i].ZauzetoRadnoMjesto || Model.Rezervacije[i].Status == "Otkazano")
+                                {
+                                    @Html.HiddenFor(m => m.Rezervacije[i].OdgovorCheckBox)
+                                    @Html.CheckBoxFor(m => m.Rezervacije[i].OdgovorCheckBox, new
+                                    {
+                                        disabled = "disabled",
+                                        style = "width:25px;height:23px"
+                                    })
+
+                                }
+
+                                else if (Model.Rezervacije[i].ZauzetoRadnoMjesto)
+                                {
+                                    @Html.HiddenFor(m => m.Rezervacije[i].OdgovorCheckBox)
+                                    @Html.CheckBoxFor(m => m.Rezervacije[i].OdgovorCheckBox, new
+                                    {
+                                        disabled = "disabled",
+                                        style = "width:25px;height:23px"
+                                    })
+
+                                }
+                                else
+                                {
+                                    @Html.CheckBoxFor(m => m.Rezervacije[i].OdgovorCheckBox, new
+                                    {
+                                        style = "width:25px;height:25px"
+                                    })
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                    }
+
+
+                </tbody>
+            </table>
+
+
+            <div class="text-right">
+                <input type="submit"  style="font-size: 1em !important;" class="btn btn-primary" value="Podnesi zahtjev" />
+            </div>
+
+
+        }
+        else
+        {
+            <br /><br />
+            <p>Odaberite lokaciju na kojoj želite rezervirati radno mjesto!</p>
+        }
+    </form>
+</div>
+
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+   
+
+}

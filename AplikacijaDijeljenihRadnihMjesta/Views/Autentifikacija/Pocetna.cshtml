@@ -1,0 +1,21 @@
+﻿<link rel="stylesheet" type="text/css" href="~/css/TipLaptopa.css" media="screen" 7 />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+@model AplikacijaDijeljenihRadnihMjesta.Models.ViewModel.KorisnickiRacunVM
+@{
+    if (Model.Uloga == "Administrator")
+    {
+        ViewData["index"] = "ADMIN";
+        ViewData["oboje"] = true;
+    }
+    else
+    {
+        ViewData["index"] = "DJELATNIK";
+        ViewData["oboje"] = false;
+    }
+}
+
+
+
+
+
+

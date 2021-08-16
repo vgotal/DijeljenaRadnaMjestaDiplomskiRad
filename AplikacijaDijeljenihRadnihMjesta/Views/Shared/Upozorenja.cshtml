@@ -1,0 +1,18 @@
+﻿@if ((string)TempData["Uspješno"] != null)
+{
+    <div class="alert alert-success" sytle="margin-top:10px">
+        <strong>@TempData["Uspješno"]</strong>
+    </div>
+}
+@if ((string)TempData["Neuspješno"] != null)
+{
+    <div class="alert alert-danger" sytle="margin-top:10px">
+        <strong>@TempData["Neuspješno"]</strong>
+    </div>
+}
+ @if ((string)TempData["Info"] != null)
+{
+    <div class="alert alert-info" sytle="margin-top:10px">
+        <strong>@TempData["Info"]</strong>
+    </div>
+}

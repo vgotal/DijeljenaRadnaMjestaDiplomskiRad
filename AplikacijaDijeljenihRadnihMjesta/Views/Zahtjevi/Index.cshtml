@@ -1,0 +1,121 @@
+﻿@model AplikacijaDijeljenihRadnihMjesta.Models.Paginacija.PaginacijaZahtjev
+<partial name="Upozorenja" view-data="ViewData" />
+<link rel="stylesheet" type="text/css" href="~/css/Stranica.css" media="screen" 7 />
+
+@{
+
+    ViewData["index"] = TempData["uloga"];
+    ViewData["Controller"] = "Zahtjevi";
+    ViewData["Action"] = "Index";
+}
+
+
+<div class="container p-3">
+
+    <div class="row pt-4">
+        <div class="col-12">
+            <h2 class="text-primary">Pregledi zahtjeva</h2>
+        </div>
+    </div>
+    <form method="post" asp-controller="Zahtjevi" asp-action="Index">
+        <div class="row" style=" align-items: flex-end;">
+            <div class="col-md-2,5" style="padding-right:0px!important;margin-top:30px">
+
+                <label asp-for="@Model.pregledZahtjeva.TipZahtjeva">Odaberi: </label>
+                <select asp-for="@Model.pregledZahtjeva.TipZahtjeva" asp-items="@Model.pregledZahtjeva.TipoviZahtjeva">
+                    <option> Svi zahtjevi </option>
+                </select>
+            </div>
+            <div class="col-0,5" style="padding-left:15px!important;margin-top:35px; padding-right:5px">
+                @Html.LabelFor(m => m.pregledZahtjeva.PocetniDatum, "OD:")
+            </div>
+            <div class="col-xs-2" style="padding-left:0px!important;margin-top:30px">
+                @Html.TextBoxFor(x => x.pregledZahtjeva.PocetniDatum, "{0:yyyy-MM-dd}", new
+           {
+               @id = "pocetniDatum",
+               @class = "form-control",
+               @type = "date"
+           })
+            </div>
+            <div class="col-0,5" style="padding-left:5px!important;margin-top:35px; padding-right:5px">
+                @Html.LabelFor(m => m.pregledZahtjeva.PocetniDatum, "DO:")
+            </div>
+            <div class="col-2" style="padding-left:0px!important;margin-top:30px">
+                @Html.TextBoxFor(x => x.pregledZahtjeva.KrajnjiDatum, "{0:yyyy-MM-dd}", new
+           {
+               @id = "krajnjiDatum",
+               @class = "form-control",
+               @type = "date"
+           })
+
+            </div>
+            <div class="col-1,5" style="padding-right:0px!important;width:auto;">
+                <input type="submit" style="font-size: 1em !important;margin-top:34px;" class="btn btn-danger" onclick="resetirajDatume()" value="Resetiraj Datume" />
+            </div>
+            <div class="col-1,5" style="padding-right:0px!important;">
+                <input type="submit" style="font-size: 1em !important;margin-top:34px;" class="btn btn-primary" value="Dohvati Zahtjeve" />
+            </div>
+
+        </div>
+    </form>
+
+    <form method="post" asp-controller="Zahtjevi" asp-action="Index">
+        <div class="table" sytle="margin-top:10px">
+            <table class="table table-bordered table-hover table-striped " sytle="margin-top:10px !important">
+                <thead>
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            Tip zahjeva
+                        </th>
+                        <th>
+                            Datum
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{if (Model.pregledZahtjeva.Zahtjevi != null && Model.pregledZahtjeva.Zahtjevi.Count > 0)
+                        {
+                            foreach (var Data in Model.pregledZahtjeva.Zahtjevi)
+                            {
+                                <tr>
+                                    <td width="10%" style="text-align:center;vertical-align:middle"><a asp-action="Detalji" asp-route-zahtjevID="@Data.ZahtjevID" class=" row-link">@Data.ZahtjevID</a></td>
+                                    <td width="30%" style="text-align:center;vertical-align:middle">@Data.Tip</td>
+                                    <td width="30%" style="text-align:center;vertical-align:middle">@Data.ZahtjevDatum</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td style="text-align:center;vertical-align:middle">Nema rezultata za traženi period</td>
+                                <td style="text-align:center;vertical-align:middle"> </td>
+                                <td style="text-align:center;vertical-align:middle"> </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+        </div>
+        
+    </form>
+    <form style="align-content:center" method="post" asp-controller="Zahtjevi" asp-action="Index">
+        <partial name="_Pagination" view-data="ViewData" model="Model" />
+    </form>
+
+
+</div>
+
+@section Scripts{
+    <script type='text/javascript'>
+ function resetirajDatume() {
+         document.getElementById('pocetniDatum').value = "";
+     document.getElementById('krajnjiDatum').value = "";
+     ViewData["Resetiranje"] = "resetiraj";
+     window.location.href="@Url.Action("Index", "Zahtjevi")";
+     }
+    </script>
+}

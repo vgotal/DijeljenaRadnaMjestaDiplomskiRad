@@ -1,0 +1,117 @@
+﻿@model AplikacijaDijeljenihRadnihMjesta.Models.ViewModel.OtkazivanjeVM
+<partial name="Upozorenja" view-data="ViewData" />
+<link rel="stylesheet" type="text/css" href="~/css/Stranica.css" media="screen" 7 />
+
+@{
+
+    ViewData["index"] = TempData["uloga"];
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Zahtjevi za otkazivanje</h2>
+        </div>
+    </div>
+    <br /><br />
+
+    <form method="post" asp-controller="Otkazivanje" asp-action="Index">
+        @if (Model.Rezervacije != null && Model.Rezervacije.Count() > 0)
+        {
+            <table class="table table-bordered table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>
+                            Datum
+                        </th>
+                        <th>
+                            Lokacija
+                        </th>
+                        <th>
+                            Radno mjesto
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (@Model.Rezervacije != null && @Model.Rezervacije.Count > 0)
+                    {
+                        @for (int i = 0; i < @Model.Rezervacije.Count; i++)
+                        {
+                            <tr>
+                                <td style="text-align:center;vertical-align:middle">
+                                    @Html.HiddenFor(m => m.Rezervacije[i].Id)
+                                    @Html.HiddenFor(m => m.Rezervacije[i].ZeljeniDatum)
+                                    @Model.Rezervacije[i].ZeljeniDatum.ToShortDateString()
+                                </td>
+                                <td style="text-align:center;vertical-align:middle">
+                                    @Model.Rezervacije[i].Adresa
+                                </td>
+                                <td style=" text-align: center; vertical-align: middle">
+                                    @Html.HiddenFor(m => m.Rezervacije[i].SifraRadnogMjesta)
+                                    @Model.Rezervacije[i].SifraRadnogMjesta
+                                </td>
+                                <td style="width:50px; text-align: center; vertical-align: middle">
+                                    @if (Model.Rezervacije[i].OdgovorCheckBox)
+                                    {
+                                        @Html.CheckBoxFor(m => m.Rezervacije[i].OdgovorCheckBox, new
+                                        {
+                                            @class = "form-control",
+                                            style = "width:25px;height:23px"
+                                        })
+                                    }
+                                    else
+                                    {
+                                        @Html.CheckBoxFor(m => m.Rezervacije[i].OdgovorCheckBox, new
+                                        {
+                                            @class = "form-control",
+                                            @checked = "checked",
+                                            style = "width:25px;height:23px"
+                                        })
+                                    }
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td style="text-align:center;vertical-align:middle">Nema rezultata za traženi period</td>
+                            <td style="text-align:center;vertical-align:middle"> </td>
+                            <td style="text-align:center;vertical-align:middle"> </td>
+                            <td style="text-align:center;vertical-align:middle"> </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+           
+            <div class="text-right">
+                <input type="submit" style="font-size: 1em !important;padding:6px" class="btn btn-primary" value="Podnesi zahtjev za otkazivanje" />
+            </div>
+
+        
+        }
+        else
+        {
+            <br /><br />
+            <p>Nemate zahtjeva koje možete otkazati!</p>
+        }
+    </form>
+</div>
+
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+}
+
+
+
+
+
+
+     

@@ -1,0 +1,40 @@
+﻿
+.container {
+    background:white !important;
+
+}
+
+
+td {
+    text-align: center;
+    text-decoration-color: #000000;
+    color: #000000;
+}
+
+#pagination {
+    color: #fff !important;
+    justify-content: center !important;
+}
+
+
+    th {
+    text-align: center;
+    text-decoration-color: #000000;
+    color:#2d6da2;
+}
+.fa-plus{
+    font-size:200%;
+    margin-right:20px;
+    color: #091fd7 !important;
+}
+h2 {
+    text-align: left !important;
+    margin:10px;
+    padding: 0px;
+    /*text-decoration-color: #000000;*/
+    color: #091153 !important;
+}
+/*title {
+    padding: 0px;
+    text-align: left;
+}*/

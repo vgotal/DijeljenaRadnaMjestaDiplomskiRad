@@ -1,0 +1,13 @@
+﻿<link rel="stylesheet" type="text/css" href="~/css/Stranica.css" media="screen" 7 />
+<cs-pager style:"justify-content: center;" itemid="pagination"
+          cs-paging-pagenumber=(int)Model.paginationModel.PageNumber
+          cs-paging-totalitems=(int)Model.paginationModel.TotalItems
+          cs-paging-pagesize=Model.paginationModel.PageSize
+          cs-pagenumber-param="pagenumber"
+          asp-controller=@ViewData["Controller"]
+          as-action=@ViewData["Action"] 
+          cs-pager-li-current-class="page-item active "
+          cs-pager-li-other-class="page-item"
+          cs-pager-li-non-active-class="page-item-disabled"
+          cs-pager-link-current-class="page-link"
+          cs-pager-link-other-class="page-link"></cs-pager>

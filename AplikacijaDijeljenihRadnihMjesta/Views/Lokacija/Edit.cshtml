@@ -1,0 +1,86 @@
+﻿@model AplikacijaDijeljenihRadnihMjesta.Models.ViewModel.LokacijaVM
+
+<partial name="Upozorenja" view-data="ViewData" />
+@{
+
+    ViewData["index"] = "ADMIN";
+    var orgJedID = 0;
+    if (TempData["OrgJedID"] != null)
+    {
+        orgJedID = (int)(TempData["OrgJedID"]);
+    }
+    else
+        orgJedID = 0;
+
+}
+<form method="post" asp-action="Edit">
+    <input asp-for="Id" hidden />
+    <div class="border p-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group row">
+            <h2 class="text-info pl-3"> Uredi informacije o lokaciji</h2>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Adresa"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Adresa" class="form-control" required />
+                    </div>
+                    <div class="col-4">
+                        <label asp-for="Grad">Grad</label>
+                    </div>
+                    <div class="col-8">
+                        <select asp-for="Grad" asp-items="@Model.Gradovi " required>
+                            <option hidden selected="selected" value="@Model.Grad">@Model.Grad</option>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <label asp-for="OrgJedinica">Organizacijska jedinica</label>
+                    </div>
+                    <div class="col-8">
+                        <select asp-for="OrgJedinica" asp-items="@Model.OrgJedinice" required>
+                            <option hidden selected="selected" value="@Model.OrgJedinica">@Model.OrgJedinica</option>
+                        </select> 
+                    </div>
+                </div>
+                
+
+            </div>
+                <div class="form-group row">
+                    <div class="col-8 offset-4 row">
+
+                        <div class="col">
+                            <input type="submit" class="btn btn-info w=100" value=" Uredi" />
+                        </div>
+                        @if ((int)orgJedID != 0)
+                        {
+                            <div class="col">
+                                <a asp-action="Index" asp-route-orgJedID="@orgJedID" class="btn btn-primary w-100"><i class="fas fa-sign-out-alt"></i></a>
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col">
+                                <a asp-action="Index" class="btn btn-primary w-100"><i class="fas fa-sign-out-alt"></i> </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                @* Keep this empty *@
+            </div>
+        </div>
+    </div>
+
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

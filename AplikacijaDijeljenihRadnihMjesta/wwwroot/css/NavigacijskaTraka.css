@@ -1,0 +1,97 @@
+﻿a {
+    text-decoration: none;
+}
+
+nav {
+    width:100%;
+}
+#pagination {
+    color: #fff !important;
+    justify-content: center !important;
+}
+ul.pagination {
+    color: #fff !important;
+    background: #fff !important;
+    justify-content: center !important;
+}
+#navbarSupportedContent {
+    align-content: center;
+    padding-left: 10%;
+    background: #113287;
+}
+.navbar-brand {
+    font-size: x-large;
+    background: #113287;
+    margin-left: 10%;
+    color:white !important;
+
+}
+
+.nav-link {
+    color: white !important;
+}
+.navbar {
+    width: 100%;
+    background: #113287;
+}
+.nav.navbar.navbar-expand-lg navbar-light {
+    background: #113287;
+}
+
+
+.navbar-nav mr-auto {
+    background: #113287;
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+}
+.nav-item active {
+    color: #fff;
+    background: #113287;
+    display: block;
+    float: left;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    position: relative;
+    text-decoration: none;
+    transition-duration: 0.5s;
+
+}
+
+    li a {
+        color: #fff;
+    }
+
+    li:hover {
+        background: #59669d;
+        cursor: pointer;
+    }
+
+ul li ul {
+    background: #59669d;
+    visibility: hidden;
+    opacity: 0;
+    min-width: 5rem;
+    position: absolute;
+    transition: all 0.5s ease;
+    margin-top: 1rem;
+    left: 0;
+    display: none;
+}
+
+    ul li:hover > ul,
+    ul li ul:hover {
+        visibility: visible;
+        opacity: 1;
+        display: block;
+    }
+
+    ul li ul li {
+        clear: both;
+        width: 100%;
+    }
