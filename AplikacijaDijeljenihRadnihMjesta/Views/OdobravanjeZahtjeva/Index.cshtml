@@ -9,44 +9,28 @@
     ViewData["Action"] = "Index";
 }
 
-<div class="container p-3">
+<div class="card p-3 mt-5">
 
-    <div class="row pt-4">
-        <div class="col-6">
-            <h2 class="text-primary">Zahtjevi za odobravanje</h2>
-        </div>
+    <div class="col-12 pt-2">
+        <h2 class="text-primary formTitle" style="text-align:center !important;">Zahtjevi za odobravanje</h2>
     </div>
-    <br /><br />
     <form method="post" asp-controller="OdobravanjeZahtjeva" asp-action="Index">
-        <div class="row">
-            <div class="col-md-3" style="padding-right:0px!important;margin-top:10px">
-                <div>
-                    <label asp-for="@Model.odobravanjeZahtjeva.Status">Odaberi adresu: </label>
-                    <select asp-for="@Model.odobravanjeZahtjeva.Status" asp-items="@Model.odobravanjeZahtjeva.Statusi">
-                        <option> Svi statusi </option>
-                    </select>
+        <div class="col-md-12" style="margin-bottom:10px">
+            <select class="form-select" style="display:inline-block;width:200px;" asp-for="@Model.odobravanjeZahtjeva.Status" asp-items="@Model.odobravanjeZahtjeva.Statusi">
+                <option selected> Svi statusi </option>
+            </select>
+            <input type="submit" name="submitButton1" style="font-size: 1em !important; margin-bottom:5px;margin-left:20px;display:inline-block" class="btn btn-primary" value="Filtriraj" />
 
-                </div>
-            </div>
-            <div class="col-md-9" style="padding-right:0px!important">
-                <input type="submit" name="submitButton1" style="font-size: 1em !important;" class="btn btn-primary" value="Filtriraj" />
-
-            </div>
+            
 
         </div>
     </form>
     <form method="post" asp-controller="OdobravanjeZahtjeva" asp-action="Index">
         @if (Model.odobravanjeZahtjeva.RezervacijeOtkazivanje != null && Model.odobravanjeZahtjeva.RezervacijeOtkazivanje.Count() > 0)
         {
-            <table class="table table-bordered table-striped" style="width:100%">
+            <table class="table tableCss table-bordered table-striped" style="width:100%">
                 <thead>
                     <tr>
-                        <th>
-                            ID
-                        </th>
-                        <th>
-                            Zahtjev ID
-                        </th>
                         <th>
                             Ime i prezime
                         </th>
@@ -57,7 +41,10 @@
                             Datum
                         </th>
                         <th>
-                            Status
+                            Dodatne informacije
+                        </th>
+                        <th>
+                            Komentar na zahtjev
                         </th>
                         <th>
                             Odobreno
@@ -65,84 +52,104 @@
                         <th>
                             Otkazano
                         </th>
+
+
                     </tr>
                 </thead>
                 <tbody>
                     @for (int i = 0; i < @Model.odobravanjeZahtjeva.RezervacijeOtkazivanje.Count(); i++)
                     {
+                        @Html.HiddenFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Id)
+                        @Html.HiddenFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].ZahtjevId)
                         <tr>
-                            <td id="items" width="10%">@Html.HiddenFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Id) @Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Id</td>
-                            <td id="items" width="10%">@Html.HiddenFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Id) @Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].ZahtjevId</td>
-                            <td id="items" width="40%">@Html.HiddenFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].DjelatnikEmail) @Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].ImeIPrezime</td>
-                            <td id="items" width="30%">@Html.HiddenFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].TipZahtjeva) @Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].TipZahtjeva</td>
-                            <td id="items" width="30%">@Html.HiddenFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Datum) @Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Datum.ToShortDateString()</td>
-                            @if (@Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status == "Otkazano")
+                            <td id="items" width="20%" style="text-align:center;vertical-align: middle;">@Html.HiddenFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].DjelatnikEmail) @Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].ImeIPrezime</td>
+                            <td id="items" width="20%" style="text-align:center;vertical-align: middle;">@Html.HiddenFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].TipZahtjeva) @Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].TipZahtjeva</td>
+                            <td id="items" width="30%" style="text-align:center;vertical-align: middle;">@Html.HiddenFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Datum) @Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Datum.ToShortDateString()</td>
+                            <td style=" text-align: center; vertical-align: middle">
+                                @Html.TextAreaFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].RazlogOtkazivanja, new
+                           {
+                               disabled = "disabled",
+                               @style = "min-height:50px;color:black ;width: 200px;font-size:12px; background:smoke;padding:5px;"
+                           })
+
+                            </td>
+                            @if (Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Komentar != null)
                             {
-                                <td id="items" width="30%" style="color:red">@Html.HiddenFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status) @Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status</td>
+                                <td style=" text-align: center; vertical-align: middle">
+                                    @Html.TextAreaFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Komentar, new
+                               {
+
+                                        disabled = "disabled",
+                                   @style = "min-height:50px;color:black;width: 200px; padding:5px; font-size:12px; background:smoke; "
+                               })
+                                </td>
                             }
-                            @if (@Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status == "Odobreno")
+                            else
                             {
-                                <td id="items" width="30%" style="color:green">@Html.HiddenFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status) @Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status</td>
+                                <td style=" text-align: center; vertical-align: middle">
+                                    @Html.TextAreaFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Komentar, new
+                               {
+                                   @style = "min-height:50px;width: 200px; font-size:12px; "
+                               })
+                                </td>
                             }
-                            @if (@Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status == "cekanje")
-                            {
-                                <td id="items" width="30%" style="color:green">@Html.HiddenFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status) </td>
-                            }
-                            <td class="text-center">
+
+
+                            <td class="text-center" style=" text-align: center; vertical-align: middle;padding-right: 15px;padding-left: 15px;">
                                 <div class="w-70 btn-group" role="group">
-                                    @if (Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status == "Odobreno" || Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status == "Otkazano" )
+                                    @if (Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status == "Odobreno" || Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status == "Otkazano")
                                     {
 
                                         @Html.HiddenFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].OdgovorCheckBoxOdobreno)
-                                        @Html.CheckBoxFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].OdgovorCheckBoxOdobreno, new
+                                        if (Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status == "Odobreno")
                                         {
-                                            disabled = "disabled",
-                                            style = "width:25px;height:23px"
-                                        })
+                                            <i class="fas fa-check" style="font-size: 20px;color: #006700ad;"></i>
+                                        }
+
                                     }
                                     else
                                     {
                                         @Html.CheckBoxFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].OdgovorCheckBoxOdobreno, new
                                        {
-                                       style = "width:25px;height:25px"
+                                       style = "width:22px;height:22px; background:green"
                                         })
 
                                     }
                                 </div>
                             </td>
-                            <td class="text-center">
+                            <td class="text-center" style=" text-align: center; vertical-align: middle;padding-right: 15px;padding-left: 15px;">
                                 <div class="w-70 btn-group" role="group">
-                                    @if (Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status == "Otkazano" || Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status == "Odobreno" )
+                                    @if (Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status == "Otkazano" || Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status == "Odobreno")
                                     {
                                         @Html.HiddenFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].OdgovorCheckBoxOtkazano)
-                                        @Html.CheckBoxFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].OdgovorCheckBoxOtkazano, new
+
+                                        if (Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status == "Otkazano")
                                         {
-                                            disabled = "disabled",
-                                            style = "width:25px;height:23px"
-                                        })
+                                            <i class="fas fa-times" style="font-size: 26.8px; color: #d23131c7"></i>
+                                        }
                                     }
+
                                     else
                                     {
                                         @Html.CheckBoxFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].OdgovorCheckBoxOtkazano, new
                                         {
-                                            style = "width:25px;height:25px"
+                                            style = "width:22px;height:22px"
                                         })
                                     }
 
 
                                 </div>
                             </td>
+
                         </tr>
                     }
 
                 </tbody>
             </table>
 
-            <div class="text-right">
-                <input type="submit" style="font-size: 1em !important;" class="btn btn-primary" value="Podnesi zahtjev" />
+            <div class="col-md-12" style="margin-bottom:10px">
+                <input type="submit" style="font-size: 1em !important;float:right" class="btn btn-success" value="Podnesi zahtjev" />
             </div>
-
-
         }
         else
         {

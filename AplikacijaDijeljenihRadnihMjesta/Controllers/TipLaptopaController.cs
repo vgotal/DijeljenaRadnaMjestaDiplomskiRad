@@ -18,6 +18,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         {
             this.tipLaptopaRepository = new TipLaptopaRepository(db);
         }
+        [HttpGet]
         public IActionResult Index()
         {
             return View(tipLaptopaRepository.DohvatiListuTipovaLaptopa());

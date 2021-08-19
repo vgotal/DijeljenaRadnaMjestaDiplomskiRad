@@ -1,4 +1,5 @@
 ﻿@model AplikacijaDijeljenihRadnihMjesta.Models.Paginacija.PaginacijaRadnoMjesto
+    <link rel="stylesheet" type="text/css" href="~/css/Stranica.css" media="screen" 7 />
 @{
 
     ViewData["index"] = "ADMIN";
@@ -23,41 +24,40 @@
 }
 
 <partial name="Upozorenja" view-data="ViewData" />
-<link rel="stylesheet" type="text/css" href="~/css/Stranica.css" media="screen" 7 />
-<div class="container p-3">
-    <div class="row pt-4 pb-5">
+
+<div class="card p-3 mt-5">
+    @if ((int)lokacijaID != 0)
+    {
+        <a asp-controller="Lokacija" asp-action="Index" asp-route-orgJedID="@orgJedID" asp-route-lokacijaID="@lokacijaID"  style=" width: min-content!important;"><i class="fas fa-arrow-left" style="justify-content:right; text-align:right; width:min-content; font-size:26px; "></i> </a>
+    }
+    else
+    {
+
+
+    }
+    <div class="col-12 pt-2 formTitle">
         @if ((int)lokacijaID == 0)
         {
-            <div class="col-12">
-                <h2>Popis radnih mjesta</h2>
-            </div>
+            <h2 class="formTitle" style="text-align:center !important;">Popis radnih mjesta</h2>
         }
         else
         {
-            <div class="col-12">
-                <h2>Popis radnih mjesta na lokaciji</h2>
-            </div>
+            <h2 class="formTitle" style="text-align:center !important;">Popis radnih mjesta na lokaciji</h2>
         }
     </div>
     <form method="post" asp-controller="RadnoMjesto" asp-route-lokacijaID="@lokacijaID" asp-route-tipLaptopaID="@Model.radnoMjestoFilter.TipLaptopaID" asp-action="Index">
-        <div class="row">
-            <div class="col-md-5" style="padding-right:0px!important;">
-                <div>
-                    <label asp-for="@Model.radnoMjestoFilter.TipLaptopaID">Odaberi model laptopa: </label>
-                    <select asp-for="@Model.radnoMjestoFilter.TipLaptopaID" asp-items="@Model.radnoMjestoFilter.ListaTipovaLaptopa">
-                        <option>Svi modeli</option>
-                    </select>
-                    <input type="submit" style=" font-size: 1em !important; margin-left:10px; margin-bottom:10px;" class="btn btn-primary" value="Filtriraj" />
-                </div>
-            </div>
-            <div class="col-md-7">
-                @if ((int)lokacijaID == 0)
-                {
-                    <a style="float:right;" asp-controller="RadnoMjesto" asp-route-LokacijaId="@lokacijaID" asp-action="Create">
-                        <i class="fas fa-plus"></i> &nbsp;
-                    </a>
-                }
-            </div>
+        <div class="col-md-12" style="margin-bottom:10px">
+            <select class="form-select" style="width:min-content; display:inline-block!important" asp-for="@Model.radnoMjestoFilter.TipLaptopaID" asp-items="@Model.radnoMjestoFilter.ListaTipovaLaptopa">
+                <option>Svi modeli</option>
+            </select>
+            <input type="submit" style=" font-size: 1em !important; margin-left:10px; margin-bottom:10px;" class="btn btn-primary" value="Filtriraj" />
+            @if ((int)lokacijaID == 0)
+            {
+                <a style="float:right;text-align:right!important;  color: #2973b2 !important;" asp-controller="RadnoMjesto" asp-route-LokacijaId="@lokacijaID" asp-action="Create">
+                    <i class="fas fa-plus" style=" color: #2973b2 !important;"></i>
+                </a>
+            }
+
         </div>
     </form>
 
@@ -66,7 +66,7 @@
 
     @if (Model.radnoMjestoFilter.ListaRadnihMjesta != null && Model.radnoMjestoFilter.ListaRadnihMjesta.Count() > 0)
     {
-        <table class="table table-bordered table-striped" style="width:100%">
+        <table class="table  tableCss table-bordered table-striped" style="width:100%">
             <thead>
                 <tr>
                     <th>
@@ -107,29 +107,13 @@
         <form style="align-content:center" method="post" asp-controller="Djelatnik" asp-action="Index">
             <partial name="_Pagination" view-data="ViewData" model="Model" />
         </form>
-        @if ((int)lokacijaID != 0)
-        {
-            <a asp-controller="Lokacija" asp-action="Index" asp-route-orgJedID="@orgJedID" asp-route-lokacijaID="@lokacijaID" class="btn btn-primary w-30 float-right"><i class="fas fa-sign-out-alt"></i> </a>
-        }
-        else
-        {
-
-
-        }
+    
     }
     else
     {
 
         <p>Ne postoji niti jedno radno mjesto na toj lokaciji ili nema radnih mjesta s tim modelom laptopa!</p>
-        @if ((int)lokacijaID != 0)
-        {
-            <a asp-controller="Lokacija" asp-action="Index" asp-route-orgJedID="@orgJedID" asp-route-lokacijaID="@lokacijaID" class="btn btn-primary w-30 float-right"><i class="fas fa-sign-out-alt"></i> </a>
-        }
-        else
-        {
 
-
-        }
     }
 
 
