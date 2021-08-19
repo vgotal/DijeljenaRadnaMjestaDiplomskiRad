@@ -2,7 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>0aa8312e-7fe8-4281-bac7-b30845202a48</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\fontawesome\**" />
+    <Content Remove="wwwroot\fontawesome\**" />
+    <EmbeddedResource Remove="wwwroot\fontawesome\**" />
+    <None Remove="wwwroot\fontawesome\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="cloudscribe.Pagination.Models" Version="1.1.0" />

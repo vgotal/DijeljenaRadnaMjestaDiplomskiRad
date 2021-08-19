@@ -87,7 +87,9 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                               DjelatnikEmail=djelatnik.Email,
                               TipZahtjeva=zahtjev.TipZahtjeva.Tip,
                               Status=zahtjeviZaOdobravanje.Status.Tip,
-                              OtkazivanjeZahtjeva=zahtjeviZaOdobravanje.OtkazivanjeZahtjeva
+                               RazlogOtkazivanja = zahtjeviZaOdobravanje.RazlogOtkazivanja,
+                               Komentar = zahtjeviZaOdobravanje.Komentar,
+                               OtkazivanjeZahtjeva =zahtjeviZaOdobravanje.OtkazivanjeZahtjeva
                            }).Skip(ExcludeRecords).Take(pageSize).ToList();
             return zahtjevi;
         }
@@ -112,6 +114,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                 DjelatnikEmail = djelatnik.Email,
                                 TipZahtjeva = zahtjev.TipZahtjeva.Tip,
                                 Status = zahtjeviZaOdobravanje.Status.Tip,
+                                RazlogOtkazivanja=zahtjeviZaOdobravanje.RazlogOtkazivanja,
+                                Komentar=zahtjeviZaOdobravanje.Komentar,
                                 OtkazivanjeZahtjeva = zahtjeviZaOdobravanje.OtkazivanjeZahtjeva
                             }).Skip(ExcludeRecords).Take(pageSize).ToList();
           
@@ -132,17 +136,18 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                     {
                         var zah=db.RezervacijeOtkazivanje.Find(zahtjev.Id);
                         zah.StatusId = 1;
+                        zah.Komentar = zahtjev.Komentar;
                         db.SaveChanges();
                         request.ToEmail = zahtjev.DjelatnikEmail;
                         request.Subject = "Potvrda rezervacije/otkazivanja";
-                        request.Body = $"Admin je odobrio Vaš zahtjev za datum: {zah.Datum.ToShortDateString()}.";
-                        mailServices.SendEmailAsync(request);
+                        request.Body = $" <b> <h3> Odobren zahtjev </h3></b> <br />   Zahtjev je odobren za dan/e:<b> {zah.Datum.ToShortDateString()}</b>";
+                    mailServices.SendEmailAsync(request);
                         var zahtjevZaOtkazivanje = (from rezervacije in db.RezervacijeOtkazivanje
                                                     join radnoMjesto in db.RadnaMjesta on rezervacije.RadnoMjestoId equals radnoMjesto.Id
                                                     join lokacija in db.Lokacije on radnoMjesto.LokacijaId equals lokacija.Id
                                                     join zahtjevOtkazivanje in db.Zahtjevi on rezervacije.ZahtjevId equals zahtjevOtkazivanje.Id
                                                     join tipZahtjeva in db.TipoviZahtjeva on zahtjevOtkazivanje.TipZahtjevaId equals tipZahtjeva.Id
-                                                    where rezervacije.Id == zah.Id 
+                                                    where rezervacije.Id == zah.Id   
                                                     && zahtjevOtkazivanje.TipZahtjevaId == 2
                                                     select tipZahtjeva.Id).FirstOrDefault();
                         var zahjtevZaOtkazivanjeLokacijaID = (from rezervacije in db.RezervacijeOtkazivanje
@@ -163,7 +168,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                                                select zahtjevOtkazivanje.DjelatnikId).FirstOrDefault();
                         if (zahtjevZaOtkazivanje == 2)
                         {
-                            db.Database.ExecuteSqlInterpolated($"exec [dbo].[Otkazivanjezahtjeva] {zah.Datum:yyyy-MM-dd},{zahjtevZaOtkazivanjeLokacijaID},{zahjtevZaOtkazivanjeDjelatnikID}, { zah.ProvjeraOtkazivanjaRezerviranja}");
+                            db.Database.ExecuteSqlInterpolated($"exec [dbo].[Otkazivanjezahtjeva] {zah.Datum:yyyy-MM-dd},{zahjtevZaOtkazivanjeLokacijaID},{zahjtevZaOtkazivanjeDjelatnikID}, { zah.ProvjeraOtkazivanjaRezerviranja}, {zah.Komentar}");
                             db.SaveChanges();
                         }
                 }
@@ -171,10 +176,11 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                     {
                     var zahtjevRezOtk = db.RezervacijeOtkazivanje.Find(zahtjev.Id);
                     zahtjevRezOtk.StatusId = 2;
+                    zahtjevRezOtk.Komentar = zahtjev.Komentar;
                     db.SaveChanges();
                     request.ToEmail = zahtjev.DjelatnikEmail;
                     request.Subject = "Potvrda rezervacije/otkazivanja";
-                    request.Body = $"Admin je odbio Vaš zahtjev za datum: {zahtjevRezOtk.Datum.ToShortDateString()}.";
+                    request.Body = $" <b> <h3> Odbijen zahtjev </h3></b> <br />   Zahtjev je odbijen za dan:<b> {zahtjevRezOtk.Datum.ToShortDateString()}</b> uz komentar:{zahtjevRezOtk.Komentar}" ;
                     mailServices.SendEmailAsync(request);
                 } 
                 }

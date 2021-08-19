@@ -20,6 +20,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         {
             this.orgJedinicaRepository = new OrgJedinicaRepository(db);
         }
+        [HttpGet]
         public IActionResult Index()
         {
             return View(orgJedinicaRepository.DohvatiPopisOrgJedinica());

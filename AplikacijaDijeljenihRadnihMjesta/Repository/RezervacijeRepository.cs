@@ -140,18 +140,14 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                 }
                 else
                 {
-                    
                     var filtriraneRezervacije = model.Rezervacije.Where(rez => rez.OdgovorCheckBox && String.IsNullOrEmpty(rez.SifraRadnogMjesta) && rez.LokacijaID.Equals(lokacijaID)).ToList();
-                    //var filtriraneRezervacije = model.Rezervacije.Where(rez => rez.OdgovorCheckBox ).ToList();
                     var noveRez=new List<RezervacijaModel>();
                     var nove2 = new List<RezervacijaModel>();
                     var stareRez = new List<RezervacijaModel>();
                     
                     foreach (RezervacijaModel rezervacija in filtriraneRezervacije)
                     {
-                        
-
-                            var nesto = DohvatiRezervacije(djelatnikID, lokacijaID, rezervacija.ZeljeniDatum);
+                        var nesto = DohvatiRezervacije(djelatnikID, lokacijaID, rezervacija.ZeljeniDatum);
                         if (nesto == 0)
                         {
                             noveRez.Add(rezervacija);
@@ -160,24 +156,20 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                         {
                             stareRez.Add(rezervacija);
                         }
-                       
-                        
-                       
                     }
                     foreach (RezervacijaModel rezervacija in noveRez)
                     {
-
-                        try
+                         try
                         {
                             db.Database.ExecuteSqlInterpolated($"exec [dbo].[DohvatiMoguceRezervacije] {rezervacija.ZeljeniDatum:yyyy-MM-dd},{lokacijaID},{djelatnikID}");
                             var provjera = DohvatiRezervacije(djelatnikID,  lokacijaID, rezervacija.ZeljeniDatum);
-                            if (provjera == 0)
-                            {
-                                neuspjesneRezervacije.Add(rezervacija.ZeljeniDatum.ToShortDateString());
+                                if (provjera == 0)
+                                {
+                                    neuspjesneRezervacije.Add(rezervacija.ZeljeniDatum.ToShortDateString());
                                 
-                            }
-                            else
-                                nove2.Add(rezervacija);
+                                }
+                                else
+                                    nove2.Add(rezervacija);
                         }
                         catch (Exception e)
                         {
@@ -190,12 +182,9 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                     {
                         if (noveRez.Count > 0)
                         {
-                            
                             for (int i = 0; i < nove2.Count; i++)
                                {
                                 uspjesneRezervacije.Add(nove2[i].ZeljeniDatum.ToShortDateString());
-                                
-
                             }
                             stanjaRezervacija.Add("uspjesneRezervacije", String.Join(", ", uspjesneRezervacije));
                             stanjaRezervacija.Add("neuspjesneRezervacije", String.Join(", ", neuspjesneRezervacije));
@@ -203,15 +192,12 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                             {
                                 model.PovratnaInfoUspjeh = $"Rezervacije su uspješno izvršene za datume: {uspjesneRezervacij}";
                                 model.Datumi = uspjesneRezervacij;
-                                
                             }
                             if (stanjaRezervacija.TryGetValue("neuspjesneRezervacije", out string neuspjesneRezervacij) && neuspjesneRezervacij.Length > 0)
                             {
                                 model.PovratnaInfoNeuspjeh = $"Rezervacije nisu moguće za datume: {neuspjesneRezervacij}";
                                 model.Datumi = neuspjesneRezervacij;
-                              
                             }
-
                         }
                     }
                     model.Rezervacije = DohvatiRezervacije(djelatnikID, lokacijaID);

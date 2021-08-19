@@ -1,89 +1,83 @@
 ﻿@model AplikacijaDijeljenihRadnihMjesta.Models.ViewModel.LokacijaVM
-
-<partial name="Upozorenja" view-data="ViewData" />
-@{
-    var orgJedID = 0;
-  
-    ViewData["index"] = "ADMIN";
-    
-    if (TempData["OrgJedID"] != null)
-    {
-        orgJedID = (int)(TempData["OrgJedID"]);
-    }
-    else
-        orgJedID = 0;
-
-}
-<form method="post" asp-action="Create">
-
-    <div class="border p-3">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group row">
-
-            <h2 class="text-info pl-3"> Dodaj novu lokaciju</h2>
-
-        </div>
-        <div class="row">
-            <div class="col-8">
-                <div class="form-group row">
-                    <div class="col-4">
-                        <label asp-for="Adresa"></label>
-                    </div>
-                    <div class="col-8">
-                        <input asp-for="Adresa" class="form-control" required />
-                        <span asp-validation-for="Adresa" class="text-danger"></span>
-                    </div>
-                    <div class="col-4">
-                        <label asp-for="Grad">Grad</label>
-                    </div>
-                    <div class="col-8">
-                        <select asp-for="Grad" asp-items="@Model.Gradovi" required>
-                        </select>
-                        <span asp-validation-for="Grad" class="text-danger"></span>
-                    </div>
-                    <div class="col-4">
-                        <label asp-for="OrgJedinica">Organizacijska jedinica</label>
-                    </div>
-                    <div class="col-8">
-                        <select asp-for="OrgJedinica" asp-items="@Model.OrgJedinice" required>
-                        </select>
-                        <span asp-validation-for="OrgJedinica" class="text-danger"></span>
-                    </div>
-
-
-                </div>
-                <div class="form-group row">
-                    <div class="col-8 offset-4 row">
-
-                        <div class="col">
-                            <input type="submit" class="btn btn-success w-100" value=" Dodaj" />
-                        </div>
-                        @if ((int)orgJedID != 0 )
-                        {
-                            <div class="col">
-                                <a asp-action="Index" asp-route-orgJedID="@orgJedID" class="btn btn-primary w-100"><i class="fas fa-sign-out-alt"></i></a>
-
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="col">
-                                <a asp-controller="Lokacija" asp-action="Index" class="btn btn-primary w-100"><i class="fas fa-sign-out-alt"></i> </a>
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-            <div class="col-4">
-                @* Keep this empty *@
-            </div>
-        </div>
-    </div>
-
-</form>
-
-@section Scripts{
+    <link rel="stylesheet" type="text/css" href="~/css/Stranica.css" media="screen" 7 />
+    <partial name="Upozorenja" view-data="ViewData" />
     @{
-        <partial name="_ValidationScriptsPartial" />
+        var orgJedID = 0;
+
+        ViewData["index"] = "ADMIN";
+
+        if (TempData["OrgJedID"] != null)
+        {
+            orgJedID = (int)(TempData["OrgJedID"]);
+        }
+        else
+            orgJedID = 0;
+
     }
-}
+    <form method="post" asp-action="Create">
+
+        <div class="card p-3 mt-5" style="margin-top:30px!important;     margin: 0 auto;   max-width: 850px !important; justify-content:center!important;">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if ((int)orgJedID != 0)
+            {
+                <a asp-action="Index" asp-route-orgJedID="@orgJedID"><i class="fas fa-arrow-left" style="justify-content:right; text-align:right; width:min-content; font-size:26px; "></i></a>
+            }
+            else
+            {
+                <a asp-controller="Lokacija" asp-action="Index"><i class="fas fa-arrow-left" style="justify-content:right; text-align:right; width:min-content; font-size:26px; "></i> </a>
+            }
+            <div class="form-group row">
+
+                <h2 class="text-info formTitle"> Dodaj novu lokaciju</h2>
+
+            </div>
+            <div class="row">
+                <div class="col-10 createRow">
+                    <div class="form-group row" style="margin-left:15px;">
+                        <div class="col-4 colLabel">
+                            <label asp-for="Adresa"></label>
+                        </div>
+                        <div class="col-8 colInput">
+                            <input asp-for="Adresa" class="form-control" required />
+                            <span asp-validation-for="Adresa" class="text-danger"></span>
+                        </div>
+                        <div class="col-4 colLabel">
+                            <label asp-for="Grad">Grad</label>
+                        </div>
+                        <div class="col-8 colInput">
+                            <select class="form-select" asp-for="Grad" asp-items="@Model.Gradovi" required>
+                            </select>
+                            <span asp-validation-for="Grad" class="text-danger"></span>
+                        </div>
+                        <div class="col-4 colLabel">
+                            <label asp-for="OrgJedinica">Organizacijska jedinica</label>
+                        </div>
+                        <div class="col-8 colInput">
+                            <select class="form-select" asp-for="OrgJedinica" asp-items="@Model.OrgJedinice" required>
+                            </select>
+                            <span asp-validation-for="OrgJedinica" class="text-danger"></span>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group row">
+
+
+                        <div style="justify-content:right;    text-align: right; margin-right:15%">
+                            <input type="submit" class="btn btn-success" style="justify-content:center!important; text-align:center!important; width:min-content;" value=" Dodaj" />
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </form>
+
+    @section Scripts{
+        @{
+            <partial name="_ValidationScriptsPartial" />
+        }
+    }

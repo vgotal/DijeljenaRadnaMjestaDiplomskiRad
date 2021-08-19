@@ -24,8 +24,16 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         public IActionResult Pocetna(KorisnickiRacunVM racun)
         {
             ModelState.Clear();
+            
             var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
+            racun.BrojDjelatnika = korisnickiRacunRepository.DohvatiBrojDjelatnika();
+            racun.BrojLaptopa = korisnickiRacunRepository.DohvatiBrojTipovaLaptopa();
+            racun.BrojRadnihMjesta = korisnickiRacunRepository.DohvatiBrojRadnihMjesta();
+            racun.OrganizacijskeJedinice = korisnickiRacunRepository.DohvatiBrojOrganizacijskihJedinica();
+            racun.Lokacije = korisnickiRacunRepository.DohvatiBrojLokacija();
+            racun.Gradovi = korisnickiRacunRepository.DohvatiBrojGradova();
             var djelatnikUloga = HttpContext.Session.GetString("Uloga");
+            racun.Uloga = djelatnikUloga;
             if (djelatnikUloga == "Administrator")
             {
                 HttpContext.Session.SetString("potvrda", "true");
@@ -66,7 +74,9 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
                     racun.DjelatnikId = id;
                     racun.Uloga = "Djelatnik";
                     HttpContext.Session.SetString("Uloga", racun.Uloga);
-                    return RedirectToAction("Pocetna", racun);
+                    TempData["index"] = false;
+                    HttpContext.Session.SetString("potvrda", "false");
+                    return RedirectToAction("Index","Zahtjevi");
                 }
             }
             else

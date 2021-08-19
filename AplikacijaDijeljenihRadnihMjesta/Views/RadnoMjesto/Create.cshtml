@@ -1,4 +1,5 @@
 ﻿@model AplikacijaDijeljenihRadnihMjesta.Models.ViewModel.RadnoMjestoVM
+<link rel="stylesheet" type="text/css" href="~/css/Stranica.css" media="screen" 7 />
 
 <partial name="Upozorenja" view-data="ViewData" />
 @{
@@ -22,54 +23,63 @@
 }
 
 <form method="post" asp-action="Create">
-    <div class="border p-3">
+    <div class="card p-3 mt-5" style="margin-top:30px!important;     margin: 0 auto;   max-width: 850px !important; justify-content:center!important;">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @if (lokacijaID != 0)
+        {
+            <div class="col-1 ">
+                <a asp-controller="RadnoMjesto" asp-action="Index" asp-route-LokacijaId="@lokacijaID" asp-route-orgJedID="@orgJedID" ><i class="fas fa-arrow-left" style="justify-content:right; text-align:right; width:min-content; font-size:26px; "></i> </a>
+            </div>
+        }
+        else
+        {
+            <div class="col-1">
+                <a asp-controller="RadnoMjesto" asp-action="Index" asp-route-LokacijaId="@lokacijaID" asp-route-orgJedID="@orgJedID" ><i class="fas fa-arrow-left" style="justify-content:right; text-align:right; width:min-content; font-size:26px; "></i></a>
+            </div>
+        }
         <div class="form-group row">
-            <h2 class="text-info pl-3"> Dodaj novo radno mjesto</h2>
+            <h2 class="text-info formTitle"> Dodaj novo radno mjesto</h2>
         </div>
         <div class="row">
-            <div class="col-8">
-                <div class="form-group row">
-                     
-                        <div class="col-4">
-                            <label asp-for="@Model.Lokacija">Odaberilokaciju:</label>
-                        </div>
-                        <div class="col-8">
+            <div class="col-10 createRow">
+                <div class="form-group row" style="margin-left:15px;">
 
-                            <select asp-for="@Model.Lokacija" asp-items="@Model.Lokacije" required>
-                            </select>
-                            
-                            
-                        </div>
-                      
-                   
-                    <div class="col-4">
-                        <label asp-for="Kat"></label>
+                    <div class="col-4 colLabel">
+                        <label asp-for="@Model.Lokacija">Odaberi lokaciju:</label>
                     </div>
                     <div class="col-8">
+
+                        <select class="form-select" asp-for="@Model.Lokacija" asp-items="@Model.Lokacije" required>
+                        </select>
+                    </div>
+
+                    <div class="col-4 colLabel">
+                        <label asp-for="Kat"></label>
+                    </div>
+                    <div class="col-8 colInput">
                         <input asp-for="Kat" class="form-control" />
                         <span asp-validation-for="Kat" class="text-danger"></span>
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 colLabel">
                         <label asp-for="Prostorija"></label>
                     </div>
-                    <div class="col-8">
+                    <div class="col-8 colInput">
                         <input asp-for="Prostorija" class="form-control" />
                         <span asp-validation-for="Prostorija" class="text-danger"></span>
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 colLabel">
                         <label asp-for="BrojRadnogMjesta">Broj radnog mjesta</label>
                     </div>
-                    <div class="col-8">
+                    <div class="col-8 colInput">
                         <input asp-for="BrojRadnogMjesta" class="form-control" />
                         <span asp-validation-for="BrojRadnogMjesta" class="text-danger"></span>
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-4 colLabel">
                         <label asp-for="TipLaptopa">Model laptopa</label>
                     </div>
-                    <div class="col-8">
-                        <select asp-for="TipLaptopa" asp-items="@Model.tipoviLaptopa" required>
+                    <div class="col-8 colInput">
+                        <select class="form-select" asp-for="TipLaptopa" asp-items="@Model.tipoviLaptopa" required>
                         </select>
                         <span asp-validation-for="TipLaptopa" class="text-danger"></span>
                     </div>
@@ -77,27 +87,15 @@
 
                 </div>
                 <div class="form-group row">
-                    <div class="col-8 offset-4 row">
+                   
 
-                        <div class="col">
-                            <input type="submit" class="btn btn-success w-100" value=" Dodaj" />
-                        </div>
-                        <div class="col">
-                            @if (lokacijaID!=0)
-                            {
-                                <a asp-controller="RadnoMjesto" asp-action="Index" asp-route-LokacijaId="@lokacijaID" asp-route-orgJedID="@orgJedID" class="btn btn-primary w-100"><i class="fas fa-sign-out-alt"></i> </a>
-                            }
-                            else
-                            {
-                                <a asp-controller="RadnoMjesto" asp-action="Index" asp-route-LokacijaId="@lokacijaID" asp-route-orgJedID="@orgJedID" class="btn btn-primary w-100"><i class="fas fa-sign-out-alt"></i></a>
-                            }
+                        <div style="justify-content:right;    text-align: right; margin-right:15%">
+                            <input type="submit" class="btn btn-success" style="justify-content:center!important; text-align:center!important; width:min-content;" value="Dodaj" />
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-4">
-                @* Keep this empty *@
-            </div>
+
         </div>
     </div>
 

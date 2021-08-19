@@ -9,111 +9,114 @@
 }
 <form method="post" asp-action="Edit">
     <input asp-for="Id" hidden />
-    <div class="border p-3">
+    <div class="card p-3 mt-5" style="margin-top:30px!important;     margin: 0 auto;   max-width: 850px !important; justify-content:center!important;">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        @if (TempData["OrgJedID"] != null)
+        {
+            <div class="col-1">
+                <a asp-action="Index" asp-route-orgJedID="@orgJedID" ><i class="fas fa-arrow-left" style="justify-content:right; text-align:right; width:min-content; font-size:26px; "></i></a>
+
+            </div>
+        }
+        else if (orgJedID == null)
+        {
+            <div class="col-1">
+                <a asp-action="Index" ><i class="fas fa-arrow-left" style="justify-content:right; text-align:right; width:min-content; font-size:26px; "></i></a>
+
+            </div>
+        }
+        else
+        {
+            <div class="col-1">
+                <a asp-action="Index" asp-route-orgJedID="@Model.OrganizacijskaJedinica"><i class="fas fa-arrow-left" style="justify-content:right; text-align:right; width:min-content; font-size:26px; "></i>></a>
+
+            </div>
+        }
         <div class="form-group row">
-            <h2 class="text-info pl-3"> Promjeni informacije o djelatniku</h2>
+            <h2 class="text-info formTitle" style="text-align:center!important"> Promjeni informacije o djelatniku</h2>
         </div>
-        <div class="row">
-            <div class="col-8">
+        <div class="row ">
+            <div class="col-10 createRow">
                 <div class="form-group row">
-                    <div class="col-4">
+                    <div class="col-4 colLabel">
                         <label asp-for="MBR">MBR</label>
                     </div>
-                    <div class="col-8">
+                    <div class="col-8 colInput">
                         <input asp-for="MBR" class="form-control" />
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 colLabel">
                         <label asp-for="Ime"></label>
                     </div>
-                    <div class="col-8">
+                    <div class="col-8 colInput">
                         <input asp-for="Ime" class="form-control" />
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 colLabel">
                         <label asp-for="Prezime"></label>
                     </div>
-                    <div class="col-8">
+                    <div class="col-8 colInput">
                         <input asp-for="Prezime" class="form-control" />
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 colLabel">
                         <label asp-for="Email"></label>
                     </div>
-                    <div class="col-8">
+                    <div class="col-8 colInput">
                         <input asp-for="Email" class="form-control" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 colLabel">
                         <label asp-for="KorisnickoIme">Korisničko ime</label>
                     </div>
-                    <div class="col-8">
+                    <div class="col-8 colInput">
                         <input asp-for="KorisnickoIme" class="form-control" />
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 colLabel">
                         <label asp-for="Lozinka">Lozinka</label>
                     </div>
-                    <div class="col-8">
+                    <div class="col-8 colInput">
                         <input asp-for="Lozinka" class="form-control" />
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 colLabel">
                         <label asp-for="MaxBrojDanaFirma">Maksimalni broj dana za rad u tvrtki</label>
                     </div>
-                    <div class="col-8">
+                    <div class="col-8 colInput">
                         <input asp-for="MaxBrojDanaFirma" class="form-control" />
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 colLabel">
                         <label asp-for="OrganizacijskaJedinica">Organizacijska jedinica</label>
                     </div>
-                    <div class="col-8">
-                        <select asp-for="OrganizacijskaJedinica" asp-items="@Model.OrganizacijskeJedinice">
+                    <div class="col-8 colInput">
+                        <select class="form-select" asp-for="OrganizacijskaJedinica" asp-items="@Model.OrganizacijskeJedinice">
                             <option hidden selected="selected" value="@Model.OrganizacijskaJedinica">@Model.OrganizacijskaJedinica</option>
                         </select>
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 colLabel">
                         <label asp-for="TipLaptopa"></label>
                     </div>
-                    <div class="col-8">
-                        <select asp-for="TipLaptopa" asp-items="@Model.ModeliLaptopa">
+                    <div class="col-8 colInput">
+                        <select class="form-select" asp-for="TipLaptopa" asp-items="@Model.ModeliLaptopa">
                             <option hidden selected="selected" value="@Model.TipLaptopa">@Model.TipLaptopa</option>
                         </select>
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-4 colLabel">
                         <label asp-for="Uloga"></label>
                     </div>
-                    <div class="col-8">
-                        <select asp-for="Uloga" asp-items="@Model.Uloge" required>
+                    <div class="col-8 colInput">
+                        <select class="form-select" asp-for="Uloga" asp-items="@Model.Uloge" required>
                             <option hidden selected="selected" value="@Model.Uloga">@Model.Uloga</option>
                         </select>
                     </div>
 
                 </div>
                 <div class="form-group row">
-                    <div class="col-8 offset-4 row">
+                    <div class="col-12 row">
 
-                        <div class="col">
-                            <input type="submit" class="btn btn-info w=100" value=" Uredi" />
+
+                        <div style="justify-content:right;    text-align: right; margin-right:15%">
+                            <input type="submit" class="btn btn-success" style="justify-content:center!important; text-align:center!important; width:min-content;" value="Uredi" />
                         </div>
-                        @if (TempData["OrgJedID"] != null)
-                        {
-                            <div class="col">
-                                <a asp-action="Index" asp-route-orgJedID="@orgJedID" class="btn btn-primary w-100"><i class="fas fa-sign-out-alt"></i></a>
 
-                            </div>
-                        }
-                        else if (orgJedID == null)
-                        {
-                            <div class="col">
-                                <a asp-action="Index" class="btn btn-primary w-100"><i class="fas fa-sign-out-alt"></i></a>
-
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="col">
-                                <a asp-action="Index" asp-route-orgJedID="@Model.OrganizacijskaJedinica" class="btn btn-primary w-100"><i class="fas fa-sign-out-alt"></i></a>
-
-                            </div>
-                        }
                     </div>
                 </div>
             </div>
