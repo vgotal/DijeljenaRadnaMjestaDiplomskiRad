@@ -19,7 +19,32 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             this.db = db;
         }
 
-        
+        public int DohvatiBrojDjelatnika()
+        {
+            return db.Djelatnici.Count();
+        }
+        public int DohvatiBrojTipovaLaptopa()
+        {
+            return db.TipoviLaptopa.Count();
+        }
+        public int DohvatiBrojRadnihMjesta()
+        {
+            return db.RadnaMjesta.Count();
+        }
+        public int DohvatiBrojGradova()
+        {
+            return db.Gradovi.Count();
+        }
+        public int DohvatiBrojLokacija()
+        {
+            return db.Lokacije.Count();
+        }
+        public int DohvatiBrojOrganizacijskihJedinica()
+        {
+            return db.OrganizacijskeJedinice.Count();
+        }
+
+
         public int ProvjeraDjelatnikaPriPrijavi(string korisnickoIme, string lozinka)
         {
             var md5 = new MD5CryptoServiceProvider();

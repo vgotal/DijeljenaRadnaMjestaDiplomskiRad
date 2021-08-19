@@ -7,18 +7,15 @@
 }
 
 
-<html>
 
-<div class="row pt-4">
-    <div class="col-12">
-        <h2 class="text-primary">Detalji o zahtjevu</h2>
+<div class="card p-3 mt-5">
+    <div class="col-12 pt-2">
+        <h2 class="text-primary formTitle" style="text-align:center !important; margin-bottom:40px !important;">Detalji o zahtjevu</h2>
     </div>
-</div>
-<br />
-<br />
-<div class="table">
-    <table class="table table-bordered table-hover table-striped ">
 
+
+
+    <table class="table tableCss table-bordered table-striped ">
         <thead>
             <tr>
                 <th>
@@ -40,6 +37,9 @@
                     Adresa
                 </th>
                 <th>
+                    Komentar
+                </th>
+                <th>
                     Status
                 </th>
             </tr>
@@ -58,6 +58,7 @@
                             <td style="text-align:center;vertical-align:middle">@Data.TipLaptopa</td>
                             <td style="text-align:center;vertical-align:middle">@Data.Grad</td>
                             <td style="text-align:center;vertical-align:middle">@Data.Adresa</td>
+                            <td style="text-align:center;vertical-align:middle">@Data.Komentar</td>
                             <td style="text-align:center;vertical-align:middle">@Data.Status</td>
                         </tr>
                     }
@@ -65,7 +66,8 @@
                 else
                 {
         <tr>
-            <td style="text-align:center;vertical-align:middle">Nema detalja o tom zahtjevu</td>
+            <td style="text-align:center;vertical-align:middle"><i class="fas fa-angle-double-right" style="color:skyblue; font-size:20px;"></i> Nema detalja o tom zahtjevu</td>
+            <td> </td>
             <td> </td>
             <td> </td>
             <td> </td>
@@ -77,10 +79,8 @@
         </tbody>
     </table>
 
-    <div class="col">
+    <div class="col-2">
         <a asp-action="Index" class="btn btn-primary w-25"><i class="fas fa-sign-out-alt"></i></a>
 
     </div>
 </div>
-
-</html>

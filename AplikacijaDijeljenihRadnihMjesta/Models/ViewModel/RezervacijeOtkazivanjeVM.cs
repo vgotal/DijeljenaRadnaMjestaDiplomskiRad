@@ -70,10 +70,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models.ViewModel
         {
             get; set;
         }
-        //public int StatusId
-        //{
-        //    get; set;
-        //}
+       
         public string DjelatnikEmail
         {
             get; set;
@@ -83,7 +80,14 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models.ViewModel
         {
             get; set;
         }
-
+        public string RazlogOtkazivanja
+        {
+            get; set;
+        }
+        public string Komentar
+        {
+            get; set;
+        }
 
     }
 }

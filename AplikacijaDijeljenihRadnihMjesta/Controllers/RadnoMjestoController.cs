@@ -20,7 +20,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             this.radnoMjestoRepository = new RadnoMjestoRepository(db);
         }
 
-
+        [HttpGet]
         public IActionResult Index(int LokacijaId, int? orgJedID, int pageNumber = 1, int pageSize = 4)
         {
             var radnaMjestaSPaginacijom = new PaginacijaRadnoMjesto();

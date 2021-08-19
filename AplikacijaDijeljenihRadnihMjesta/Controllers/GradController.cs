@@ -15,6 +15,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         {
             this.gradRepository = new GradRepository(db);
         }
+
+        [HttpGet]
         public IActionResult Index()
         {
             return View(gradRepository.DohvatiListuGradova());

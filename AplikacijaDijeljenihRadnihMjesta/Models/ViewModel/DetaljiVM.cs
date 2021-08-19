@@ -42,5 +42,9 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models.ViewModel
         {
             get; set;
         }
+        public string Komentar
+        {
+            get; set;
+        }
     }
 }

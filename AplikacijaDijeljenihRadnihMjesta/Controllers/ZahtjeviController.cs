@@ -26,6 +26,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         //[HttpGet]
         public IActionResult Index(int pageNumber = 1, int pageSize = 4)
         {
+
             var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
             var djelatnikUloga = pregledZahtjevaRepository.DohvatiDjelatnikovuUlogu((int)djelatnikID);
             if (djelatnikUloga == "Administrator")
@@ -48,15 +49,15 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
                 var tipZahtjeva = HttpContext.Session.GetInt32(SessionTipZahtjeva);
                 zahtjeviSPaginacijom.pregledZahtjeva.TipZahtjeva = tipZahtjeva;
                 zahtjeviSPaginacijom.pregledZahtjeva.PocetniDatum = null;
-                 zahtjeviSPaginacijom.pregledZahtjeva.KrajnjiDatum = null;
+                zahtjeviSPaginacijom.pregledZahtjeva.KrajnjiDatum = null;
             }
             if ((pageNumber != 1 || (pageNumber == 1 && HttpContext.Session.GetInt32(SessionTipZahtjeva) != 0)) && HttpContext.Session.GetString(SessionPocetniDatum) != null && HttpContext.Session.GetString(SessionPocetniDatum) != "" && HttpContext.Session.GetString(SessionKrajnjiDatum) != null && HttpContext.Session.GetString(SessionKrajnjiDatum) != "")
             {
                 var pocetniDatum = HttpContext.Session.GetString(SessionPocetniDatum);
                 var krajnjiDatum = HttpContext.Session.GetString(SessionKrajnjiDatum);
+                var tipZahtjeva = HttpContext.Session.GetInt32(SessionTipZahtjeva);
                 zahtjeviSPaginacijom.pregledZahtjeva.PocetniDatum = DateTime.Parse(pocetniDatum);
                 zahtjeviSPaginacijom.pregledZahtjeva.KrajnjiDatum = DateTime.Parse(krajnjiDatum);
-                var tipZahtjeva = HttpContext.Session.GetInt32(SessionTipZahtjeva);
                 zahtjeviSPaginacijom.pregledZahtjeva.TipZahtjeva = tipZahtjeva;
             }
             if ((pageNumber != 1 || (pageNumber == 1 && HttpContext.Session.GetInt32(SessionTipZahtjeva) == null)) && HttpContext.Session.GetString(SessionPocetniDatum) != null && HttpContext.Session.GetString(SessionPocetniDatum) != "" && HttpContext.Session.GetString(SessionKrajnjiDatum) != null && HttpContext.Session.GetString(SessionKrajnjiDatum) != "")
@@ -72,8 +73,10 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             return View(zahtjeviSPaginacijom);
         }
         [HttpPost]
-        public IActionResult Index(PaginacijaZahtjev zahtjeviSPaginacijom, int pageNumber = 1, int pageSize = 4)
+        public IActionResult Index(PaginacijaZahtjev zahtjeviSPaginacijom,  int pageNumber = 1, int pageSize = 4)
         {
+          
+
             var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
             var djelatnikUloga = pregledZahtjevaRepository.DohvatiDjelatnikovuUlogu((int)djelatnikID);
             if (djelatnikUloga == "Administrator")
@@ -94,24 +97,27 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             }
             else
             {
-                if (zahtjeviSPaginacijom.pregledZahtjeva.TipZahtjeva != null && zahtjeviSPaginacijom.pregledZahtjeva.PocetniDatum == null && zahtjeviSPaginacijom.pregledZahtjeva.KrajnjiDatum == null)
+                if (zahtjeviSPaginacijom.pregledZahtjeva.TipZahtjeva != null && zahtjeviSPaginacijom.pregledZahtjeva.PocetniDatum == null 
+                    && zahtjeviSPaginacijom.pregledZahtjeva.KrajnjiDatum == null)
                 {
                     HttpContext.Session.SetInt32(SessionTipZahtjeva, (int)zahtjeviSPaginacijom.pregledZahtjeva.TipZahtjeva);
                 }
-                if (zahtjeviSPaginacijom.pregledZahtjeva.TipZahtjeva != null && zahtjeviSPaginacijom.pregledZahtjeva.PocetniDatum != null && zahtjeviSPaginacijom.pregledZahtjeva.KrajnjiDatum != null)
+                if (zahtjeviSPaginacijom.pregledZahtjeva.TipZahtjeva != null && zahtjeviSPaginacijom.pregledZahtjeva.PocetniDatum != null
+                    && zahtjeviSPaginacijom.pregledZahtjeva.KrajnjiDatum != null)
                 {
                     HttpContext.Session.SetInt32(SessionTipZahtjeva, (int)zahtjeviSPaginacijom.pregledZahtjeva.TipZahtjeva);
                     HttpContext.Session.SetString(SessionPocetniDatum, zahtjeviSPaginacijom.pregledZahtjeva.PocetniDatum.ToString());
                     HttpContext.Session.SetString(SessionKrajnjiDatum, zahtjeviSPaginacijom.pregledZahtjeva.KrajnjiDatum.ToString());
                 }
-                if (zahtjeviSPaginacijom.pregledZahtjeva.TipZahtjeva == null && zahtjeviSPaginacijom.pregledZahtjeva.PocetniDatum != null && zahtjeviSPaginacijom.pregledZahtjeva.KrajnjiDatum != null)
+                if (zahtjeviSPaginacijom.pregledZahtjeva.TipZahtjeva == null && zahtjeviSPaginacijom.pregledZahtjeva.PocetniDatum != null
+                    && zahtjeviSPaginacijom.pregledZahtjeva.KrajnjiDatum != null)
                 {
                     HttpContext.Session.SetString(SessionPocetniDatum, zahtjeviSPaginacijom.pregledZahtjeva.PocetniDatum.ToString());
                     HttpContext.Session.SetString(SessionKrajnjiDatum, zahtjeviSPaginacijom.pregledZahtjeva.KrajnjiDatum.ToString());
                 }
-                if (zahtjeviSPaginacijom.pregledZahtjeva.TipZahtjeva == null && zahtjeviSPaginacijom.pregledZahtjeva.PocetniDatum == null && zahtjeviSPaginacijom.pregledZahtjeva.KrajnjiDatum == null)
+                if (zahtjeviSPaginacijom.pregledZahtjeva.TipZahtjeva == null && zahtjeviSPaginacijom.pregledZahtjeva.PocetniDatum == null 
+                    && zahtjeviSPaginacijom.pregledZahtjeva.KrajnjiDatum == null)
                 {
-                    string pDatum = null;
                     HttpContext.Session.SetInt32(SessionTipZahtjeva, 0);
                     HttpContext.Session.SetString(SessionPocetniDatum, "");
                     HttpContext.Session.SetString(SessionKrajnjiDatum, "");
@@ -119,6 +125,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             }
 
             zahtjeviSPaginacijom.pregledZahtjeva.TipoviZahtjeva = pregledZahtjevaRepository.DohvatiTipoveZahtjeva();
+            
+
             return View(zahtjeviSPaginacijom);
 
         }
@@ -139,5 +147,10 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             var detalji=pregledZahtjevaRepository.DohvatiDetalje(zahtjevID);
             return View(detalji);
         }
+
+
+
+
+       
     }
 }

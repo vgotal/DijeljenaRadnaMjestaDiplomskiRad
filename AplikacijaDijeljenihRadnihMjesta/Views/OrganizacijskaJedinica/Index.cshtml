@@ -5,23 +5,22 @@
 @{
     ViewData["index"] = "ADMIN";
 }
-<body>
-    <div class="container p-3 mojaTablica">
-        <div id="title" class="row pt-4">
-            <div class="col-6">
-                <h2 >Popis organizacijskih jedinica</h2>
-            </div>
-        </div>
-        <div class="col-12 text-right" style="margin-bottom:10px;">
-            <a asp-controller="OrganizacijskaJedinica" asp-action="Create">
-                <i class="fas fa-plus"></i> &nbsp;
-            </a>
-        </div>
+
+<div class="card p-3 mt-5">
+    <div class="col-12 pt-2 formTitle">
+        <h2 class="formTitle" style="text-align:center !important;">Popis organizacijskih jedinica</h2>
+    </div>
+
+    
+     <a style="float:right; text-align:right;"  asp-controller="OrganizacijskaJedinica" asp-action="Create">
+                <i class="fas fa-plus"style=" color: #2973b2 !important;"></i> 
+     </a>
         
+
 
         @if (Model != null && Model.Count() > 0)
         {
-            <table class="table table-bordered table-striped" style="width:100%">
+            <table class="table tableCss table-bordered table-striped" style="width:100%">
                 <thead>
                     <tr>
                         <th>
@@ -61,7 +60,7 @@
                                 </div>
                             </td>
                             <td class="text-center">
-                                <div class="w-75 btn-group" role="group">
+                                <div class=" btn-group" style="width:min-content!important;" role="group">
                                     <a asp-controller="OrganizacijskaJedinica" asp-route-Id="@obj.Id" asp-action="Edit" class="btn btn-primary "><i class="fas fa-edit"></i></a>
                                     <a asp-controller="OrganizacijskaJedinica" asp-route-Id="@obj.Id" onclick="return confirm('Jeste li sigurni da želite obrisati?')" asp-action="Delete" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                                 </div>
@@ -77,10 +76,10 @@
             <p>Ne postoji niti jedna organizacijska jedinica!</p>
         }
     </div>
-</body>
-@section Scripts{
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
 
-}
+    @section Scripts{
+        @{
+            <partial name="_ValidationScriptsPartial" />
+        }
+
+    }
