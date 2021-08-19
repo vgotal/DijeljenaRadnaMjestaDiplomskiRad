@@ -53,6 +53,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [HttpPost]
         public IActionResult Index(PaginacijaOdobravanjeZahtjeva zahtjeviOdobravanjeSPaginacijom, int pageNumber = 1, int pageSize = 5)
         {
+           
             var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
             var djelatnik = new Djelatnik();
             if (djelatnikID != 0 && djelatnikID != null)
@@ -68,8 +69,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
                 TempData["uloga"] = "DJELATNIK";
             if (zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva.Status == null)
             {
-                var statusi = HttpContext.Session.GetInt32(SessionStatus);
-                zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva.Status = statusi;
+                //var statusi = HttpContext.Session.GetInt32(SessionStatus);
+                zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva.Status = null;
             }
             
             if (zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva == null && zahtjeviOdobravanjeSPaginacijom.paginationModel == null)
@@ -95,6 +96,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
    
             
             var datumi = odobravanjeZahtjevaRepository.DohvatiDatumOdobravanja(zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva);
+            //ModelState.Clear();
             return View(zahtjeviOdobravanjeSPaginacijom);
         }
     }

@@ -48,7 +48,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                     {
                         try
                         {
-                            db.Database.ExecuteSqlInterpolated($"exec [dbo].[OtkazivanjezahtjevaRezerviranje] {rezervacija.ZeljeniDatum:yyyy-MM-dd},{model.LokacijaID},{djelatnikID}, { rezervacija.Id}");
+                            db.Database.ExecuteSqlInterpolated($"exec [dbo].[OtkazivanjezahtjevaRezerviranje] {rezervacija.ZeljeniDatum:yyyy-MM-dd},{model.LokacijaID},{djelatnikID}, { rezervacija.Id}, {rezervacija.RazlogOtkazivanja}");
                             listaDatuma.Add(rezervacija.ZeljeniDatum.ToShortDateString());
                            zahtjevOtk = (from rezervacije in db.RezervacijeOtkazivanje
                                               join radnoMjesto in db.RadnaMjesta on rezervacije.RadnoMjestoId equals radnoMjesto.Id
@@ -57,10 +57,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                               join tipZahtjeva in db.TipoviZahtjeva on zahtjev.TipZahtjevaId equals tipZahtjeva.Id
                                               where rezervacije.ProvjeraOtkazivanjaRezerviranja == rezervacija.Id && zahtjev.DjelatnikId == djelatnikID && rezervacije.Datum == rezervacija.ZeljeniDatum
                                               select rezervacije.Id).FirstOrDefault();
+                            
 
-                            //db.RezervacijeOtkazivanje.Update(new RezervacijaOtkazivanje { Id= zahtjvOtk.Id, Datum= zahtjvOtk.Datum, OtkazivanjeZahtjeva=true, ProvjeraOtkazivanjaRezerviranja= zahtjvOtk.ProvjeraOtkazivanjaRezerviranja, 
-                            //Status=null, RadnoMjestoId= zahtjvOtk.RadnoMjestoId, ZahtjevId= zahtjvOtk.ZahtjevId
-                            //});
                             db.SaveChanges();
                         }
                         catch (Exception)
@@ -68,7 +66,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                             model.PovratnaInfo = $"Pogreška pri unosu rezervacija u bazu za rezervaciju za datum: {rezervacija.ZeljeniDatum.ToShortDateString()}";
                         }
                         
-                        //ako prode otkazivanje a da nije odobreno, napraviti ako se otkaze prije nego se odobri, da mi onda obrise zahtjev za odobravanje rezervacije,bolje?
+
                         if (!DohvatiOtkazivanje(rezervacija, djelatnikID))
                         {
                             var otkID = (from rezervacije in db.RezervacijeOtkazivanje
@@ -80,7 +78,6 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                        && zahtjev.TipZahtjevaId == 2
                                        select rezervacije.Id).FirstOrDefault();
                             var otkazivanje = db.RezervacijeOtkazivanje.Find(otkID);
-                            //db.RezervacijeOtkazivanje.Remove(otkazivanje);
                         }
                     }
                     if (filtriraneRezervacije.Count > 0)
@@ -123,34 +120,6 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
 
             return dohvaceneRezervacije.OrderBy(rez => rez.ZeljeniDatum).ToList();
         }
-
-
-        //public List<RezervacijaModel> DohvatiRezervacijeOtkazivanja(int djelatnikID)
-        //{
-        //    DateTime pocetniDatum = DateTime.Now.AddBusinessDays(1).Date;
-        //    DateTime krajnjiDatum = DateTime.Now.AddBusinessDays(5).Date;
-        //    var dohvaceneRezervacije = (from rezervacije in db.RezervacijeOtkazivanje
-        //                                join radnoMjesto in db.RadnaMjesta on rezervacije.RadnoMjestoId equals radnoMjesto.Id
-        //                                join lokacija in db.Lokacije on radnoMjesto.LokacijaId equals lokacija.Id
-        //                                join zahtjev in db.Zahtjevi on rezervacije.ZahtjevId equals zahtjev.Id
-        //                                join tipZahtjeva in db.TipoviZahtjeva on zahtjev.TipZahtjevaId equals tipZahtjeva.Id
-        //                                where (zahtjev.DjelatnikId == djelatnikID &&
-        //                                rezervacije.Datum >= pocetniDatum &&
-        //                                rezervacije.Datum <= krajnjiDatum &&
-        //                                rezervacije.ProvjeraOtkazivanjaRezerviranja == null &&
-        //                                tipZahtjeva.Tip == "Rezervacija" && rezervacije.Status=="Odobreno" && (rezervacije.OtkazivanjeZahtjeva==false || rezervacije.OtkazivanjeZahtjeva.Equals(0)))
-        //                                orderby rezervacije.Datum ascending
-        //                                select new RezervacijaModel()
-        //                                {
-        //                                    Id = rezervacije.Id,
-        //                                    SifraRadnogMjesta = radnoMjesto.Sifra,
-        //                                    ZeljeniDatum = rezervacije.Datum,
-        //                                    Adresa=lokacija.Adresa,
-        //                                    OdgovorCheckBox = false
-        //                                }).ToList();
-
-        //    return dohvaceneRezervacije.OrderBy(rez => rez.ZeljeniDatum).ToList();
-        //}
 
         public bool DohvatiOtkazivanje(RezervacijaModel model, int djelatnikID)
         {

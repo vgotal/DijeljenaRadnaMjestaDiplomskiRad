@@ -10,58 +10,53 @@
 }
 
 
-<div class="container p-3">
+<div class="card p-3 mt-5">
 
-    <div class="row pt-4">
-        <div class="col-12">
-            <h2 class="text-primary">Pregledi zahtjeva</h2>
-        </div>
+    <div class="col-12 pt-2">
+        <h2 class="text-primary formTitle" style="text-align:center !important;">Pregled zahtjeva</h2>
     </div>
-    <form method="post" asp-controller="Zahtjevi" asp-action="Index">
-        <div class="row" style=" align-items: flex-end;">
-            <div class="col-md-2,5" style="padding-right:0px!important;margin-top:30px">
+          <form method="post" asp-controller="Zahtjevi" asp-action="Index">
+              <div class="col-md-12" style="margin-bottom:10px">
+                          <select class="form-select" style="display:inline-block;width:200px;"  asp-for="@Model.pregledZahtjeva.TipZahtjeva" asp-items="@Model.pregledZahtjeva.TipoviZahtjeva">
+                              <option> Svi zahtjevi </option>
+                          </select>
+                     
+                      <label class="col-0,5" style="padding-left:15px!important;margin-top:35px; padding-right:5px;">
+                          @Html.LabelFor(m => m.pregledZahtjeva.PocetniDatum, "OD:")
+                      </label>
+                      <label class="col-xs-2" style="padding-left:0px!important;margin-top:30px">
+                          @Html.TextBoxFor(x => x.pregledZahtjeva.PocetniDatum, "{0:yyyy-MM-dd}", new
+                     {
+                         @id = "pocetniDatum",
+                         @class = "form-control",
+                         @type = "date"
+                     })
+                      </label>
+                      <label class="col-0,75" style="padding-left:5px!important;margin-top:35px; padding-right:5px;padding-left:15px!important">
+                          @Html.LabelFor(m => m.pregledZahtjeva.PocetniDatum, "DO:")
+                      </label>
+                      <label class="col-xs-2" style="padding-left:0px!important;margin-top:30px">
+                          @Html.TextBoxFor(x => x.pregledZahtjeva.KrajnjiDatum, "{0:yyyy-MM-dd}", new
+                     {
+                         @id = "krajnjiDatum",
+                         @class = "form-control",
+                         @type = "date"
+                     })
 
-                <label asp-for="@Model.pregledZahtjeva.TipZahtjeva">Odaberi: </label>
-                <select asp-for="@Model.pregledZahtjeva.TipZahtjeva" asp-items="@Model.pregledZahtjeva.TipoviZahtjeva">
-                    <option> Svi zahtjevi </option>
-                </select>
-            </div>
-            <div class="col-0,5" style="padding-left:15px!important;margin-top:35px; padding-right:5px">
-                @Html.LabelFor(m => m.pregledZahtjeva.PocetniDatum, "OD:")
-            </div>
-            <div class="col-xs-2" style="padding-left:0px!important;margin-top:30px">
-                @Html.TextBoxFor(x => x.pregledZahtjeva.PocetniDatum, "{0:yyyy-MM-dd}", new
-           {
-               @id = "pocetniDatum",
-               @class = "form-control",
-               @type = "date"
-           })
-            </div>
-            <div class="col-0,5" style="padding-left:5px!important;margin-top:35px; padding-right:5px">
-                @Html.LabelFor(m => m.pregledZahtjeva.PocetniDatum, "DO:")
-            </div>
-            <div class="col-2" style="padding-left:0px!important;margin-top:30px">
-                @Html.TextBoxFor(x => x.pregledZahtjeva.KrajnjiDatum, "{0:yyyy-MM-dd}", new
-           {
-               @id = "krajnjiDatum",
-               @class = "form-control",
-               @type = "date"
-           })
+                      </label>
+                      <label class="col-1,5" style="padding-right:10px!important;padding-left:10px ;width:auto;">
+                          <input type="submit" style="font-size: 1em !important; background-color:#808080; color:white; " class="btn btn"  onclick="resetirajDatume()" value="Resetiraj datume" />
+                      </label>
+                      <label class="col-1,5" style="padding-right:0px!important;">
+                          <input type="submit" style="font-size: 1em !important;" class="btn btn-primary" value="Dohvati zahtjeve" />
+                      </label>
 
-            </div>
-            <div class="col-1,5" style="padding-right:0px!important;width:auto;">
-                <input type="submit" style="font-size: 1em !important;margin-top:34px;" class="btn btn-danger" onclick="resetirajDatume()" value="Resetiraj Datume" />
-            </div>
-            <div class="col-1,5" style="padding-right:0px!important;">
-                <input type="submit" style="font-size: 1em !important;margin-top:34px;" class="btn btn-primary" value="Dohvati Zahtjeve" />
-            </div>
-
-        </div>
-    </form>
+                  </div>
+          </form>
 
     <form method="post" asp-controller="Zahtjevi" asp-action="Index">
-        <div class="table" sytle="margin-top:10px">
-            <table class="table table-bordered table-hover table-striped " sytle="margin-top:10px !important">
+        <div class="table " sytle="margin-top:10px">
+            <table class="table tableCss table-bordered table-hover table-striped " sytle="margin-top:10px !important">
                 <thead>
                     <tr>
                         <th>
@@ -81,7 +76,7 @@
                             foreach (var Data in Model.pregledZahtjeva.Zahtjevi)
                             {
                                 <tr>
-                                    <td width="10%" style="text-align:center;vertical-align:middle"><a asp-action="Detalji" asp-route-zahtjevID="@Data.ZahtjevID" class=" row-link">@Data.ZahtjevID</a></td>
+                                    <td width="10%" style="text-align:center;vertical-align:middle"><a asp-action="Detalji" asp-route-zahtjevID="@Data.ZahtjevID" class=" row-link" data-toggle="tooltip" title="Pritisni za detalje o zahtjevu!" data-placement="right">@Data.ZahtjevID</a></td>
                                     <td width="30%" style="text-align:center;vertical-align:middle">@Data.Tip</td>
                                     <td width="30%" style="text-align:center;vertical-align:middle">@Data.ZahtjevDatum</td>
                                 </tr>
@@ -100,7 +95,7 @@
             </table>
 
         </div>
-        
+
     </form>
     <form style="align-content:center" method="post" asp-controller="Zahtjevi" asp-action="Index">
         <partial name="_Pagination" view-data="ViewData" model="Model" />

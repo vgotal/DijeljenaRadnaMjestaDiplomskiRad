@@ -223,6 +223,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                       Grad = grad.Naziv,
                                       Sifra = radnoMjesto.Sifra,
                                       TipLaptopa = tipLaptopa.Model,
+                                      Komentar=rezervacije.Komentar,
                                       Status=rezervacije.Status.Tip
                                       
                                   }).ToList();

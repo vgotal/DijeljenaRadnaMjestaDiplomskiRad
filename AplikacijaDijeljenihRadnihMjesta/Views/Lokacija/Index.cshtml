@@ -17,53 +17,52 @@
 
 <body>
 
-    <div class="container p-3">
-        <div id="title" class="row pt-4 pb-5">
+    <div class="card p-3 mt-5">
+        <div class="col-12 pt-2 formTitle">
             @if ((int)orgJedID == 0)
             {
-                <div class="col-12">
-                    <h2>Popis lokacija</h2>
-                </div>
+                
+                    <h2 class="formTitle" style="text-align:center !important;">Popis lokacija</h2>
+               
             }
             else
             {
-                <div class="col-12">
-                    <h2>Popis lokacija na organizacijskoj jedinici: @orgJedNaziv</h2>
-                </div>
+               
+                    <h2 class="formTitle" style="text-align:center !important;">Popis lokacija na organizacijskoj jedinici: @orgJedNaziv</h2>
+              
             }
         </div>
 
         <form method="post" asp-controller="Lokacija" asp-route-orgJedID="@orgJedID" asp-route-GradID="@Model.GradID" asp-action="Index">
-            <div class="row">
-                <div class="col-md-4" style="padding-right:0px!important;">
-                    <div>
+            <div class="col-md-12" style="margin-bottom:10px">
+                
                         <label asp-for="@Model.GradID">Odaberi grad: </label>
                         <select asp-for="@Model.GradID" asp-items="@Model.ListaGradova">
                             <option>Svi gradovi</option>
                         </select>
                         <input type="submit" style=" font-size: 1em !important; margin-left:10px; margin-bottom:10px;" class="btn btn-primary" value="Filtriraj" />
-                    </div>
-                </div>
+               
+               
 
-                <div class="col-md-8">
+               
                     @if ((int)orgJedID != 0)
                     {
-                        <a style="float:right;" asp-controller="OrganizacijskaJedinica" asp-route-orgJedID="@orgJedID" asp-action="DodajLokacije" class="btn btn-primary "><i class="fas fa-edit"></i>Dodaj</a>
+                        <a style="float:right;" asp-controller="OrganizacijskaJedinica" asp-route-orgJedID="@orgJedID" asp-action="DodajLokacije" class="btn btn-primary "><i class="fas fa-edit"></i></a>
                     }
                     else
                     {
-                        <a style="float:right;" asp-controller="Lokacija" asp-route-OrgJedID="@orgJedID" asp-action="Create">
-                            <i class="fas fa-plus"></i> &nbsp;
+                        <a style="float:right; text-align:right !important; color: #2973b2 !important;" asp-controller="Lokacija" asp-route-OrgJedID="@orgJedID" asp-action="Create">
+                            <i class="fas fa-plus" style=" color: #2973b2 !important;"></i>
                         </a>
                     }
-                </div>
+               
             </div>
         </form>
 
 
         @if (Model != null && Model.ListaLokacija.Count() > 0)
         {
-            <table class="table table-bordered table-striped" style="width:100%">
+            <table class="table tableCss table-bordered table-striped" style="width:100%">
                 <thead>
                     <tr>
                         <th>
@@ -94,7 +93,7 @@
                                     {
                                         <a asp-controller="Lokacija" asp-route-Id="@obj.Id" onclick="return confirm('Jeste li sigurni da želite obrisati?')" asp-action="Delete" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                                         <a asp-controller="Lokacija" asp-route-Id="@obj.Id" asp-action="Edit" class="btn btn-primary "><i class="fas fa-edit"></i></a>
-                                        <a asp-controller="RadnoMjesto" asp-route-LokacijaId="@obj.Id" asp-action="Index" class="btn btn-info"><i class="fas fa-info-circle"></i></a>
+                                        <a asp-controller="RadnoMjesto" asp-route-LokacijaId="@obj.Id" asp-action="Index" class="btn btn-info"><i class="fas fa-info"></i></a>
                                     }
                                 </div>
                             </td>
@@ -104,7 +103,7 @@
             </table>
             @if ((int)orgJedID != 0)
             {
-                <a asp-controller="OrganizacijskaJedinica" asp-action="Index" asp-route-orgJedID="@orgJedID" class="btn btn-primary w-30 float-left"><i class="fas fa-sign-out-alt"></i> </a>
+                <a asp-controller="OrganizacijskaJedinica" asp-action="Index" asp-route-orgJedID="@orgJedID" class="btn btn-primary w-30 float-left"><i class="fas fa-arrow-left"></i> </a>
             }
 
         }
@@ -113,7 +112,7 @@
             <p>Ne postoji niti jedan lokacija!</p>
             @if ((int)orgJedID != 0)
             {
-                <a asp-controller="OrganizacijskaJedinica" asp-action="Index" class="btn btn-primary w-30 float-leftt"><i class="fas fa-sign-out-alt"></i> </a>
+                <a asp-controller="OrganizacijskaJedinica" asp-action="Index" class="btn btn-primary" style="width:min-content!important; text-align:left!important;"><i class="fas fa-arrow-left"></i> </a>
             }
 
         }

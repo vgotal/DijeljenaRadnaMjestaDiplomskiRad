@@ -46,6 +46,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [HttpPost]
         public IActionResult Index(RezervacijaVM rezervacija) 
         {
+            
+           
             var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
             var djelatnik = new Djelatnik();
             if (djelatnikID != 0 && djelatnikID != null)
@@ -73,8 +75,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
                 TempData["Uspješno"] = rezervacija.PovratnaInfoUspjeh;
                 request.ToEmail = djelatnik.Email;
                 request.Subject = "Rezervacija";
-                request.Body = $"Podnijeli se zahtjev za rezervaciju za dane: {rezervacija.Datumi}. " +
-                    $"Potrebno je dobiti e-mail potvrde nakon što admin odobri vaš zahtjev.";
+                request.Body = $" <b> <h3> Podnošenje zahtjeva za rezervaciju</h3></b> <br />   Zahtjevi su podneseni za dan/e:<b> {rezervacija.Datumi}</b> <br /> Potrebno je dobiti e-mail potvrde nakon što admin odobri Vaš/e zahtjev/e.";
                 mailServices.SendEmailAsync(request);
             }
             if (rezervacija.PovratnaInfoNeuspjeh != null)
@@ -86,7 +87,6 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         }
 
         
-
     }
 
 }

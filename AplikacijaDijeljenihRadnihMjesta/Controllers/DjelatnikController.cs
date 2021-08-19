@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AplikacijaDijeljenihRadnihMjesta.Data;
-using AplikacijaDijeljenihRadnihMjesta.Models;
 using AplikacijaDijeljenihRadnihMjesta.Models.ViewModel;
 using AplikacijaDijeljenihRadnihMjesta.Repository;
 using Microsoft.AspNetCore.Http;
@@ -21,13 +17,14 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         const string SessionOrgJedID = "_OrgJedinicaID";
         const string SessionOrgJedinicaNaziv = "_OrgJedinicaNaziv";
         const string SessionUlogaDjelatnika = "_UlogaDjelatnika";
+        const string SessionStaraLozinkaDjelatnika = "_StaraLozinkaDjelatnika";
 
-        public DjelatnikController(AppDbContext db)
+        public DjelatnikController(AppDbContext db, IMailService mailServices)
         {
-            this.djelatnikRepository = new DjelatnikRepository(db);
+            this.djelatnikRepository = new DjelatnikRepository(db, mailServices);
             this.lokacijaRepository = new LokacijaRepository(db);
         }
-      
+        [HttpGet]
         public IActionResult Index(int? orgJedID, int pageNumber = 1, int pageSize = 4)
         {
             var djelatniciSPaginacijom = new PaginacijaDjelatnik();
@@ -179,7 +176,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             {
                 orgJedinice = djelatnikRepository.PopuniListuOrgJedinica();
             }
-            var djelatnikPrikaz = new DjelatnikVM { Id = djelatnik.Id, MBR = djelatnik.MBR, Ime = djelatnik.Ime, Prezime = djelatnik.Prezime, MaxBrojDanaFirma=djelatnik.MaxBrojDanaFirma, Uloga=djelatnik.UlogaID.ToString(), OrganizacijskeJedinice= orgJedinice, ModeliLaptopa = modeliLaptopa, TipLaptopa =djelatnik.TipLaptopaId.ToString(),Uloge= uloge, OrganizacijskaJedinica =djelatnik.OrgJedinicaId.ToString(), KorisnickoIme = djelatnik.KorisnickoIme, Lozinka = djelatnik.Lozinka, Email=djelatnik.Email };
+            HttpContext.Session.SetString(SessionStaraLozinkaDjelatnika, djelatnik.Lozinka);
+            var djelatnikPrikaz = new DjelatnikVM { Id = djelatnik.Id, MBR = djelatnik.MBR, Ime = djelatnik.Ime, Prezime = djelatnik.Prezime, MaxBrojDanaFirma=djelatnik.MaxBrojDanaFirma, Uloga=djelatnik.UlogaID.ToString(), OrganizacijskeJedinice= orgJedinice, ModeliLaptopa = modeliLaptopa, TipLaptopa =djelatnik.TipLaptopaId.ToString(),Uloge= uloge, OrganizacijskaJedinica =djelatnik.OrgJedinicaId.ToString(), KorisnickoIme = djelatnik.KorisnickoIme, Email=djelatnik.Email};
             
             
             return View(djelatnikPrikaz);
@@ -193,7 +191,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         {
             TempData["OrgJedID"] = HttpContext.Session.GetInt32(SessionOrgJedID);
             var orgJedID = TempData["OrgJedID"];
-            if (djelatnikRepository.EditDjelatnik(djelatnik))
+            var staraLozinka = HttpContext.Session.GetString(SessionStaraLozinkaDjelatnika);
+            if (djelatnikRepository.EditDjelatnik(djelatnik, staraLozinka))
             {
                 TempData["Uspješno"] = "Uspješno promijenjene informacije o djelatniku!";
             }
