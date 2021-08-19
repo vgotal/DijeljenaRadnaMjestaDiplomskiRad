@@ -23,6 +23,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         {
             this.lokacijaRepository = new LokacijaRepository(db);
         }
+        [HttpGet]
         public IActionResult Index(int? orgJedID, string nazivOrgJed)
         {
 

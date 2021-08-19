@@ -1,4 +1,4 @@
-﻿<link rel="stylesheet" type="text/css" href="~/css/TipLaptopa.css" media="screen" 7 />
+﻿<link rel="stylesheet" type="text/css" href="~/css/Pocetna.css" media="screen" 7 />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 @model AplikacijaDijeljenihRadnihMjesta.Models.ViewModel.KorisnickiRacunVM
 @{
@@ -15,7 +15,106 @@
 }
 
 
+<div class="row homeRow">
+    <div class="row homeRow">
+        <div class="col-md-3 homeCard">
+            <form method="get" asp-controller="Djelatnik" asp-action="Index">
+                <a class="data-card">
+                    <h3>Djelatnici</h3>
+                    @*<h4>UKUPNO PREUZIMANJA</h4>*@
+                    <p>Ukupan broj djelatnika u poduzeću: @Model.BrojDjelatnika</p>
+                    <label class="link-text">
+                        <input type="submit" style="background: transparent;border: none;" value="Prikaži više" />
+                        <svg width="25" height="16" viewBox="0 0 25 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8631 0.929124L24.2271 7.29308C24.6176 7.68361 24.6176 8.31677 24.2271 8.7073L17.8631 15.0713C17.4726 15.4618 16.8394 15.4618 16.4489 15.0713C16.0584 14.6807 16.0584 14.0476 16.4489 13.657L21.1058 9.00019H0.47998V7.00019H21.1058L16.4489 2.34334C16.0584 1.95281 16.0584 1.31965 16.4489 0.929124C16.8394 0.538599 17.4726 0.538599 17.8631 0.929124Z" fill="#2e3c40" />
+                        </svg>
+                    </label>
+                </a>
+            </form>
+        </div>
 
+        <div class="col-md-3 homeCard">
+            <form method="get" asp-controller="TipLaptopa" asp-action="Index">
+                <a class="data-card">
+                    <h3>Tipovi laptopa</h3>
+                    @*<h4>UKUPNO PREUZIMANJA</h4>*@
+                    <p>Ukupan broj različitih laptopa u poduzeću: @Model.BrojLaptopa</p>
+                    <label class="link-text">
+                        <input type="submit" style="background: transparent;border: none;" value="Prikaži više" />
+                        <svg width="25" height="16" viewBox="0 0 25 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8631 0.929124L24.2271 7.29308C24.6176 7.68361 24.6176 8.31677 24.2271 8.7073L17.8631 15.0713C17.4726 15.4618 16.8394 15.4618 16.4489 15.0713C16.0584 14.6807 16.0584 14.0476 16.4489 13.657L21.1058 9.00019H0.47998V7.00019H21.1058L16.4489 2.34334C16.0584 1.95281 16.0584 1.31965 16.4489 0.929124C16.8394 0.538599 17.4726 0.538599 17.8631 0.929124Z" fill="#2e3c40" />
+                        </svg>
+                    </label>
+                </a>
+            </form>
+        </div>
 
+        <div class="col-md-3 homeCard">
+            <form method="get" asp-controller="RadnoMjesto" asp-action="Index">
+                <a class="data-card">
+                    <h3>Radna mjesta</h3>
+                    @*<h4>UKUPNO PREUZIMANJA</h4>*@
+                    <p>Ukupan broj radnih mjesta u poduzeću: @Model.BrojRadnihMjesta</p>
+                    <label class="link-text">
+                        <input type="submit" style="background: transparent;border: none;" value="Prikaži više" />
+                        <svg width="25" height="16" viewBox="0 0 25 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8631 0.929124L24.2271 7.29308C24.6176 7.68361 24.6176 8.31677 24.2271 8.7073L17.8631 15.0713C17.4726 15.4618 16.8394 15.4618 16.4489 15.0713C16.0584 14.6807 16.0584 14.0476 16.4489 13.657L21.1058 9.00019H0.47998V7.00019H21.1058L16.4489 2.34334C16.0584 1.95281 16.0584 1.31965 16.4489 0.929124C16.8394 0.538599 17.4726 0.538599 17.8631 0.929124Z" fill="#2e3c40" />
+                        </svg>
+                    </label>
+                </a>
+            </form>
+        </div>
 
+        <div class="col-md-3 homeCard">
+            <form method="get" asp-controller="Grad" asp-action="Index">
+                <a class="data-card">
+                    <h3>Gradovi</h3>
+                    @*<h4>UKUPNO PREUZIMANJA</h4>*@
+                    <p>Ukupan broj gradova gdje se nalaze podružnice tvrtke: @Model.Gradovi</p>
+                    <label class="link-text">
+                        <input type="submit" style="background: transparent;border: none;" value="Prikaži više" />
+                        <svg width="25" height="16" viewBox="0 0 25 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8631 0.929124L24.2271 7.29308C24.6176 7.68361 24.6176 8.31677 24.2271 8.7073L17.8631 15.0713C17.4726 15.4618 16.8394 15.4618 16.4489 15.0713C16.0584 14.6807 16.0584 14.0476 16.4489 13.657L21.1058 9.00019H0.47998V7.00019H21.1058L16.4489 2.34334C16.0584 1.95281 16.0584 1.31965 16.4489 0.929124C16.8394 0.538599 17.4726 0.538599 17.8631 0.929124Z" fill="#2e3c40" />
+                        </svg>
+                    </label>
+                </a>
+            </form>
+        </div>
 
+        <div class="col-md-3 homeCard">
+            <form method="get" asp-controller="Lokacija" asp-action="Index">
+                <a class="data-card">
+                    <h3>Lokacije</h3>
+                    @*<h4>UKUPNO PREUZIMANJA</h4>*@
+                    <p>Ukupan broj radnih mjesta u poduzeću: @Model.Lokacije</p>
+                    <label class="link-text">
+                        <input type="submit" style="background: transparent;border: none;" value="Prikaži više" />
+                        <svg width="25" height="16" viewBox="0 0 25 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8631 0.929124L24.2271 7.29308C24.6176 7.68361 24.6176 8.31677 24.2271 8.7073L17.8631 15.0713C17.4726 15.4618 16.8394 15.4618 16.4489 15.0713C16.0584 14.6807 16.0584 14.0476 16.4489 13.657L21.1058 9.00019H0.47998V7.00019H21.1058L16.4489 2.34334C16.0584 1.95281 16.0584 1.31965 16.4489 0.929124C16.8394 0.538599 17.4726 0.538599 17.8631 0.929124Z" fill="#2e3c40" />
+                        </svg>
+                    </label>
+                </a>
+            </form>
+        </div>
+
+        <div class="col-md-3 homeCard">
+            <form method="get" asp-controller="OrganizacijskaJedinica" asp-action="Index">
+                <a class="data-card">
+                    <h3>Organizacijske jedinice</h3>
+                    @*<h4>UKUPNO PREUZIMANJA</h4>*@
+                    <p>Ukupan broj organizacijskih jedinica u poduzeću: @Model.OrganizacijskeJedinice</p>
+                    <label class="link-text">
+                        <input type="submit" style="background: transparent;border: none;" value="Prikaži više" />
+                        <svg width="25" height="16" viewBox="0 0 25 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8631 0.929124L24.2271 7.29308C24.6176 7.68361 24.6176 8.31677 24.2271 8.7073L17.8631 15.0713C17.4726 15.4618 16.8394 15.4618 16.4489 15.0713C16.0584 14.6807 16.0584 14.0476 16.4489 13.657L21.1058 9.00019H0.47998V7.00019H21.1058L16.4489 2.34334C16.0584 1.95281 16.0584 1.31965 16.4489 0.929124C16.8394 0.538599 17.4726 0.538599 17.8631 0.929124Z" fill="#2e3c40" />
+                        </svg>
+                    </label>
+                </a>
+            </form>
+        </div>
+
+        
+
+    </div>
+
+</div>

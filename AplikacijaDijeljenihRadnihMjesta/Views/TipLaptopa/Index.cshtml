@@ -5,23 +5,21 @@
     ViewData["index"] = "ADMIN";
     
 }
-<body>
-    <div class="container p-3">
-        <div id="title" class="row pt-4">
-            <div class="col-12">
-                <h2>Popis modela laptopa</h2>
+
+    <div class="card p-3 mt-5">
+            <div class="col-12 formTitle">
+                <h2 class="formTitle" style="text-align:center !important;">Popis modela laptopa</h2>
             </div>
 
-        </div>
-        <div class="col-12 text-right ">
-            <a style="float:right;" asp-controller="TipLaptopa" asp-action="Create">
-                <i class="fas fa-plus"></i> &nbsp;
+       
+            <a style="text-align:right !important" asp-controller="TipLaptopa" asp-action="Create">
+                <i class="fas fa-plus" style=" color: #2973b2 !important;"></i> 
             </a>
-        </div>
+       
 
         @if (Model != null && Model.Count() > 0)
         {
-            <table class="table table-bordered table-striped" style="width:100%">
+            <table class="table tableCss table-bordered table-striped" style="width:100%">
                 <thead>
                     <tr>
                         <th>
@@ -52,7 +50,7 @@
             <p>Ne postoji niti jedan tip laptopa!</p>
         }
     </div>
-</body>
+
 @section Scripts{
     @{
         <partial name="_ValidationScriptsPartial" />

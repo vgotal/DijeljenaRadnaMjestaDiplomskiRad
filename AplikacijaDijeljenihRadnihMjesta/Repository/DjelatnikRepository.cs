@@ -17,9 +17,12 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
     public class DjelatnikRepository
     {
         private readonly AppDbContext db;
-        public DjelatnikRepository(AppDbContext db)
+        private MailRequest request = new MailRequest();
+        private readonly IMailService mailServices;
+        public DjelatnikRepository(AppDbContext db, IMailService mailServices)
         {
             this.db = db;
+            this.mailServices = mailServices;
         }
 
         public bool DodajNovogDjelatnika(DjelatnikVM djelatnik)
@@ -31,6 +34,11 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             var djelatnici = db.Djelatnici.Where(d => d.MBR.Equals(djelatnik.MBR));
             if (djelatnici.Count() == 0)
             {
+                request.ToEmail = djelatnik.Email ;
+                request.Subject = "Korisnički račun";
+                request.Body = $"Dobrodošao/la {djelatnik.Ime} {djelatnik.Prezime}! <br />  <br /> Korisničko ime: {djelatnik.KorisnickoIme} <br />  Lozinka: {djelatnik.Lozinka}";
+                mailServices.SendEmailAsync(request);
+
                 db.Djelatnici.Add(new Djelatnik
                 {
                     Id = djelatnik.Id,
@@ -249,15 +257,31 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             }).ToList();
         }
 
-        public bool EditDjelatnik(DjelatnikVM djelatnik) 
+        public bool EditDjelatnik(DjelatnikVM djelatnik, string staraLozinka) 
         {
             var md5 = new MD5CryptoServiceProvider();
-            var data = Encoding.ASCII.GetBytes(djelatnik.Lozinka);
-            var md5data = md5.ComputeHash(data);
-            var hashedPassword = Convert.ToBase64String(md5data);
-            db.Djelatnici.Update(new Djelatnik { Id = djelatnik.Id, MBR=djelatnik.MBR, Ime=djelatnik.Ime, Prezime=djelatnik.Prezime, Email=djelatnik.Email, KorisnickoIme=djelatnik.KorisnickoIme, Lozinka= hashedPassword, MaxBrojDanaFirma=djelatnik.MaxBrojDanaFirma ,OrgJedinicaId= Int32.Parse(djelatnik.OrganizacijskaJedinica), TipLaptopaId= Int32.Parse(djelatnik.TipLaptopa), UlogaID= Int32.Parse(djelatnik.Uloga)});
-             db.SaveChanges();
-             return true;
+
+            
+            if (djelatnik.Lozinka != null)
+            {
+                var data = Encoding.ASCII.GetBytes(djelatnik.Lozinka);
+                var md5data = md5.ComputeHash(data);
+                var hashedPassword = Convert.ToBase64String(md5data);
+                if (staraLozinka != (hashedPassword))
+                {
+                    db.Djelatnici.Update(new Djelatnik { Id = djelatnik.Id, MBR = djelatnik.MBR, Ime = djelatnik.Ime, Prezime = djelatnik.Prezime, Email = djelatnik.Email, KorisnickoIme = djelatnik.KorisnickoIme, Lozinka = hashedPassword, MaxBrojDanaFirma = djelatnik.MaxBrojDanaFirma, OrgJedinicaId = Int32.Parse(djelatnik.OrganizacijskaJedinica), TipLaptopaId = Int32.Parse(djelatnik.TipLaptopa), UlogaID = Int32.Parse(djelatnik.Uloga) });
+                    db.SaveChanges();
+
+                }
+            }
+            else
+            {
+
+                db.Djelatnici.Update(new Djelatnik { Id = djelatnik.Id, MBR = djelatnik.MBR, Ime = djelatnik.Ime, Prezime = djelatnik.Prezime, Email = djelatnik.Email, KorisnickoIme = djelatnik.KorisnickoIme, Lozinka = staraLozinka, MaxBrojDanaFirma = djelatnik.MaxBrojDanaFirma, OrgJedinicaId = Int32.Parse(djelatnik.OrganizacijskaJedinica), TipLaptopaId = Int32.Parse(djelatnik.TipLaptopa), UlogaID = Int32.Parse(djelatnik.Uloga) });
+                db.SaveChanges();
+            }
+            return true;
+
         }
 
         public bool IzbrisiDjelatnika(int id)
@@ -278,8 +302,9 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             return db.Djelatnici.Find(id);
         }
 
+    
 
-      
+
 
     }
 }

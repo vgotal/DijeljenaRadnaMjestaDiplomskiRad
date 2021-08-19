@@ -57,5 +57,14 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models.ViewModel
             get; set;
         }
 
+        public string RazlogOtkazivanja
+        {
+            get; set;
+        }
+        public string Komentar
+        {
+            get; set;
+        }
+
     }
 }

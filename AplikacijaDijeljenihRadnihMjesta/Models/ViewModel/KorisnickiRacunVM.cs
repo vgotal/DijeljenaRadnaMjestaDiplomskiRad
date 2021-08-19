@@ -30,5 +30,33 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models.ViewModel
         {
             get; set;
         }
+        public int BrojDjelatnika
+        {
+            get; set;
+        }
+        public int BrojLaptopa
+        {
+            get; set;
+        }
+
+        public int BrojRadnihMjesta
+        {
+            get; set;
+        }
+
+        public int Gradovi
+        {
+            get; set;
+        }
+
+        public int Lokacije
+        {
+            get; set;
+        }
+
+        public int OrganizacijskeJedinice
+        {
+            get; set;
+        }
     }
 }

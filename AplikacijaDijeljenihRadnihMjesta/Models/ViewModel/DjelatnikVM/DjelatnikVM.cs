@@ -13,7 +13,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models.ViewModel
         {
             get; set;
         }
-        [Required(ErrorMessage = "Obavezan unos MBR djelatnika!")]
+        [RegularExpression(@"^(\d{9})$", ErrorMessage = "MBR mora imati devet znamenki.")]
+        //[Required(ErrorMessage = "Obavezan unos MBR djelatnika!")]
         public int MBR
         {
             get; set;
@@ -33,12 +34,13 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models.ViewModel
         {
             get; set;
         }
-        [Required(ErrorMessage = "Obavezan unos lozinke!")]
+        
         public string Lozinka
         {
             get; set;
         }
-        [Required(ErrorMessage = "Obavezan unos maksimalnog broja dana koje djelatnik smije raditi u tvrtki!")]
+        //[Required(ErrorMessage = "Obavezan unos maksimalnog broja dana koje djelatnik smije raditi u tvrtki!")]
+        [Range(1, 5, ErrorMessage = "Maksimalan broj dana mora bit između 1 i 5")]
         public int MaxBrojDanaFirma
         {
             get; set;
