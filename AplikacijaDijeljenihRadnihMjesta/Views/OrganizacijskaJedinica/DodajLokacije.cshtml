@@ -1,64 +1,56 @@
 ﻿@model AplikacijaDijeljenihRadnihMjesta.Models.ViewModel.LokacijaORgJedinicaVM
-
-<partial name="Upozorenja" view-data="ViewData" />
-@{
-
-
-    ViewData["index"] = "ADMIN";
-    var orgJedID = 0;
-    if (TempData["OrgJedID"] != null)
-    {
-        orgJedID = (int)(TempData["OrgJedID"]);
+    <link rel="stylesheet" type="text/css" href="~/css/Stranica.css" media="screen" 7 />
+    <partial name="Upozorenja" view-data="ViewData" />
+    @{
+        ViewData["index"] = "ADMIN";
+        var orgJedID = 0;
+        if (TempData["OrgJedID"] != null)
+        {
+            orgJedID = (int)(TempData["OrgJedID"]);
+        }
+        else
+            orgJedID = 0;
     }
-    else
-        orgJedID = 0;
-
-
-}
 <form method="post" asp-action="DodajLokacije">
-
-    <div class="border p-3">
+   
+    <div class="card p-3 mt-5" style="margin-top:30px!important;     margin: 0 auto;   max-width: 850px !important; justify-content:center!important;">
+        @if ((int)orgJedID != 0)
+        {
+            <a asp-controller="Lokacija" asp-action="Index" asp-route-orgJedID="@orgJedID"><i class="fas fa-arrow-left" style="justify-content:right; text-align:right; width:min-content; font-size:26px; "></i></a>
+        }
+        else
+        {
+            <a asp-action="Index"><i class="fas fa-arrow-left" style="justify-content:right; text-align:right; width:min-content; font-size:26px; "></i> </a>
+        }
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group row">
 
-            <h2 class="text-info pl-3"> Dodaj lokacije u organizacijsku jedinicu</h2>
+            <h2 class="text-info formTitle"> Dodaj lokacije u organizacijsku jedinicu</h2>
 
         </div>
         <div class="row">
-            <div class="col-8">
+            <div class="col-10 createRow">
                 <div class="form-group row">
-                    <div class="col-4">
+                    <div class="col-4 colLabel">
                         <label asp-for="Adresa">Adresa</label>
                     </div>
-                    <div class="col-8">
-                        <select asp-for="Adresa" asp-items="@Model.Adrese" required>
+                    <div class="col-8 colInput">
+                        <select class="form-select" asp-for="Adresa" asp-items="@Model.Adrese" required>
                         </select>
                         <span asp-validation-for="Adresa" class="text-danger"></span>
                     </div>
-                  
-                   
+
+
 
 
                 </div>
                 <div class="form-group row">
-                    <div class="col-8 offset-4 row">
 
-                        <div class="col">
-                            <input type="submit" class="btn btn-success w-100" value=" Dodaj" />
+                    <div class="col-12 row">
+                        <div style="justify-content:right;    text-align: right; margin-right:15%">
+                            <input type="submit" class="btn btn-success" style="justify-content:center!important; text-align:center!important; width:min-content;" value="Uredi" />
                         </div>
-                        @if ((int)orgJedID != 0)
-                        {
-                            <div class="col">
-                                <a  asp-controller="Lokacija" asp-action="Index" asp-route-orgJedID="@orgJedID" class="btn btn-primary w-100"><i class="fas fa-sign-out-alt"></i></a>
 
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="col">
-                                <a asp-action="Index" class="btn btn-primary w-100"><i class="fas fa-sign-out-alt"></i> </a>
-                            </div>
-                        }
                     </div>
                 </div>
             </div>
@@ -70,8 +62,8 @@
 
 </form>
 
-@section Scripts{
-    @{
-        <partial name="_ValidationScriptsPartial" />
+    @section Scripts{
+        @{
+            <partial name="_ValidationScriptsPartial" />
+        }
     }
-}

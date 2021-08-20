@@ -18,7 +18,13 @@
 }
 
 <div class="card p-3 mt-5">
+    @if ((int)orgJedID != 0)
+    {
+        <div class="col w-25">
+            <a asp-controller="OrganizacijskaJedinica" asp-action="Index"><i class="fas fa-arrow-left" style="justify-content:right; text-align:right; width:min-content; font-size:26px; "></i></a>
+        </div>
 
+    }
     <div class="col-12 pt-2 formTitle">
         @if ((int)orgJedID == 0)
         {
@@ -30,89 +36,83 @@
         }
     </div>
 
-        <form method="post" asp-controller="Djelatnik" asp-route-orgJedID="@orgJedID" asp-action="Index">
-            <div class="col-md-12" style="margin-bottom:10px">
-                <select class="form-select" style="width:min-content; display:inline-block!important" asp-for="@Model.djelatnikFilter.Uloga" asp-items="@Model.djelatnikFilter.ListaUloga">
-                    <option>Sve uloge</option>
-                </select>
-                <input type="submit" style="font-size: 1em !important; margin-bottom:5px;margin-left:20px;display:inline-block" class="btn btn-primary" value="Filtriraj" />
+    <form method="post" asp-controller="Djelatnik" asp-route-orgJedID="@orgJedID" asp-action="Index">
+        <div class="col-md-12" style="margin-bottom:10px">
+            <select class="form-select" style="width:min-content; display:inline-block!important" asp-for="@Model.djelatnikFilter.Uloga" asp-items="@Model.djelatnikFilter.ListaUloga">
+                <option>Sve uloge</option>
+            </select>
+            <input type="submit" style="font-size: 1em !important; margin-bottom:5px;margin-left:20px;display:inline-block" class="btn btn-primary" value="Filtriraj" />
 
-                @if ((int)orgJedID == 0)
-                {
-                    <a style="float:right; text-align:right;" asp-controller="Djelatnik" asp-route-OrgJedID="@orgJedID" asp-action="Create">
-                        <i class="fas fa-plus" style=" color: #2973b2 !important;"></i>
-                    </a>
-                }
-            </div>
-        </form>
+            @if ((int)orgJedID == 0)
+            {
+                <a style="float:right; text-align:right;" asp-controller="Djelatnik" asp-route-OrgJedID="@orgJedID" asp-action="Create">
+                    <i class="fas fa-plus" style=" color: #2973b2 !important;"></i>
+                </a>
+            }
+        </div>
+    </form>
 
-        <table class="table tableCss table-bordered table-striped" style="width:100%">
-            <thead>
+    <table class="table tableCss table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    MBR
+                </th>
+                <th>
+                    IME
+                </th>
+                <th>
+                    PREZIME
+                </th>
+                <th>
+                    ORGANIZACIJSKA JEDINICA
+                </th>
+                <th>
+                    MODEL LAPTOPA
+                </th>
+                <th>
+                    ULOGA
+                </th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model.djelatnikFilter.ListaDjelatnika)
+            {
                 <tr>
-                    <th>
-                        MBR
-                    </th>
-                    <th>
-                        IME
-                    </th>
-                    <th>
-                        PREZIME
-                    </th>
-                    <th>
-                        ORGANIZACIJSKA JEDINICA
-                    </th>
-                    <th>
-                        MODEL LAPTOPA
-                    </th>
-                    <th>
-                        ULOGA
-                    </th>
-                    <th></th>
+                    <td id="items" width="10%">@obj.MBR</td>
+                    <td id="items" width="10%">@obj.Ime</td>
+                    <td id="items" width="10%">@obj.Prezime</td>
+                    <td id="items" width="30%">@obj.OrganizacijskaJedinica</td>
+                    <td id="items" width="20%">@obj.TipLaptopa</td>
+                    <td id="items" width="20%">@obj.Uloga</td>
+                    <td class="text-center">
+                        <div class="w-auto btn-group" role="group">
+                            @if ((int)orgJedID != 0)
+                            {
+
+
+                            }
+                            else
+                            {
+                                <a asp-controller="Djelatnik" asp-route-Id="@obj.Id" asp-route-orgJedID="@orgJedID" asp-action="Edit" class="btn btn-primary "><i class="fas fa-edit"></i></a>
+                                <a asp-controller="Djelatnik" asp-route-Id="@obj.Id" asp-route-orgJedID="@orgJedID" onclick="return confirm('Jeste li sigurni da želite obrisati?')" asp-action="Delete" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                            }
+
+                        </div>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var obj in Model.djelatnikFilter.ListaDjelatnika)
-                {
-                    <tr>
-                        <td id="items" width="10%">@obj.MBR</td>
-                        <td id="items" width="10%">@obj.Ime</td>
-                        <td id="items" width="10%">@obj.Prezime</td>
-                        <td id="items" width="30%">@obj.OrganizacijskaJedinica</td>
-                        <td id="items" width="20%">@obj.TipLaptopa</td>
-                        <td id="items" width="20%">@obj.Uloga</td>
-                        <td class="text-center">
-                            <div class="w-auto btn-group" role="group">
-                                @if ((int)orgJedID != 0)
-                                {
+            }
+        </tbody>
+    </table>
+    <form style="align-content:center" method="post" asp-controller="Djelatnik" asp-action="Index">
+        <partial name="_Pagination" view-data="ViewData" model="Model" />
+    </form>
 
 
-                                }
-                                else
-                                {
-                                    <a asp-controller="Djelatnik" asp-route-Id="@obj.Id" asp-route-orgJedID="@orgJedID" asp-action="Edit" class="btn btn-primary "><i class="fas fa-edit"></i></a>
-                                    <a asp-controller="Djelatnik" asp-route-Id="@obj.Id" asp-route-orgJedID="@orgJedID" onclick="return confirm('Jeste li sigurni da želite obrisati?')" asp-action="Delete" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
-                                }
-
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <form style="align-content:center" method="post" asp-controller="Djelatnik" asp-action="Index">
-            <partial name="_Pagination" view-data="ViewData" model="Model" />
-        </form>
-
-        @if ((int)orgJedID != 0)
-        {
-            <div class="col w-25">
-                <a asp-controller="OrganizacijskaJedinica" asp-action="Index" class="btn btn-primary w-30 float-left"><i class="fas fa-sign-out-alt"></i></a>
-            </div>
-
-        }
 
 
-    </div>
+</div>
 @{
     <partial name="_ValidationScriptsPartial" />
 }
