@@ -16,7 +16,7 @@
 <partial name="Upozorenja" view-data="ViewData" />
 
 
-<div class="card p-3 mt-5">
+<div class="card p-3 mt-5" style=" overflow-x: auto;">
     @if ((int)orgJedID != 0)
     {
         <a asp-controller="OrganizacijskaJedinica" asp-action="Index" asp-route-orgJedID="@orgJedID"><i class="fas fa-arrow-left" style="justify-content:right; text-align:right; width:min-content; font-size:26px; "></i> </a>

@@ -4,10 +4,12 @@
   margin-left:20px;
   display:inline-block;
 }
+.card p-3 mt-5 {
+    overflow-x: auto;
+}
 .form-filter {
     display: inline-block;
     width: min-content !important;
-   
 }
 .container {
     background:white !important;
