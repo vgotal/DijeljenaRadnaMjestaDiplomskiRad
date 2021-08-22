@@ -78,9 +78,6 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                         rezervacije.Datum == datumTrazeni)
                                         orderby rezervacije.Datum ascending
                                         select rezervacije.Id).FirstOrDefault();
-
-          
-           
             return dohvaceneRezervacije;
         }
 
@@ -123,7 +120,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             {
                 if (model.Rezervacije == null || model.Rezervacije.Count == 0)
                 {
-                    model.Rezervacije = DohvatiRezervacije(djelatnikID, lokacijaID ); //dohvatit ce rez za bas tu adresu
+                    model.Rezervacije = DohvatiRezervacije(djelatnikID, lokacijaID );
                 }
                 else if (!model.Rezervacije.Where(rezervacija => rezervacija.OdgovorCheckBox == true && rezervacija.Rezervirano == false).Any())
                 {
@@ -134,7 +131,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                 else if (model.Rezervacije.Where(r => r.OdgovorCheckBox == true).Count() > djelatnik.MaxBrojDanaFirma)
                 {
                     model.PovratnaInfo = $"Maksimalan broj dana za rezervaciju: {djelatnik.MaxBrojDanaFirma}, odznačite one dane koji su višak!";
-                    model.Rezervacije = DohvatiRezervacije(djelatnikID, lokacijaID); //dohvatit ce rez za bas tu adresu
+                    model.Rezervacije = DohvatiRezervacije(djelatnikID, lokacijaID); 
                 }
                 else
                 {
@@ -179,7 +176,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                     {
                         if (noveRezervacije.Count > 0)
                         {
-                            for (int i = 0; i < noveRezervacije.Count; i++)
+                            for (int i = 0; i < UspjesneRezervacija.Count; i++)
                                {
                                 uspjesneRezervacije.Add(noveRezervacije[i].ZeljeniDatum.ToShortDateString());
                             }
