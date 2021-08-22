@@ -46,8 +46,6 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [HttpPost]
         public IActionResult Index(RezervacijaVM rezervacija) 
         {
-            
-           
             var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
             var djelatnik = new Djelatnik();
             if (djelatnikID != 0 && djelatnikID != null)

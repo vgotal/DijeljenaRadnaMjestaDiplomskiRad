@@ -32,7 +32,7 @@
         }
         else
         {
-            <h2 class="formTitle" style="text-align:center !important;">Popis djelatnika na organizacijskoj jedinici: @orgJedNaziv</h2>
+            <h2 class="formTitle" style="text-align:center !important;">Popis djelatnika unutar organizacijske jedinice: @orgJedNaziv</h2>
         }
     </div>
 
@@ -73,35 +73,59 @@
                 <th>
                     ULOGA
                 </th>
-               
+                <th>
+
+                </th>
             </tr>
         </thead>
         <tbody>
             @foreach (var obj in Model.djelatnikFilter.ListaDjelatnika)
             {
-                <tr>
-                    <td id="items" width="10%">@obj.MBR</td>
-                    <td id="items" width="10%">@obj.Ime</td>
-                    <td id="items" width="10%">@obj.Prezime</td>
-                    <td id="items" width="30%">@obj.OrganizacijskaJedinica</td>
-                    <td id="items" width="20%">@obj.TipLaptopa</td>
-                    <td id="items" width="20%">@obj.Uloga</td>
-                    <td class="text-center">
-                        <div class="w-auto btn-group" role="group">
-                            @if ((int)orgJedID != 0)
-                            {
+            <tr>
+                <td id="items" width="10%">@obj.MBR</td>
+                <td id="items" width="10%">@obj.Ime</td>
+                <td id="items" width="10%">@obj.Prezime</td>
+                <td id="items" width="30%">@obj.OrganizacijskaJedinica</td>
+                <td id="items" width="20%">@obj.TipLaptopa</td>
+                <td id="items" width="20%">@obj.Uloga</td>
+                <td class="text-center">
+                    <div class="w-auto btn-group" role="group">
+                        @if ((int)orgJedID != 0)
+                        {
 
 
+                        }
+                        else
+                        {
+                            <a asp-controller="Djelatnik" asp-route-Id="@obj.Id" asp-route-orgJedID="@orgJedID" asp-action="Edit" class="btn btn-primary "><i class="fas fa-edit"></i></a>
+                            @*<a asp-controller="Djelatnik" asp-route-Id="@obj.Id" asp-route-orgJedID="@orgJedID" onclick="return confirm('Jeste li sigurni da želite obrisati?')" asp-action="Delete" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>*@
+                        <a data-target="#DeleteModal-@obj.Id" data-toggle="modal" class=" btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                        <form method="post" asp-controller="Djelatnik"asp-route-Id="@obj.Id"  asp-route-orgJedID="@orgJedID" asp-action="Delete">
+                           
+                            <div class="modal" tabindex="-1" role="dialog" id="DeleteModal-@obj.Id">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content" style="margin-top: 30%;">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Potvrdite brisanje djelatnika</h5>
+                                          
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Jeste li sigurni da želite izbrisati djelatnika/icu: @obj.Ime @obj.Prezime? </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                            <button type="submit" class="btn btn-danger">Yes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                           
                             }
-                            else
-                            {
-                                <a asp-controller="Djelatnik" asp-route-Id="@obj.Id" asp-route-orgJedID="@orgJedID" asp-action="Edit" class="btn btn-primary "><i class="fas fa-edit"></i></a>
-                                <a asp-controller="Djelatnik" asp-route-Id="@obj.Id" asp-route-orgJedID="@orgJedID" onclick="return confirm('Jeste li sigurni da želite obrisati?')" asp-action="Delete" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
-                            }
 
-                        </div>
-                    </td>
-                </tr>
+</div>
+                 </td>
+             </tr>
             }
         </tbody>
     </table>
@@ -109,6 +133,7 @@
         <partial name="_Pagination" view-data="ViewData" model="Model" />
     </form>
 
+   
 
 
 
@@ -117,8 +142,5 @@
     <partial name="_ValidationScriptsPartial" />
 }
 @section Scripts{
-
-
-
 
 }

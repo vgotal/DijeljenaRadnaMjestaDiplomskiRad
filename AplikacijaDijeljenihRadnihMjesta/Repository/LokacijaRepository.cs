@@ -170,6 +170,11 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             return db.Lokacije.Find(Id);
         }
 
+        public string DohvatiNazivLokacije(int? Id)
+        {
+            var lokacija= db.Lokacije.Find(Id);
+            return lokacija.Adresa;
+        }
         public bool EditLokacija(LokacijaVM lokacija)
         {
             var provjera = (from lok in db.Lokacije
@@ -197,9 +202,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         }
         public string DohvatiNazivOrgJedinice( int OrgJedID)
         {
-            return (from lok in db.Lokacije
-                         join lokOrgJed in db.LokacijaOrganizacijskaJedinicas on lok.Id equals lokOrgJed.LokacijeId
-                         join orgJed in db.OrganizacijskeJedinice on lokOrgJed.OrganizacijskeJediniceId equals orgJed.Id
+            return (from orgJed in db.OrganizacijskeJedinice
                          where orgJed.Id.Equals(OrgJedID)
                          select orgJed.Naziv).FirstOrDefault();
         }

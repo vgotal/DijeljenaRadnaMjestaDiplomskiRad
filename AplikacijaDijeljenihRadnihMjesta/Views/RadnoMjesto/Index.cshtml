@@ -1,11 +1,12 @@
 ﻿@model AplikacijaDijeljenihRadnihMjesta.Models.Paginacija.PaginacijaRadnoMjesto
     <link rel="stylesheet" type="text/css" href="~/css/Stranica.css" media="screen" 7 />
 @{
-
+    string lokacijaNaziv = null;
     ViewData["index"] = "ADMIN";
     var lokacijaID = 0;
     if (TempData["LokacijaID"] != null)
     {
+       
         lokacijaID = (int)@TempData["LokacijaID"];
 
     }
@@ -21,7 +22,7 @@
 
     ViewData["Controller"] = "RadnoMjesto";
     ViewData["Action"] = "Index";
-}
+    }
 
 <partial name="Upozorenja" view-data="ViewData" />
 
@@ -42,7 +43,7 @@
         }
         else
         {
-            <h2 class="formTitle" style="text-align:center !important;">Popis radnih mjesta na lokaciji</h2>
+            <h2 class="formTitle" style="text-align:center !important;">Popis radnih mjesta na lokaciji: </h2>
         }
     </div>
     <form method="post" asp-controller="RadnoMjesto" asp-route-lokacijaID="@lokacijaID" asp-route-tipLaptopaID="@Model.radnoMjestoFilter.TipLaptopaID" asp-action="Index">

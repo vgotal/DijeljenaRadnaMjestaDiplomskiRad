@@ -21,9 +21,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
        
         public List<RezervacijaModel> DohvatiRezervacije(int djelatnikID, int lokacijaID) 
         {
-
-            var pocetniDatum = DateTime.Now.AddBusinessDays(1).Date;
-            var krajnjiDatum = DateTime.Now.AddBusinessDays(5).Date;
+            var pocetniDatum = DateTime.Now.DohvatiRadneDane(1).Date;
+            var krajnjiDatum = DateTime.Now.DohvatiRadneDane(5).Date;
             var dohvaceneRezervacije = (from rezervacije in db.RezervacijeOtkazivanje
                                             join radnoMjesto in db.RadnaMjesta on rezervacije.RadnoMjestoId equals radnoMjesto.Id
                                             join lokacija in db.Lokacije on radnoMjesto.LokacijaId equals lokacija.Id
@@ -51,7 +50,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             var adresa = db.Lokacije.Where(l => l.Id.Equals(lokacijaID)).Select(l => l.Adresa).FirstOrDefault().ToString();
             for (int i = 1;  i <= 5; i++)
             {
-                var datum = DateTime.Now.AddBusinessDays(i).Date;
+                var datum = DateTime.Now.DohvatiRadneDane(i).Date;
                 if (dohvaceneRezervacije.FirstOrDefault(rez => rez.ZeljeniDatum.Date.Equals(datum)) == null)
                 {
                     dohvaceneRezervacije.Add(new RezervacijaModel()
@@ -63,7 +62,6 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                         Otkazano = false
                     });
                 }
-
             }
             return dohvaceneRezervacije.OrderBy(rez => rez.ZeljeniDatum).ToList();
         }
@@ -141,23 +139,23 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                 else
                 {
                     var filtriraneRezervacije = model.Rezervacije.Where(rez => rez.OdgovorCheckBox && String.IsNullOrEmpty(rez.SifraRadnogMjesta) && rez.LokacijaID.Equals(lokacijaID)).ToList();
-                    var noveRez=new List<RezervacijaModel>();
-                    var nove2 = new List<RezervacijaModel>();
-                    var stareRez = new List<RezervacijaModel>();
+                    var noveRezervacije=new List<RezervacijaModel>();
+                    var UspjesneRezervacija = new List<RezervacijaModel>();
+                    var stareRezervacije = new List<RezervacijaModel>();
                     
                     foreach (RezervacijaModel rezervacija in filtriraneRezervacije)
                     {
                         var nesto = DohvatiRezervacije(djelatnikID, lokacijaID, rezervacija.ZeljeniDatum);
                         if (nesto == 0)
                         {
-                            noveRez.Add(rezervacija);
+                            noveRezervacije.Add(rezervacija);
                         }
                         else
                         {
-                            stareRez.Add(rezervacija);
+                            stareRezervacije.Add(rezervacija);
                         }
                     }
-                    foreach (RezervacijaModel rezervacija in noveRez)
+                    foreach (RezervacijaModel rezervacija in noveRezervacije)
                     {
                          try
                         {
@@ -166,10 +164,9 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                 if (provjera == 0)
                                 {
                                     neuspjesneRezervacije.Add(rezervacija.ZeljeniDatum.ToShortDateString());
-                                
                                 }
                                 else
-                                    nove2.Add(rezervacija);
+                                    UspjesneRezervacija.Add(rezervacija);
                         }
                         catch (Exception e)
                         {
@@ -178,13 +175,13 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                         }
                     }
                    
-                    if (noveRez.Count > 0)
+                    if (noveRezervacije.Count > 0)
                     {
-                        if (noveRez.Count > 0)
+                        if (noveRezervacije.Count > 0)
                         {
-                            for (int i = 0; i < nove2.Count; i++)
+                            for (int i = 0; i < noveRezervacije.Count; i++)
                                {
-                                uspjesneRezervacije.Add(nove2[i].ZeljeniDatum.ToShortDateString());
+                                uspjesneRezervacije.Add(noveRezervacije[i].ZeljeniDatum.ToShortDateString());
                             }
                             stanjaRezervacija.Add("uspjesneRezervacije", String.Join(", ", uspjesneRezervacije));
                             stanjaRezervacija.Add("neuspjesneRezervacije", String.Join(", ", neuspjesneRezervacije));

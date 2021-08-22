@@ -39,7 +39,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             return dohvaceniTipoviZahjteva;
         }
 
-        public PaginacijaZahtjev DohvatiZahtjeve(PregledZahtjevaVM model, int djelatnikID, int pageSize=1, int pageNumber=2)
+        public PaginacijaZahtjev DohvatiZahtjeve(PregledZahtjevaVM model, int djelatnikID, int pageSize, int pageNumber)
         {
             var proba = new PaginacijaZahtjev();
            
@@ -106,8 +106,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                         DohvatiZahtjeveZaPregled(model, djelatnikID, pageSize, pageNumber);
                         var result = new PagedResult<ZahtjevVM>
                         {
-                            Data = model.Zahtjevi.ToList(),
-                            TotalItems = db.Zahtjevi.Count(),
+                            Data = model.Zahtjevi.ToList(), 
+                            TotalItems = db.Zahtjevi.Where(d=>d.DjelatnikId.Equals(djelatnikID)).Count(),
                             PageNumber = pageNumber,
                             PageSize = pageSize
                         };

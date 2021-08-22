@@ -57,8 +57,6 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                               join tipZahtjeva in db.TipoviZahtjeva on zahtjev.TipZahtjevaId equals tipZahtjeva.Id
                                               where rezervacije.ProvjeraOtkazivanjaRezerviranja == rezervacija.Id && zahtjev.DjelatnikId == djelatnikID && rezervacije.Datum == rezervacija.ZeljeniDatum
                                               select rezervacije.Id).FirstOrDefault();
-                            
-
                             db.SaveChanges();
                         }
                         catch (Exception)
@@ -66,7 +64,6 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                             model.PovratnaInfo = $"Pogreška pri unosu rezervacija u bazu za rezervaciju za datum: {rezervacija.ZeljeniDatum.ToShortDateString()}";
                         }
                         
-
                         if (!DohvatiOtkazivanje(rezervacija, djelatnikID))
                         {
                             var otkID = (from rezervacije in db.RezervacijeOtkazivanje
@@ -82,9 +79,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                     }
                     if (filtriraneRezervacije.Count > 0)
                     {
-                        
                         var zahtjvOtk = db.RezervacijeOtkazivanje.Find(zahtjevOtk);
-                        model.PovratnaInfoUspjeh = $"Otkazivanje je uspješno izvršeno za datume: {String.Join(", ", listaDatuma)}";
+                        model.PovratnaInfoUspjeh = $"Podnošenje zahtjeva za otkazivanje je uspješno izvršeno za datume: {String.Join(", ", listaDatuma)}";
                         model.Rezervacije = DohvatiRezervacijeOtkazivanja(djelatnikID);
                     }
                 }
@@ -97,8 +93,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         }
         public List<RezervacijaModel> DohvatiRezervacijeOtkazivanja(int djelatnikID)
         {
-            DateTime pocetniDatum = DateTime.Now.AddBusinessDays(1).Date;
-            DateTime krajnjiDatum = DateTime.Now.AddBusinessDays(5).Date;
+            DateTime pocetniDatum = DateTime.Now.DohvatiRadneDane(1).Date;
+            DateTime krajnjiDatum = DateTime.Now.DohvatiRadneDane(5).Date;
             var dohvaceneRezervacije = (from rezervacije in db.RezervacijeOtkazivanje
                                         join radnoMjesto in db.RadnaMjesta on rezervacije.RadnoMjestoId equals radnoMjesto.Id
                                         join lokacija in db.Lokacije on radnoMjesto.LokacijaId equals lokacija.Id

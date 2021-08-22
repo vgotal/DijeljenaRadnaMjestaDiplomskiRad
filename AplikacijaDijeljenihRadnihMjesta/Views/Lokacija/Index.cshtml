@@ -29,7 +29,7 @@
         }
         else
         {
-            <h2 class="formTitle" style="text-align:center !important;">Popis lokacija na organizacijskoj jedinici: @orgJedNaziv</h2>
+            <h2 class="formTitle" style="text-align:center !important;">Popis lokacija unutar organizacijske jedinice: @orgJedNaziv</h2>
         }
     </div>
 
@@ -86,7 +86,7 @@
                                 @if ((int)orgJedID != 0)
                                 {
                                     <a asp-controller="Lokacija" asp-route-Id="@obj.Id" asp-route-orgJedID="@orgJedID" onclick="return confirm('Jeste li sigurni da želite obrisati?')" asp-action="Delete" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
-                                    <a asp-controller="RadnoMjesto" asp-route-LokacijaId="@obj.Id" asp-route-orgJedID="@orgJedID" asp-action="Index" class="btn btn-info"><i class="fas fa-info-circle"></i></a>
+                                    <a asp-controller="RadnoMjesto" asp-route-LokacijaId="@obj.Id" asp-route-orgJedID="@orgJedID"  asp-action="Index" class="btn btn-info"><i class="fas fa-info-circle"></i></a>
 
                                 }
                                 else

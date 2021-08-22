@@ -3,6 +3,7 @@ using AplikacijaDijeljenihRadnihMjesta.Models;
 using AplikacijaDijeljenihRadnihMjesta.Models.Paginacija;
 using AplikacijaDijeljenihRadnihMjesta.Models.ViewModel;
 using cloudscribe.Pagination.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -38,29 +39,32 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             return db.Djelatnici.Find(id);
         }
 
-        public void DohvatiZahtjeveZaOdobravanjeSPaginacijom(PaginacijaOdobravanjeZahtjeva model, int pageSize, int pageNumber)
+        public void DohvatiZahtjeveZaOdobravanjeSPaginacijom(PaginacijaOdobravanjeZahtjeva model, int pageSize, int pageNumber, int djelatnikID)
         {
+            int brojZahtjevaAdmin = (from zahtjeviZaOdobravanje in db.RezervacijeOtkazivanje
+                                     join zahtjev in db.Zahtjevi on zahtjeviZaOdobravanje.ZahtjevId equals zahtjev.Id
+                                     join djelatnik in db.Djelatnici on zahtjev.DjelatnikId equals djelatnik.Id
+                                     where zahtjev.DjelatnikId != djelatnikID
+                                     select zahtjeviZaOdobravanje.Id).Count();
             if (model.odobravanjeZahtjeva.Status != null )
             {
-
-                DohvatiZahtjeveZaOdobravanje(model, pageSize, pageNumber);
+                DohvatiZahtjeveZaOdobravanje(model, pageSize, pageNumber, djelatnikID);
                 var result = new PagedResult<RezervacijeOtkazivanjeVM>
                 {
                     Data = model.odobravanjeZahtjeva.RezervacijeOtkazivanje.ToList(),
-                    TotalItems = db.RezervacijeOtkazivanje.Where(z=>z.StatusId.Equals(model.odobravanjeZahtjeva.Status)).Count(),
+                    TotalItems = db.RezervacijeOtkazivanje.Where(z=>z.StatusId.Equals(model.odobravanjeZahtjeva.Status)).Count()-brojZahtjevaAdmin,
                     PageNumber = pageNumber,
                     PageSize = pageSize
                 };
                 model.paginationModel = result;
             }
-
             else
             {
-                model.odobravanjeZahtjeva.RezervacijeOtkazivanje = DohvatiZahtjeveZaOdobravanje( pageSize, pageNumber);
+                model.odobravanjeZahtjeva.RezervacijeOtkazivanje = DohvatiZahtjeveZaOdobravanje( pageSize, pageNumber, djelatnikID);
                 var result = new PagedResult<RezervacijeOtkazivanjeVM>
                 {
                     Data = model.odobravanjeZahtjeva.RezervacijeOtkazivanje.ToList(),
-                    TotalItems = db.RezervacijeOtkazivanje.Count(),
+                    TotalItems = db.RezervacijeOtkazivanje.Count() - brojZahtjevaAdmin,
                     PageNumber = pageNumber,
                     PageSize = pageSize
                 };
@@ -69,13 +73,14 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
           
         }
 
-        public List<RezervacijeOtkazivanjeVM> DohvatiZahtjeveZaOdobravanje( int pageSize, int pageNumber)
+        public List<RezervacijeOtkazivanjeVM> DohvatiZahtjeveZaOdobravanje( int pageSize, int pageNumber, int djelatnikID)
         {
             int ExcludeRecords = (pageSize * pageNumber) - pageSize;
             var zahtjevi= (from zahtjeviZaOdobravanje in db.RezervacijeOtkazivanje
                            join zahtjev in db.Zahtjevi on zahtjeviZaOdobravanje.ZahtjevId equals zahtjev.Id
                            join tip in db.TipoviZahtjeva on zahtjev.TipZahtjevaId equals tip.Id
                            join djelatnik in db.Djelatnici on zahtjev.DjelatnikId equals djelatnik.Id
+                           where zahtjev.DjelatnikId != djelatnikID
                            orderby zahtjeviZaOdobravanje.Datum 
                            select new RezervacijeOtkazivanjeVM()
                            {
@@ -94,15 +99,16 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             return zahtjevi;
         }
 
-        public void DohvatiZahtjeveZaOdobravanje(PaginacijaOdobravanjeZahtjeva zahtjeviOdobravanjeSPaginacijom, int pageSize, int pageNumber)
+        public void DohvatiZahtjeveZaOdobravanje(PaginacijaOdobravanjeZahtjeva zahtjeviOdobravanjeSPaginacijom, int pageSize, int pageNumber, int djelatnikID)
         {
+           
             int ExcludeRecords = (pageSize * pageNumber) - pageSize;
             zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva.RezervacijeOtkazivanje = (from zahtjeviZaOdobravanje in db.RezervacijeOtkazivanje
                             join zahtjev in db.Zahtjevi on zahtjeviZaOdobravanje.ZahtjevId equals zahtjev.Id
                             join tip in db.TipoviZahtjeva on zahtjev.TipZahtjevaId equals tip.Id
                             join djelatnik in db.Djelatnici on zahtjev.DjelatnikId equals djelatnik.Id
                             join status in db.Statusi on zahtjeviZaOdobravanje.StatusId equals status.Id
-                            where status.Id.Equals(zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva.Status)
+                            where status.Id.Equals(zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva.Status) && djelatnik.Id !=djelatnikID
                             orderby zahtjeviZaOdobravanje.Datum
                             select new RezervacijeOtkazivanjeVM()
                             {

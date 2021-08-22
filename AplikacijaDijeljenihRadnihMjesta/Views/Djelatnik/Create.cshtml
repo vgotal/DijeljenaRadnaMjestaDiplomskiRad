@@ -1,13 +1,14 @@
-﻿@model AplikacijaDijeljenihRadnihMjesta.Models.ViewModel.DjelatnikVM
+﻿
+@model AplikacijaDijeljenihRadnihMjesta.Models.ViewModel.DjelatnikVM
 
-    <link rel="stylesheet" type="text/css" href="~/css/Stranica.css" media="screen" 7 />
-
-    <partial name="Upozorenja" view-data="ViewData" />
+<link rel="stylesheet" type="text/css" href="~/css/Stranica.css" media="screen" 7 />
+<partial name="Upozorenja" view-data="ViewData" />
     @{
         ViewData["index"] = "ADMIN";
         var orgJedID = (TempData["OrgJedID"]);
 
     }
+    
     <form method="post" asp-action="Create">
         <div class="card p-3 mt-5" style="margin-top:30px!important;     margin: 0 auto;   max-width: 850px !important; justify-content:center!important;">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>

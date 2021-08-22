@@ -45,7 +45,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
                 zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva.Status = statusi;
             }
             zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva.Statusi = odobravanjeZahtjevaRepository.DohvatiStatuse();
-            odobravanjeZahtjevaRepository.DohvatiZahtjeveZaOdobravanjeSPaginacijom(zahtjeviOdobravanjeSPaginacijom, pageSize, pageNumber);
+            odobravanjeZahtjevaRepository.DohvatiZahtjeveZaOdobravanjeSPaginacijom(zahtjeviOdobravanjeSPaginacijom, pageSize, pageNumber, (int)djelatnikID);
 
             return View(zahtjeviOdobravanjeSPaginacijom);
         }
@@ -90,7 +90,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             {
                 
             }
-            odobravanjeZahtjevaRepository.DohvatiZahtjeveZaOdobravanjeSPaginacijom(zahtjeviOdobravanjeSPaginacijom, pageSize, pageNumber);
+            odobravanjeZahtjevaRepository.DohvatiZahtjeveZaOdobravanjeSPaginacijom(zahtjeviOdobravanjeSPaginacijom, pageSize, pageNumber, (int)djelatnikID);
             zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva.Statusi = odobravanjeZahtjevaRepository.DohvatiStatuse();
 
    

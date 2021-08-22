@@ -7,7 +7,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
 {
     public static class TerminRezervacije
     {
-        public static DateTime AddBusinessDays(this DateTime current, int days)
+        public static DateTime DohvatiRadneDane(this DateTime current, int days)
         {
             var sign = Math.Sign(days);
             var unsignedDays = Math.Abs(days);

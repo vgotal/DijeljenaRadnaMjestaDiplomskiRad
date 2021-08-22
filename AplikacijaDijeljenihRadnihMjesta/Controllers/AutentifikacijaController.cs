@@ -57,8 +57,15 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             public IActionResult Prijava(KorisnickiRacunVM racun)
         {
             ModelState.Clear();
+            if (racun.KorisnickoIme == null || racun.Lozinka == null)
+            {
+                TempData["Info"] =  "Morate unijeti korisničko ime i lozinku!";
+                return View();
+            }
+            else { 
+            
             var id = korisnickiRacunRepository.ProvjeraDjelatnikaPriPrijavi(racun.KorisnickoIme, racun.Lozinka);
-            if ( id != 0)
+            if ( id != 0 )
             {
                
                 HttpContext.Session.SetInt32("DjelatnikID", id);
@@ -81,10 +88,11 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             }
             else
             {
-                ViewBag.error = "Netočno korisničko ime ili lozinka!";
+                    TempData["Neuspješno"] = "Netočno korisničko ime ili lozinka!";
                 return View();
             }
-            
+            }
+          
         }
     }
 }

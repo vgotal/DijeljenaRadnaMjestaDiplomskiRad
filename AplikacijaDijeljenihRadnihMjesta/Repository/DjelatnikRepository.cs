@@ -25,6 +25,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             this.mailServices = mailServices;
         }
 
+
+
         public bool DodajNovogDjelatnika(DjelatnikVM djelatnik)
         {
             var md5 = new MD5CryptoServiceProvider();
@@ -59,7 +61,20 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
               return false;
         }
 
-
+        public DjelatnikVM PopuniFiltereSPodatcima(int? orgJedID, DjelatnikVM noviDjelatnik)
+        {
+            noviDjelatnik.ModeliLaptopa = PopuniListuModeliLaptopa();
+            noviDjelatnik.Uloge = PopuniListuUloga();
+            if (orgJedID != null && orgJedID != 0)
+            {
+                noviDjelatnik.OrganizacijskeJedinice = PopuniListuOrgJedinica((int)orgJedID);
+            }
+            else
+            {
+                noviDjelatnik.OrganizacijskeJedinice = PopuniListuOrgJedinica();
+            }
+            return noviDjelatnik;
+        }
        
 
 

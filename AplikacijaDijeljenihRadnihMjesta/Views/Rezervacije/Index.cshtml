@@ -15,14 +15,11 @@
    
     <form method="post" asp-controller="Rezervacije" asp-action="Index">
         <div class="col-md-12" style="margin-bottom:10px">
-            <select class="form-select"  style="display:inline-block;width:min-content"  asp-for="@Model.Lokacija" asp-items="@Model.Lokacije">
+            <select class="form-select form-filter"  asp-for="@Model.Lokacija" asp-items="@Model.Lokacije">
             </select>
-            <input type="submit" name="command" value="Filtriraj" style="font-size: 1em !important; margin-bottom:5px;margin-left:20px;display:inline-block" class="btn btn-primary"  />
-
+            <input type="submit" value="Filtriraj"  class="btn btn-primary filter"  />
         </div>
     </form>
-
-
 
 
     <form method="post" asp-controller="Rezervacije" asp-action="Index">

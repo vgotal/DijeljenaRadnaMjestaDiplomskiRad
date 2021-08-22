@@ -108,31 +108,20 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             }
                 
         }
-        //GET-CREATE
-            public IActionResult Create(int orgJedID)
-        {
+        [HttpGet]
+         public IActionResult Create(int orgJedID)
+         {
             TempData["OrgJedID"] = orgJedID;
-            var lista = new DjelatnikVM();
-            lista.ModeliLaptopa=djelatnikRepository.PopuniListuModeliLaptopa();
-            lista.Uloge= djelatnikRepository.PopuniListuUloga();
-            if (orgJedID != 0)
-            {
-                lista.OrganizacijskeJedinice=djelatnikRepository.PopuniListuOrgJedinica( orgJedID);
-            }
-            else
-            {
-                lista.OrganizacijskeJedinice = djelatnikRepository.PopuniListuOrgJedinica();
-            }
-            return View(lista);
-        }
+            var djelatnik = new DjelatnikVM();
+            djelatnik = djelatnikRepository.PopuniFiltereSPodatcima(orgJedID, djelatnik);
+            return View(djelatnik);
+         }
 
-        //POST-CREATE
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(DjelatnikVM djelatnik)
         {
             var orgJedID = HttpContext.Session.GetInt32(SessionOrgJedID);
-            
             if (ModelState.IsValid)
             {
                 if (djelatnikRepository.DodajNovogDjelatnika(djelatnik))
@@ -146,18 +135,9 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
                 }
             }
             ModelState.Clear();
-            var lista = new DjelatnikVM();
-            lista.ModeliLaptopa = djelatnikRepository.PopuniListuModeliLaptopa();
-            lista.Uloge = djelatnikRepository.PopuniListuUloga();
-            if (orgJedID != null && orgJedID!=0)
-            {
-                lista.OrganizacijskeJedinice = djelatnikRepository.PopuniListuOrgJedinica((int)orgJedID);
-            }
-            else
-            {
-                lista.OrganizacijskeJedinice = djelatnikRepository.PopuniListuOrgJedinica();
-            }
-            return View(lista);
+            var noviDjelatnik = new DjelatnikVM();
+            noviDjelatnik = djelatnikRepository.PopuniFiltereSPodatcima(orgJedID, noviDjelatnik);
+            return View(noviDjelatnik);
         }
 
         //GET-EDIT
@@ -215,10 +195,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             return View(djelatnik);
         }
 
-
-
-        //GET-DELETE
-        public IActionResult Delete(int id, int? orgJedID) 
+        [HttpPost]
+        public IActionResult Delete(int id, int? orgJedID)
         {
             TempData["OrgJedID"] = orgJedID;
             if (ModelState.IsValid)
@@ -229,10 +207,11 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
                 }
                 else
                 {
-                    TempData["Neuspješno"] = "Neuspješno brisanje djelatnika!"; 
+                    TempData["Neuspješno"] = "Neuspješno brisanje djelatnika!";
                 }
             }
             ModelState.Clear();
+            
             if (TempData["OrgJedID"] != null)
             {
                 return RedirectToAction("Index", new
@@ -242,12 +221,10 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
                 });
             }
             return RedirectToAction("Index");
-           
+
         }
 
-       
-
-      
+     
 
     }
     }

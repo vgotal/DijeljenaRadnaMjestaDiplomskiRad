@@ -73,7 +73,7 @@
                            })
 
                             </td>
-                            @if (Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Komentar != null)
+                            @if (Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Komentar != null || (Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status=="Odobreno") || Model.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Status == "Otkazano")
                             {
                                 <td style=" text-align: center; vertical-align: middle">
                                     @Html.TextAreaFor(m => m.odobravanjeZahtjeva.RezervacijeOtkazivanje[i].Komentar, new
@@ -148,7 +148,7 @@
             </table>
 
             <div class="col-md-12" style="margin-bottom:10px">
-                <input type="submit" style="font-size: 1em !important;float:right" class="btn btn-success" value="Podnesi zahtjev" />
+                <input type="submit" style="font-size: 1em !important;float:right" class="btn btn-success" value="Potvrdi zahtjev" />
             </div>
         }
         else
@@ -158,7 +158,9 @@
         }
     </form>
     <form style="align-content:center" method="post" asp-controller="Zahtjevi" asp-action="Index">
+
         <partial name="_Pagination" view-data="ViewData" model="Model" />
+
     </form>
 
 
