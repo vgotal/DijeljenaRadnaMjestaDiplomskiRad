@@ -100,26 +100,24 @@
                             <a asp-controller="Djelatnik" asp-route-Id="@obj.Id" asp-route-orgJedID="@orgJedID" asp-action="Edit" class="btn btn-primary "><i class="fas fa-edit"></i></a>
                             @*<a asp-controller="Djelatnik" asp-route-Id="@obj.Id" asp-route-orgJedID="@orgJedID" onclick="return confirm('Jeste li sigurni da želite obrisati?')" asp-action="Delete" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>*@
                         <a data-target="#DeleteModal-@obj.Id" data-toggle="modal" class=" btn btn-danger"><i class="fas fa-trash-alt"></i></a>
-                        <form method="post" asp-controller="Djelatnik"asp-route-Id="@obj.Id"  asp-route-orgJedID="@orgJedID" asp-action="Delete">
-                           
+                        <form method="post" asp-action="Delete" asp-controller="Djelatnik" asp-route-Id="@obj.Id"  asp-route-orgJedID="@orgJedID" >
                             <div class="modal" tabindex="-1" role="dialog" id="DeleteModal-@obj.Id">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content" style="margin-top: 30%;">
                                         <div class="modal-header">
                                             <h5 class="modal-title">Potvrdite brisanje djelatnika</h5>
-                                          
                                         </div>
                                         <div class="modal-body">
                                             <p>Jeste li sigurni da želite izbrisati djelatnika/icu: @obj.Ime @obj.Prezime? </p>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">>Ne</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Ne</button>
                                             <button type="submit" class="btn btn-danger">Da</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            </form>
+                        </form>
                            
                             }
 
@@ -138,9 +136,6 @@
 
 
 </div>
-@{
+@*@{
     <partial name="_ValidationScriptsPartial" />
-}
-@section Scripts{
-
-}
+}*@
