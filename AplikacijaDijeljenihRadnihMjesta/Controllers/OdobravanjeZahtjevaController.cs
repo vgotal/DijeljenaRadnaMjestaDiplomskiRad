@@ -18,7 +18,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         private OdobravanjeZahtjevaRepository odobravanjeZahtjevaRepository;
         private MailRequest request = new MailRequest();
         private readonly IMailService mailServices;
-        const string SessionStatus = "_Status";
+        const string SessionStatus = "_Statusi";
         public OdobravanjeZahtjevaController(AppDbContext db, IMailService mailServices)
         {
             this.odobravanjeZahtjevaRepository = new OdobravanjeZahtjevaRepository(db, mailServices);
@@ -27,7 +27,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
 
         public IActionResult Index(int pageNumber = 1, int pageSize = 5)
         {
-            ModelState.Clear();
+            //ModelState.Clear();
             var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
             var djelatnikUloga = odobravanjeZahtjevaRepository.DohvatiDjelatnikovuUlogu((int)djelatnikID);
             if (djelatnikUloga == "Administrator")
@@ -69,8 +69,10 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
                 TempData["uloga"] = "DJELATNIK";
             if (zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva.Status == null)
             {
-                //var statusi = HttpContext.Session.GetInt32(SessionStatus);
+               
                 zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva.Status = null;
+                HttpContext.Session.Clear();
+                HttpContext.Session.SetInt32("DjelatnikID", (int)djelatnikID);
             }
             
             if (zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva == null && zahtjeviOdobravanjeSPaginacijom.paginationModel == null)

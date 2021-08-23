@@ -52,7 +52,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                 var result = new PagedResult<RezervacijeOtkazivanjeVM>
                 {
                     Data = model.odobravanjeZahtjeva.RezervacijeOtkazivanje.ToList(),
-                    TotalItems = db.RezervacijeOtkazivanje.Where(z=>z.StatusId.Equals(model.odobravanjeZahtjeva.Status)).Count()-brojZahtjevaAdmin,
+                    TotalItems = db.RezervacijeOtkazivanje.Where(z => z.StatusId.Equals((int)(model.odobravanjeZahtjeva.Status))).Count()-brojZahtjevaAdmin,
                     PageNumber = pageNumber,
                     PageSize = pageSize
                 };
@@ -60,11 +60,12 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             }
             else
             {
+                var ukupno = db.RezervacijeOtkazivanje.Count();
                 model.odobravanjeZahtjeva.RezervacijeOtkazivanje = DohvatiZahtjeveZaOdobravanje( pageSize, pageNumber, djelatnikID);
                 var result = new PagedResult<RezervacijeOtkazivanjeVM>
                 {
                     Data = model.odobravanjeZahtjeva.RezervacijeOtkazivanje.ToList(),
-                    TotalItems = db.RezervacijeOtkazivanje.Count() - brojZahtjevaAdmin,
+                    TotalItems = ukupno - brojZahtjevaAdmin,
                     PageNumber = pageNumber,
                     PageSize = pageSize
                 };

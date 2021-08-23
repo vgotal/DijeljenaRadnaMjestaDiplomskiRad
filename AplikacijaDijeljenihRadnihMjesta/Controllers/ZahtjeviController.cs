@@ -25,9 +25,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
 
         //[HttpGet]
         public IActionResult Index(int pageNumber = 1, int pageSize = 4)
-        {
-
-            var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
+        {var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
             var djelatnikUloga = pregledZahtjevaRepository.DohvatiDjelatnikovuUlogu((int)djelatnikID);
             if (djelatnikUloga == "Administrator")
             {

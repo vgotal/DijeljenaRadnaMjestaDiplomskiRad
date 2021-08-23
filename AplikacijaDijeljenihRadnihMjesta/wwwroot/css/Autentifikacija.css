@@ -17,7 +17,9 @@ img {
 }
 
 .login_box {
+  
     width: 1050px;
+    overflow-x: auto;
     height: 600px;
     position: absolute;
     top: 50%;

@@ -24,7 +24,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         public IActionResult Pocetna(KorisnickiRacunVM racun)
         {
             ModelState.Clear();
-            
+
             var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
             racun.BrojDjelatnika = korisnickiRacunRepository.DohvatiBrojDjelatnika();
             racun.BrojLaptopa = korisnickiRacunRepository.DohvatiBrojTipovaLaptopa();
@@ -56,43 +56,43 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [HttpPost]
             public IActionResult Prijava(KorisnickiRacunVM racun)
         {
-            ModelState.Clear();
-            if (racun.KorisnickoIme == null || racun.Lozinka == null)
+            //ModelState.Clear();
+            if (ModelState.IsValid)
             {
-                TempData["Info"] =  "Morate unijeti korisničko ime i lozinku!";
-                return View();
-            }
-            else { 
-            
-            var id = korisnickiRacunRepository.ProvjeraDjelatnikaPriPrijavi(racun.KorisnickoIme, racun.Lozinka);
-            if ( id != 0 )
-            {
-               
-                HttpContext.Session.SetInt32("DjelatnikID", id);
-                if (korisnickiRacunRepository.DohvatiUloguDjelatnika(id) == "Administrator")
+
+                var id = korisnickiRacunRepository.ProvjeraDjelatnikaPriPrijavi(racun.KorisnickoIme, racun.Lozinka);
+                if (id != 0)
                 {
-                    racun.DjelatnikId = id;
-                    racun.Uloga = "Administrator";
-                    HttpContext.Session.SetString("Uloga", racun.Uloga);
-                    return RedirectToAction("Pocetna", racun); 
+
+                    HttpContext.Session.SetInt32("DjelatnikID", id);
+                    if (korisnickiRacunRepository.DohvatiUloguDjelatnika(id) == "Administrator")
+                    {
+                        racun.DjelatnikId = id;
+                        racun.Uloga = "Administrator";
+                        HttpContext.Session.SetString("Uloga", racun.Uloga);
+                        return RedirectToAction("Pocetna", racun);
+                    }
+                    else
+                    {
+                        racun.DjelatnikId = id;
+                        racun.Uloga = "Djelatnik";
+                        HttpContext.Session.SetString("Uloga", racun.Uloga);
+                        TempData["index"] = false;
+                        HttpContext.Session.SetString("potvrda", "false");
+                        return RedirectToAction("Index", "Zahtjevi");
+                    }
+
+
                 }
                 else
                 {
-                    racun.DjelatnikId = id;
-                    racun.Uloga = "Djelatnik";
-                    HttpContext.Session.SetString("Uloga", racun.Uloga);
-                    TempData["index"] = false;
-                    HttpContext.Session.SetString("potvrda", "false");
-                    return RedirectToAction("Index","Zahtjevi");
+                    TempData["Neuspješno"] = "Netočno korisničko ime i/ili lozinka! Provjerite svoje podatke";
+                    return View(racun);
                 }
+
             }
-            else
-            {
-                    TempData["Neuspješno"] = "Netočno korisničko ime ili lozinka!";
-                return View();
-            }
-            }
-          
+            else { return View(racun); }
+            
         }
     }
 }

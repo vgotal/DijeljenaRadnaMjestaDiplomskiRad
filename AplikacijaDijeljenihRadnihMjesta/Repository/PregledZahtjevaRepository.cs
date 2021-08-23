@@ -61,7 +61,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                             var result = new PagedResult<ZahtjevVM>
                             {
                                 Data = model.Zahtjevi.ToList(),
-                                TotalItems = db.Zahtjevi.Where(z => z.Datum >= (DateTime)model.PocetniDatum && z.Datum <= (DateTime)model.KrajnjiDatum && z.TipZahtjevaId.Equals((int)model.TipZahtjeva)).Count(),
+                                TotalItems = db.Zahtjevi.Where(z => z.Datum >= (DateTime)model.PocetniDatum && z.Datum <= (DateTime)model.KrajnjiDatum && z.TipZahtjevaId.Equals((int)model.TipZahtjeva) && z.DjelatnikId.Equals(djelatnikID)).Count(),
                                 PageNumber = pageNumber,
                                 PageSize = pageSize
                             };
@@ -81,7 +81,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                             var result = new PagedResult<ZahtjevVM>
                             {
                                 Data = model.Zahtjevi.ToList(),
-                                TotalItems = db.Zahtjevi.Where(z => z.Datum >= (DateTime)model.PocetniDatum && z.Datum <= (DateTime)model.KrajnjiDatum).Count(),
+                                TotalItems = db.Zahtjevi.Where(z => z.Datum >= (DateTime)model.PocetniDatum && z.Datum <= (DateTime)model.KrajnjiDatum && z.DjelatnikId.Equals(djelatnikID)).Count(),
                                 PageNumber = pageNumber,
                                 PageSize = pageSize
                             };
@@ -95,7 +95,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                         var result = new PagedResult<ZahtjevVM>
                         {
                             Data = model.Zahtjevi.ToList(),
-                            TotalItems = db.Zahtjevi.Where(t => t.TipZahtjevaId.Equals((int)model.TipZahtjeva)).Count(),
+                            TotalItems = db.Zahtjevi.Where(t => t.TipZahtjevaId.Equals((int)model.TipZahtjeva) && t.DjelatnikId.Equals(djelatnikID)).Count(),
                             PageNumber = pageNumber,
                             PageSize = pageSize
                         };
