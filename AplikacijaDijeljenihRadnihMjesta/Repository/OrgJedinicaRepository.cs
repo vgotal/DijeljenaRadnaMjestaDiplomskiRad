@@ -31,12 +31,12 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
 
         public int DohvatiBrojDjelatnika(int orgJedID)
         {
-            var brojDjelatnika = db.Djelatnici.Where(d => d.OrgJedinicaId.Equals(orgJedID)).ToList().Count;
+            var brojDjelatnika = db.Djelatnici.Where(d => d.OrgJedinicaId.Equals(orgJedID)).Count();
             return brojDjelatnika;
         }
         public int DohvatiBrojLokacija(int orgJedID)
         {
-            var listaLokacija = db.LokacijaOrganizacijskaJedinicas.Where(l => l.OrganizacijskeJediniceId.Equals(orgJedID)).ToList().Count;
+            var listaLokacija = db.LokacijaOrganizacijskaJedinicas.Where(l => l.OrganizacijskeJediniceId.Equals(orgJedID)).Count();
             return listaLokacija;
         }
 
