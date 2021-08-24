@@ -28,7 +28,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             {
                 //brojDjelatnika = DohvatiBrojDjelatnika(jedinica.Id);
                 brojLokacija = DohvatiBrojLokacija(jedinica.Id);
-                orgJedinice.Add(new OrgJedinicaVM { Id = jedinica.Id, Naziv = jedinica.Naziv, BrojDjelatnika = 0, BrojLokacija = brojLokacija });
+                orgJedinice.Add(new OrgJedinicaVM { Id = jedinica.Id, Naziv = jedinica.Naziv, BrojDjelatnika = 0, BrojLokacija = 0 });
             }
             return orgJedinice;
         }
