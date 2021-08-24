@@ -33,7 +33,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             //    Console.Write("Error info:" + ex.Message);
             //    return View()
             //}
-            return View();
+            return View(orgJedinicaRepository.DohvatiPopisOrgJedinica());
         }
 
         //GET-CREATE
