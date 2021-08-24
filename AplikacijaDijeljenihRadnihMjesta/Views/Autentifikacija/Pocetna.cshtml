@@ -17,11 +17,11 @@
 
 <div class="row homeRow">
     <div class="row homeRow">
+       
         <div class="col-md-3 homeCard">
             <form method="get" asp-controller="Djelatnik" asp-action="Index">
                 <a class="data-card">
                     <h3>Djelatnici</h3>
-                    @*<h4>UKUPNO PREUZIMANJA</h4>*@
                     <p>Ukupan broj djelatnika u poduzeću: @Model.BrojDjelatnika</p>
                     <label class="link-text">
                         <input type="submit" style="background: transparent;border: none;" value="Prikaži više" />
@@ -37,7 +37,6 @@
             <form method="get" asp-controller="TipLaptopa" asp-action="Index">
                 <a class="data-card">
                     <h3>Tipovi laptopa</h3>
-                    @*<h4>UKUPNO PREUZIMANJA</h4>*@
                     <p>Ukupan broj različitih laptopa u poduzeću: @Model.BrojLaptopa</p>
                     <label class="link-text">
                         <input type="submit" style="background: transparent;border: none;" value="Prikaži više" />
@@ -53,7 +52,6 @@
             <form method="get" asp-controller="RadnoMjesto" asp-action="Index">
                 <a class="data-card">
                     <h3>Radna mjesta</h3>
-                    @*<h4>UKUPNO PREUZIMANJA</h4>*@
                     <p>Ukupan broj radnih mjesta u poduzeću: @Model.BrojRadnihMjesta</p>
                     <label class="link-text">
                         <input type="submit" style="background: transparent;border: none;" value="Prikaži više" />
@@ -69,7 +67,6 @@
             <form method="get" asp-controller="Grad" asp-action="Index">
                 <a class="data-card">
                     <h3>Gradovi</h3>
-                    @*<h4>UKUPNO PREUZIMANJA</h4>*@
                     <p>Ukupan broj gradova gdje se nalaze podružnice tvrtke: @Model.Gradovi</p>
                     <label class="link-text">
                         <input type="submit" style="background: transparent;border: none;" value="Prikaži više" />
@@ -85,7 +82,6 @@
             <form method="get" asp-controller="Lokacija" asp-action="Index">
                 <a class="data-card">
                     <h3>Lokacije</h3>
-                    @*<h4>UKUPNO PREUZIMANJA</h4>*@
                     <p>Ukupan broj radnih mjesta u poduzeću: @Model.Lokacije</p>
                     <label class="link-text">
                         <input type="submit" style="background: transparent;border: none;" value="Prikaži više" />
@@ -101,7 +97,6 @@
             <form method="get" asp-controller="OrganizacijskaJedinica" asp-action="Index">
                 <a class="data-card">
                     <h3>Organizacijske jedinice</h3>
-                    @*<h4>UKUPNO PREUZIMANJA</h4>*@
                     <p>Ukupan broj organizacijskih jedinica u poduzeću: @Model.OrganizacijskeJedinice</p>
                     <label class="link-text">
                         <input type="submit" style="background: transparent;border: none;" value="Prikaži više" />

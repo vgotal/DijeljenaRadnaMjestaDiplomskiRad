@@ -23,7 +23,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
        
         public IActionResult Pocetna(KorisnickiRacunVM racun)
         {
-            ModelState.Clear();
+            //ModelState.Clear();
 
             var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
             racun.BrojDjelatnika = korisnickiRacunRepository.DohvatiBrojDjelatnika();
