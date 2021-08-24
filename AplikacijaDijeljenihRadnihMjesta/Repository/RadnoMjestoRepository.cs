@@ -150,7 +150,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                   Adresa = radnoMjesto.Lokacija.Adresa,
                                   Grad=radnoMjesto.Lokacija.Grad.Naziv
                               }
-                              ).ToList();
+                              ).Skip(ExcludeRecords).Take(pageSize).ToList();
             var tipoviLaptopa = DohvatiTipoveLaptopa();
             var radnoMjestoFilter = new RadnoMjestoFilter
             {
@@ -171,6 +171,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
 
         public PaginacijaRadnoMjesto DohvatiListuRadnihMjesta_LokacijiDI_TipoviLaptopa(PaginacijaRadnoMjesto pRadnaMjesta, int lokacijaID, int tipLaptopaID, int pageSize, int pageNumber)
         {
+            int ExcludeRecords = (pageSize * pageNumber) - pageSize;
             var radnaMjesta = (from radnoMjesto in db.RadnaMjesta
                                join tipLaptopa in db.TipoviLaptopa on radnoMjesto.TipLaptopaId equals tipLaptopa.Id
                                join lokacija in db.Lokacije on radnoMjesto.LokacijaId equals lokacija.Id
@@ -184,7 +185,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                    Adresa = radnoMjesto.Lokacija.Adresa,
                                    Grad = radnoMjesto.Lokacija.Grad.Naziv
                                }
-                              ).ToList();
+                              ).Skip(ExcludeRecords).Take(pageSize).ToList();
             var tipoviLaptopa = DohvatiTipoveLaptopa();
             var radnoMjestoFilter = new RadnoMjestoFilter
             {
@@ -204,6 +205,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         }
         public PaginacijaRadnoMjesto DohvatiListuRadnihMjestailtriranihPoTipuLaptopa(PaginacijaRadnoMjesto pRadnaMjesta, int tiplaptopaID, int pageSize, int pageNumber)
         {
+            int ExcludeRecords = (pageSize * pageNumber) - pageSize;
             var radnaMjesta = (from radnoMjesto in db.RadnaMjesta
                                join tipLaptopa in db.TipoviLaptopa on radnoMjesto.TipLaptopaId equals tipLaptopa.Id
                                join lokacija in db.Lokacije on radnoMjesto.LokacijaId equals lokacija.Id
@@ -217,7 +219,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                    Adresa = radnoMjesto.Lokacija.Adresa,
                                    Grad = radnoMjesto.Lokacija.Grad.Naziv
                                }
-                              ).ToList();
+                              ).Skip(ExcludeRecords).Take(pageSize).ToList();
             var tipoviLaptopa = DohvatiTipoveLaptopa();
             var radnoMjestoFilter = new RadnoMjestoFilter
             {
@@ -238,6 +240,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
 
         public PaginacijaRadnoMjesto DohvatiListuRadnihMjesta(PaginacijaRadnoMjesto pRadnaMjesta, int pageSize, int pageNumber)
         {
+            int ExcludeRecords = (pageSize * pageNumber) - pageSize;
             var radnaMjesta = (from radnoMjesto in db.RadnaMjesta
                                join tipLaptopa in db.TipoviLaptopa on radnoMjesto.TipLaptopaId equals tipLaptopa.Id
                                join lokacija in db.Lokacije on radnoMjesto.LokacijaId equals lokacija.Id
@@ -250,7 +253,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                    Adresa = radnoMjesto.Lokacija.Adresa,
                                    Grad = radnoMjesto.Lokacija.Grad.Naziv
                                }
-                              ).ToList();
+                              ).Skip(ExcludeRecords).Take(pageSize).ToList();
             var tipoviLaptopa = DohvatiTipoveLaptopa();
             var radnoMjestoFilter = new RadnoMjestoFilter
             {

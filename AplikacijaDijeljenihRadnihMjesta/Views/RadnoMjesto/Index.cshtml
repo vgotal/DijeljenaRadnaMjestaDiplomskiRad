@@ -43,7 +43,7 @@
         }
         else
         {
-            <h2 class="formTitle" style="text-align:center !important;">Popis radnih mjesta na lokaciji: </h2>
+            <h2 class="formTitle" style="text-align:center !important;">Popis radnih mjesta na lokaciji </h2>
         }
     </div>
     <form method="post" asp-controller="RadnoMjesto" asp-route-lokacijaID="@lokacijaID" asp-route-tipLaptopaID="@Model.radnoMjestoFilter.TipLaptopaID" asp-action="Index">
@@ -96,7 +96,25 @@
                         <td class="text-center">
                             <div class="h-25 btn-group" role="group">
                                 <a asp-controller="RadnoMjesto" asp-route-orgJedID="@orgJedID" asp-route-lokacijaID="@lokacijaID" asp-route-Sifra="@obj.Sifra" asp-action="Edit" class="btn btn-primary "><i class="fas fa-edit"></i></a>
-                                <a asp-controller="RadnoMjesto" asp-route-Sifra="@obj.Sifra" asp-route-lokacijaID="@lokacijaID" onclick="return confirm('Jeste li sigurni da želite obrisati?')" asp-action="Delete" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                <a data-target="#DeleteModal-@obj.Id" data-toggle="modal" class=" btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                <form method="post" asp-action="Delete" asp-controller="Grad"  asp-route-Sifra="@obj.Sifra" asp-route-lokacijaID="@lokacijaID" >
+                                    <div class="modal" tabindex="-1" role="dialog" id="DeleteModal-@obj.Sifra">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content" style="margin-top: 30%;">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Potvrdite brisanje radnog mjesta</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Jeste li sigurni da želite obrisati radno mjesto pod šifrom: @obj.Sifra? </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Ne</button>
+                                                    <button type="submit" class="btn btn-danger">Da</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
 
                             </div>
                         </td>

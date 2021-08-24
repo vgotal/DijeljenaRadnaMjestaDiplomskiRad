@@ -80,6 +80,45 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
 
         public PaginacijaDjelatnik DohvatiListuDjelatnika(PaginacijaDjelatnik pDjelatnici, int pageSize, int pageNumber)
         {
+            if (pDjelatnici.djelatnikFilter.Uloga != null)
+            {
+                int ExcludeRecords = (pageSize * pageNumber) - pageSize;
+                var djelatnici = (from djelatnik in db.Djelatnici
+                                  join orgJedinica in db.OrganizacijskeJedinice on djelatnik.OrgJedinicaId equals orgJedinica.Id
+                                  join tipLaptopa in db.TipoviLaptopa on djelatnik.TipLaptopaId equals tipLaptopa.Id
+                                  join uloga in db.Uloge on djelatnik.UlogaID equals uloga.Id
+                                  where djelatnik.UlogaID.Equals(pDjelatnici.djelatnikFilter.Uloga)
+                                  select new DjelatnikVM()
+                                  {
+                                      Id = djelatnik.Id,
+                                      MBR = djelatnik.MBR,
+                                      Ime = djelatnik.Ime,
+                                      Prezime = djelatnik.Prezime,
+                                      Email = djelatnik.Email,
+                                      OrganizacijskaJedinica = djelatnik.OrgJedinica.Naziv,
+                                      TipLaptopa = djelatnik.TipLaptopa.Model,
+                                      Uloga = djelatnik.Uloga.Naziv
+                                  }
+                                 ).Skip(ExcludeRecords).Take(pageSize).ToList();
+                var uloge = DohvatiUlogeDjelatnika();
+                var djelatnikFilter = new DjelatnikFilter
+                {
+                    ListaDjelatnika = djelatnici,
+                    ListaUloga = uloge
+                };
+                var result = new PagedResult<DjelatnikVM>
+                {
+                    Data = djelatnici.ToList(),
+                    TotalItems = db.Djelatnici.Where(d => d.UlogaID.Equals(pDjelatnici.djelatnikFilter.Uloga)).Count(),
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
+                };
+                pDjelatnici.paginationModel = result;
+                pDjelatnici.djelatnikFilter = djelatnikFilter;
+                return pDjelatnici;
+            }
+            else { 
+           
             int ExcludeRecords = (pageSize * pageNumber) - pageSize;
             var djelatnici = (from djelatnik in db.Djelatnici
                               join orgJedinica in db.OrganizacijskeJedinice on djelatnik.OrgJedinicaId equals orgJedinica.Id
@@ -113,6 +152,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             pDjelatnici.paginationModel = result;
             pDjelatnici.djelatnikFilter = djelatnikFilter;
             return pDjelatnici;
+            }
         }
         public PaginacijaDjelatnik DohvatiListuDjelatnikaFiltriranuPoUlozi(PaginacijaDjelatnik pDjelatnici, int ulogaID, int pageSize, int pageNumber)
         {

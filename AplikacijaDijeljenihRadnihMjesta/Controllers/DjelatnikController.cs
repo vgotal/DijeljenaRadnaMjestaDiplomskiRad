@@ -29,12 +29,13 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         {
             var djelatniciSPaginacijom = new PaginacijaDjelatnik();
             djelatniciSPaginacijom.djelatnikFilter = new DjelatnikFilter();
+            var uloga=0;
             HttpContext.Session.SetInt32(SessionOrgJedID, 0);
             if (orgJedID != 0 && orgJedID != null)
             {
-                if (HttpContext.Session.GetInt32(SessionUlogaDjelatnika) != null)
+                if (HttpContext.Session.GetInt32(SessionUlogaDjelatnika) != null && HttpContext.Session.GetInt32(SessionUlogaDjelatnika)!=0)
                 {
-                    var uloga = HttpContext.Session.GetInt32(SessionUlogaDjelatnika);
+                    uloga = (int)HttpContext.Session.GetInt32(SessionUlogaDjelatnika);
                     djelatniciSPaginacijom.djelatnikFilter.Uloga = uloga;
                 }
 
@@ -48,15 +49,20 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             }
             else
             {
-                if (HttpContext.Session.GetInt32(SessionUlogaDjelatnika) != null)
+                if (HttpContext.Session.GetInt32(SessionUlogaDjelatnika) != null && HttpContext.Session.GetInt32(SessionUlogaDjelatnika) != 0)
                 {
-                    var uloga = HttpContext.Session.GetInt32(SessionUlogaDjelatnika);
+                    uloga = (int)HttpContext.Session.GetInt32(SessionUlogaDjelatnika);
                     djelatniciSPaginacijom.djelatnikFilter.Uloga = uloga;
                 }
                 TempData["OrgJedID"] = null;
                
                 djelatniciSPaginacijom = djelatnikRepository.DohvatiListuDjelatnika(djelatniciSPaginacijom, pageSize, pageNumber);
                 djelatniciSPaginacijom.djelatnikFilter.ListaUloga = djelatnikRepository.DohvatiUlogeDjelatnika();
+                if (uloga != 0)
+                {
+                    djelatniciSPaginacijom.djelatnikFilter.Uloga = uloga;
+                }
+               
                 return View(djelatniciSPaginacijom);
             }
             
@@ -104,6 +110,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             else
             {
                 paginacijaDjelatnik = djelatnikRepository.DohvatiListuDjelatnika(paginacijaDjelatnik, pageSize, pageNumber);
+                paginacijaDjelatnik.djelatnikFilter.Uloga = null;
+                HttpContext.Session.SetInt32(SessionUlogaDjelatnika, 0);
                 return View(paginacijaDjelatnik);
             }
                 

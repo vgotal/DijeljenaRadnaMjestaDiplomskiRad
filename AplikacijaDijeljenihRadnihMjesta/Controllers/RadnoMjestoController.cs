@@ -26,27 +26,52 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             var radnaMjestaSPaginacijom = new PaginacijaRadnoMjesto();
             radnaMjestaSPaginacijom.radnoMjestoFilter = new RadnoMjestoFilter();
             TempData["LokacijaID"] = LokacijaId;
-            HttpContext.Session.SetInt32(SessionLokacija,(int)LokacijaId);
+            var modelLaptopa = 0;
+            HttpContext.Session.SetInt32(SessionLokacija, (int)LokacijaId);
             if (orgJedID != null && orgJedID != 0)
             {
-                if (HttpContext.Session.GetInt32(SessionModelLaptopa) != null)
+                if (HttpContext.Session.GetInt32(SessionModelLaptopa) != null && HttpContext.Session.GetInt32(SessionModelLaptopa) != 0)
                 {
-                    var modelLaptopa = HttpContext.Session.GetInt32(SessionModelLaptopa);
+                    modelLaptopa = (int)HttpContext.Session.GetInt32(SessionModelLaptopa);
                     radnaMjestaSPaginacijom.radnoMjestoFilter.TipLaptopaID = (int)modelLaptopa;
                 }
 
                 HttpContext.Session.SetInt32(SessionOrgJedID, (int)orgJedID);
                 TempData["OrgJedID"] = orgJedID;
             }
-            ModelState.Clear();
+
             if (LokacijaId != 0)
             {
-                radnaMjestaSPaginacijom = radnoMjestoRepository.DohvatiListuRadnihMjestapoLokacijiDI(radnaMjestaSPaginacijom, (int)LokacijaId, pageSize, pageNumber);
-             }
+                if (HttpContext.Session.GetInt32(SessionModelLaptopa) != null && HttpContext.Session.GetInt32(SessionModelLaptopa) != 0)
+                {
+                    modelLaptopa = (int)HttpContext.Session.GetInt32(SessionModelLaptopa);
+                    radnaMjestaSPaginacijom.radnoMjestoFilter.TipLaptopaID = (int)modelLaptopa;
+                }
+                if (modelLaptopa != 0)
+                {
+                    radnaMjestaSPaginacijom = radnoMjestoRepository.DohvatiListuRadnihMjesta_LokacijiDI_TipoviLaptopa(radnaMjestaSPaginacijom, (int)LokacijaId, (int)modelLaptopa, pageSize, pageNumber);
+                }
+                else
+                    radnaMjestaSPaginacijom = radnoMjestoRepository.DohvatiListuRadnihMjestapoLokacijiDI(radnaMjestaSPaginacijom, (int)LokacijaId, pageSize, pageNumber);
+            }
 
             else
             {
-                radnaMjestaSPaginacijom = radnoMjestoRepository.DohvatiListuRadnihMjesta(radnaMjestaSPaginacijom, pageSize, pageNumber);
+                if (HttpContext.Session.GetInt32(SessionModelLaptopa) != null && HttpContext.Session.GetInt32(SessionModelLaptopa) != 0)
+                {
+                    modelLaptopa = (int)HttpContext.Session.GetInt32(SessionModelLaptopa);
+                    radnaMjestaSPaginacijom.radnoMjestoFilter.TipLaptopaID = (int)modelLaptopa;
+                }
+                if (modelLaptopa != 0)
+                {
+                    radnaMjestaSPaginacijom = radnoMjestoRepository.DohvatiListuRadnihMjestailtriranihPoTipuLaptopa(radnaMjestaSPaginacijom, (int)modelLaptopa, pageSize, pageNumber);
+                }
+                else
+                    radnaMjestaSPaginacijom = radnoMjestoRepository.DohvatiListuRadnihMjesta(radnaMjestaSPaginacijom, pageSize, pageNumber);
+            }
+            if (modelLaptopa != 0)
+            {
+                radnaMjestaSPaginacijom.radnoMjestoFilter.TipLaptopaID = (int)modelLaptopa;
             }
                 return View(radnaMjestaSPaginacijom);
         }
@@ -57,6 +82,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             if (lokacijaID != 0 && radnaMjestaSPaginacijom.radnoMjestoFilter.TipLaptopaID == 0)
             {
                 HttpContext.Session.SetInt32(SessionLokacija, (int)lokacijaID);
+                HttpContext.Session.SetInt32(SessionModelLaptopa, 0);
                 TempData["LokacijaID"] = lokacijaID;
                 TempData["AdresaLokacije"] = radnoMjestoRepository.DohvatiAdresuLokacije((int)lokacijaID);
                 radnaMjestaSPaginacijom = radnoMjestoRepository.DohvatiListuRadnihMjestapoLokacijiDI(radnaMjestaSPaginacijom, (int)lokacijaID, pageSize, pageNumber);
@@ -66,20 +92,27 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             }
             else if (lokacijaID == 0 && radnaMjestaSPaginacijom.radnoMjestoFilter.TipLaptopaID!=0)
             {
+                var tip = radnaMjestaSPaginacijom.radnoMjestoFilter.TipLaptopaID;
+                HttpContext.Session.SetInt32(SessionModelLaptopa, radnaMjestaSPaginacijom.radnoMjestoFilter.TipLaptopaID);
                 radnaMjestaSPaginacijom = radnoMjestoRepository.DohvatiListuRadnihMjestailtriranihPoTipuLaptopa(radnaMjestaSPaginacijom, (int)tipLaptopaID, pageSize, pageNumber);
+                radnaMjestaSPaginacijom.radnoMjestoFilter.TipLaptopaID = tip;
                 return View(radnaMjestaSPaginacijom);
             }
             else if (lokacijaID != 0 && radnaMjestaSPaginacijom.radnoMjestoFilter.TipLaptopaID != 0)
             {
+                HttpContext.Session.SetInt32(SessionModelLaptopa, radnaMjestaSPaginacijom.radnoMjestoFilter.TipLaptopaID);
                 TempData["LokacijaID"] = lokacijaID;
                 TempData["OrgJedID"] = HttpContext.Session.GetInt32(SessionOrgJedID);
                 TempData["AdresaLokacije"] = radnoMjestoRepository.DohvatiAdresuLokacije((int)lokacijaID);
                 radnaMjestaSPaginacijom = radnoMjestoRepository.DohvatiListuRadnihMjesta_LokacijiDI_TipoviLaptopa(radnaMjestaSPaginacijom, (int)lokacijaID, (int)tipLaptopaID, pageSize, pageNumber);
+                radnaMjestaSPaginacijom.radnoMjestoFilter.TipLaptopaID = radnaMjestaSPaginacijom.radnoMjestoFilter.TipLaptopaID;
                 return View(radnaMjestaSPaginacijom);
             }
             else
             {
+                HttpContext.Session.SetInt32(SessionModelLaptopa, 0);
                 radnaMjestaSPaginacijom = radnoMjestoRepository.DohvatiListuRadnihMjesta(radnaMjestaSPaginacijom, pageSize, pageNumber);
+                radnaMjestaSPaginacijom.radnoMjestoFilter.TipLaptopaID = 0;
                 return View(radnaMjestaSPaginacijom);
             }
                 
