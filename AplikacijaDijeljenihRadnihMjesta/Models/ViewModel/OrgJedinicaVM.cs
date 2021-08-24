@@ -19,18 +19,18 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models.ViewModel
             get; set;
         }
 
-        public string Lokacija
-        {
-            get; set;
-        }
-        public List<SelectListItem> Lokacije
-        {
-            set; get;
-        }
-        public List<SelectListItem> Djelatnici
-        {
-            set; get;
-        }
+        //public string Lokacija
+        //{
+        //    get; set;
+        //}
+        //public List<SelectListItem> Lokacije
+        //{
+        //    set; get;
+        //}
+        //public List<SelectListItem> Djelatnici
+        //{
+        //    set; get;
+        //}
 
         public int BrojDjelatnika
         {
