@@ -21,12 +21,13 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         {
             List<OrgJedinicaVM> orgJedinice = new List<OrgJedinicaVM>();
             var sveOrgJedinice = db.OrganizacijskeJedinice.ToList();
+            var brojLokacija = 0;
+           
 
             foreach (var jedinica in sveOrgJedinice)
             {
-                var brojDjelatnika = DohvatiBrojDjelatnika(jedinica.Id);
-                var brojLokacija = DohvatiBrojLokacija(jedinica.Id);
-                orgJedinice.Add(new OrgJedinicaVM { Id = jedinica.Id, Naziv = jedinica.Naziv, BrojDjelatnika = brojDjelatnika, BrojLokacija = 0 });
+                brojLokacija = DohvatiBrojLokacija(jedinica.Id);
+                orgJedinice.Add(new OrgJedinicaVM { Id = jedinica.Id, Naziv = jedinica.Naziv, BrojDjelatnika = DohvatiBrojDjelatnika(jedinica.Id), BrojLokacija = brojLokacija });
             }
             return orgJedinice;
         }
