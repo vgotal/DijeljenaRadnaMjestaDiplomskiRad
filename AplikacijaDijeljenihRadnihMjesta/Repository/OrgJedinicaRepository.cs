@@ -21,21 +21,22 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         {
             List<OrgJedinicaVM> orgJedinice = new List<OrgJedinicaVM>();
             var sveOrgJedinice = db.OrganizacijskeJedinice;
+            
             foreach (var jedinica in sveOrgJedinice)
             {
-                orgJedinice.Add(new OrgJedinicaVM { Id = jedinica.Id, Naziv = jedinica.Naziv, BrojDjelatnika = DohvatiBrojDjelatnika(jedinica.Id).Count(), BrojLokacija = DohvatiBrojLokacija(jedinica.Id).Count() });
+                orgJedinice.Add(new OrgJedinicaVM { Id = jedinica.Id, Naziv = jedinica.Naziv, BrojDjelatnika = DohvatiBrojDjelatnika(jedinica.Id), BrojLokacija = DohvatiBrojLokacija(jedinica.Id) });
             }
             return orgJedinice;
         }
 
-        public List<Djelatnik> DohvatiBrojDjelatnika(int orgJedID)
+        public int DohvatiBrojDjelatnika(int orgJedID)
         {
-            var brojDjelatnika = db.Djelatnici.Where(d => d.OrgJedinicaId.Equals(orgJedID)).ToList();
+            var brojDjelatnika = db.Djelatnici.Where(d => d.OrgJedinicaId.Equals(orgJedID)).ToList().Count();
             return brojDjelatnika;
         }
-        public List<LokacijaOrganizacijskaJedinica> DohvatiBrojLokacija(int orgJedID)
+        public int DohvatiBrojLokacija(int orgJedID)
         {
-            var listaLokacija = db.LokacijaOrganizacijskaJedinicas.Where(l => l.OrganizacijskeJediniceId.Equals(orgJedID)).ToList();
+            var listaLokacija = db.LokacijaOrganizacijskaJedinicas.Where(l => l.OrganizacijskeJediniceId.Equals(orgJedID)).ToList().Count();
             return listaLokacija;
         }
 
