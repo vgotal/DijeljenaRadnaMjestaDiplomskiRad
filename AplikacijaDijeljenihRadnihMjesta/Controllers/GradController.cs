@@ -8,7 +8,6 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
     public class GradController : Controller
     {
         private GradRepository gradRepository;
-        private KorisnickiRacunRepository korisnickiRacunRepository;
         const string SessionGrad = "_GradID";
 
         public GradController(AppDbContext db)

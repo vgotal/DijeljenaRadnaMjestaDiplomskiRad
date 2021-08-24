@@ -23,7 +23,16 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View(orgJedinicaRepository.DohvatiPopisOrgJedinica());
+            try
+            {
+                return View(orgJedinicaRepository.DohvatiPopisOrgJedinica());
+            }
+            catch (Exception ex)
+            {
+                Console.Write("Error info:" + ex.Message);
+                return View();
+            }
+            
         }
 
         //GET-CREATE

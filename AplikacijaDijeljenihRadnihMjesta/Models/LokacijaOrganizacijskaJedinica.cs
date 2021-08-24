@@ -8,12 +8,12 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models
 {
     public class LokacijaOrganizacijskaJedinica
     {
-      
+     
         public int LokacijeId
         {
             get; set;
         }
-       
+    
         public int OrganizacijskeJediniceId
         {
             get; set;

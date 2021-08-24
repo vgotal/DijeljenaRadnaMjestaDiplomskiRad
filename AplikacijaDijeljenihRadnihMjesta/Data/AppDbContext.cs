@@ -88,5 +88,6 @@ namespace AplikacijaDijeljenihRadnihMjesta.Data
             get; set;
         }
 
+      
     }
 }
