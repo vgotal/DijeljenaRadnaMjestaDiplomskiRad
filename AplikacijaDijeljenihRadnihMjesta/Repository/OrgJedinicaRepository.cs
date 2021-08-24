@@ -20,20 +20,24 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         public List<OrgJedinicaVM> DohvatiPopisOrgJedinica()
         {
             List<OrgJedinicaVM> orgJedinice = new List<OrgJedinicaVM>();
-            var sveOrgJedinice = db.OrganizacijskeJedinice;
-            var brojDjelatnika = 0;
-            var brojLokacija = 0;
-            
+            var sveOrgJedinice = db.OrganizacijskeJedinice.ToList();
+
             foreach (var jedinica in sveOrgJedinice)
             {
-                //brojDjelatnika = DohvatiBrojDjelatnika(jedinica.Id);
-                //brojLokacija = DohvatiBrojLokacija(jedinica.Id);
-                orgJedinice.Add(new OrgJedinicaVM { Id = jedinica.Id, Naziv = jedinica.Naziv, BrojDjelatnika = 0, BrojLokacija = 0 });
+                var brojDjelatnika = DohvatiBrojDjelatnika(jedinica.Id);
+                var brojLokacija = DohvatiBrojLokacija(jedinica.Id);
+                orgJedinice.Add(new OrgJedinicaVM { Id = jedinica.Id, Naziv = jedinica.Naziv, BrojDjelatnika = brojDjelatnika, BrojLokacija = 0 });
             }
             return orgJedinice;
         }
 
-  
+        //public List<OrgJedinicaVM> DohvatiOrgJed()
+        //{
+            
+
+        //    var brojDjelatnika = db.Djelatnici.Where(d => d.OrgJedinicaId.Equals(orgJedID)).Count();
+        //    return brojDjelatnika;
+        //}
 
         public int DohvatiBrojDjelatnika(int orgJedID)
         {
