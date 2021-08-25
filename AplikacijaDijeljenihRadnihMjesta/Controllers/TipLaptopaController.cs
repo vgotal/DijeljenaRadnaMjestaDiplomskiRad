@@ -92,8 +92,17 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             }
             else
             {
-                tipLaptopaRepository.IzbrisiTipLaptopa((int)id);
-                return RedirectToAction("Index");
+
+                if (tipLaptopaRepository.IzbrisiTipLaptopa((int)id))
+                {
+                    TempData["Uspješno"] = "Uspješno pbrisanje modela laptopa!";
+                }
+                else {
+                    TempData["Neuspješno"] = "Neuspješna brisanje modela jer postoje djelatnici koji ga koriste, dodijelite im drugi model laptopa pa onda obrišite!";
+                    
+                }
+                return Content("Neuspješna brisanje modela");
+                //return RedirectToAction("Index");
             }
         }
 

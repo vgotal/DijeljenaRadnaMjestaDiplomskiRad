@@ -38,14 +38,22 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             return tipoviLaptopa;
         }
 
-        public void IzbrisiTipLaptopa(int Id)
+        public bool IzbrisiTipLaptopa(int Id)
         {
                 var tip = db.TipoviLaptopa.Find(Id);
                 if (tip != null)
                 {
-                   db.TipoviLaptopa.Remove(tip);
-                   db.SaveChanges();
+                if (db.Djelatnici.Where(d => d.TipLaptopaId.Equals(tip.Id)).Count() == 0)
+                {
+                    db.TipoviLaptopa.Remove(tip);
+                    db.SaveChanges();
+                    return true;
+                }
+                else {
+                    return false;
+                }
                  }
+            return false;
         }
 
         public TipLaptopa DohvatiTipLaptopaPoId(int? Id)

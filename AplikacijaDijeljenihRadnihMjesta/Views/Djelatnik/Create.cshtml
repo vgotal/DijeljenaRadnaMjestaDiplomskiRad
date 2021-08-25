@@ -65,14 +65,14 @@
                             <label asp-for="KorisnickoIme">Korisničko ime</label>
                         </div>
                         <div class="col-8 colInput">
-                            <input asp-for="KorisnickoIme" class="form-control" />
+                            <input  asp-for="KorisnickoIme" class="form-control" />
                             <span asp-validation-for="KorisnickoIme" class="text-danger"></span>
                         </div>
                         <div class="col-4 colLabel">
                             <label asp-for="Lozinka"></label>
                         </div>
                         <div class="col-8 colInput">
-                            <input asp-for="Lozinka" class="form-control" />
+                            <input required type="text" data-val="true" data-val-required="Obavezan unos lozinke!" id="Lozinka" name="Lozinka" value="" asp-for="Lozinka" class="form-control" />
                             <span asp-validation-for="Lozinka" class="text-danger"></span>
                         </div>
                         <div class="col-4 colLabel">

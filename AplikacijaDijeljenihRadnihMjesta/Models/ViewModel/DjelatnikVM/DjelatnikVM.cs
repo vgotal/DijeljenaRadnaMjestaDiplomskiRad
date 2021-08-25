@@ -34,7 +34,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models.ViewModel
         {
             get; set;
         }
-        [Required(ErrorMessage = "Obavezan unos lozinke!")]
+        //[Required(ErrorMessage = "Obavezan unos lozinke!")]
         public string Lozinka
         {
             get; set;

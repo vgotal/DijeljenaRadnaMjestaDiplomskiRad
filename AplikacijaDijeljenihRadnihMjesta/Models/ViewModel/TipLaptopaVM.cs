@@ -19,5 +19,10 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models.ViewModel
             get; set;
         }
 
+        public string povratnaInfo
+        {
+            get; set;
+        }
+
     }
 }
