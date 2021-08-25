@@ -25,7 +25,7 @@
                           @Html.LabelFor(m => m.pregledZahtjeva.PocetniDatum, "OD:")
                       </label>
                       <label class="col-xs-2" style="padding-left:0px!important;margin-top:30px">
-                          @Html.TextBoxFor(x => x.pregledZahtjeva.PocetniDatum, "{0:yyyy-MM-dd}", new
+                          @Html.TextBoxFor(x => x.pregledZahtjeva.PocetniDatum, "{0:dd/MM/yyyy}", new
                      {
                          @id = "pocetniDatum",
                          @class = "form-control",
@@ -36,7 +36,7 @@
                           @Html.LabelFor(m => m.pregledZahtjeva.PocetniDatum, "DO:")
                       </label>
                       <label class="col-xs-2" style="padding-left:0px!important;margin-top:30px">
-                          @Html.TextBoxFor(x => x.pregledZahtjeva.KrajnjiDatum, "{0:yyyy-MM-dd}", new
+                          @Html.TextBoxFor(x => x.pregledZahtjeva.KrajnjiDatum, "{0:dd/MM/yyyy}", new
                      {
                          @id = "krajnjiDatum",
                          @class = "form-control",

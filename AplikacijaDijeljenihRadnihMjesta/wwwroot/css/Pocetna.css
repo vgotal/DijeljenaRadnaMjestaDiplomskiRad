@@ -99,12 +99,15 @@
         }
 
         .data-card:hover .link-text {
-            color: #fff;
+            color: #fff !important;
+        }
+        .data-card:hover .prikaziVise {
+            color: #fff !important;
         }
 
-            .data-card:hover .link-text svg {
-                animation: point 1.25s infinite alternate;
-            }
+        .data-card:hover .link-text svg {
+            animation: point 1.25s infinite alternate;
+        }
 
                 .data-card:hover .link-text svg path {
                     fill: #fff;

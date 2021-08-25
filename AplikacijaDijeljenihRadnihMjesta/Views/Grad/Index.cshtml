@@ -11,11 +11,11 @@
             <h2 class="formTitle" style="text-align:center !important;">Popis gradova</h2>
         </div>
  
-       
+        <div style="float:right;">
             <a style="float:right; text-align:right!important" asp-controller="Grad" asp-action="Create">
-                <i class="fas fa-plus" style=" color: #2973b2 !important;"></i> 
+                <i class="fas fa-plus" style=" color: #2973b2 !important; margin-bottom:10px; text-align:right!important"></i>
             </a>
-  
+        </div>
 
         @if (Model != null && Model.Count() > 0)
         {
@@ -53,8 +53,8 @@
                                                         <p>Jeste li sigurni da želite obrisati grad: @obj.Naziv? </p>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Ne</button>
-                                                        <button type="submit" class="btn btn-danger">Da</button>
+                                                        <button type="button" style="width:60px;" class="btn btn-secondary" data-dismiss="modal">Ne</button>
+                                                        <button type="submit" style="width:60px;" class="btn btn-danger">Da</button>
                                                     </div>
                                                 </div>
                                             </div>

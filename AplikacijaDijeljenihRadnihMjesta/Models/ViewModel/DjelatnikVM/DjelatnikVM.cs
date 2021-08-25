@@ -14,7 +14,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models.ViewModel
             get; set;
         }
         [RegularExpression(@"^(\d{9})$", ErrorMessage = "MBR mora imati devet znamenki.")]
-        //[Required(ErrorMessage = "Obavezan unos MBR djelatnika!")]
+        [Required(ErrorMessage = "Obavezan unos MBR djelatnika!")]
         public int MBR
         {
             get; set;

@@ -45,7 +45,7 @@
 
             @if ((int)orgJedID == 0)
             {
-                <a style="float:right; text-align:right;" asp-controller="Djelatnik" asp-route-OrgJedID="@orgJedID" asp-action="Create">
+                <a style="float:right; text-align:right;    margin-top: 10px;" asp-controller="Djelatnik" asp-route-OrgJedID="@orgJedID" asp-action="Create">
                     <i class="fas fa-plus" style=" color: #2973b2 !important;"></i>
                 </a>
             }
@@ -111,8 +111,8 @@
                                             <p>Jeste li sigurni da želite izbrisati djelatnika/icu: @obj.Ime @obj.Prezime? </p>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Ne</button>
-                                            <button type="submit" class="btn btn-danger">Da</button>
+                                            <button type="button" class="btn btn-secondary"style="width:60px;" data-dismiss="modal">Ne</button>
+                                            <button type="submit" style="width:60px;" class="btn btn-danger">Da</button>
                                         </div>
                                     </div>
                                 </div>

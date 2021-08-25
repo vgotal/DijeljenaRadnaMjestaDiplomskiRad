@@ -85,6 +85,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         }
 
         //GET-DELETE
+        [HttpPost]
         public IActionResult Delete(int? id)
         {   if (id == null)
             { 
@@ -95,14 +96,14 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
 
                 if (tipLaptopaRepository.IzbrisiTipLaptopa((int)id))
                 {
-                    TempData["Uspješno"] = "Uspješno pbrisanje modela laptopa!";
+                    TempData["Uspješno"] = "Uspješno brisanje modela laptopa!";
                 }
                 else {
                     TempData["Neuspješno"] = "Neuspješna brisanje modela jer postoje djelatnici koji ga koriste, dodijelite im drugi model laptopa pa onda obrišite!";
                     
                 }
-                return Content("Neuspješna brisanje modela");
-                //return RedirectToAction("Index");
+                ModelState.Clear();
+                return RedirectToAction("Index");
             }
         }
 

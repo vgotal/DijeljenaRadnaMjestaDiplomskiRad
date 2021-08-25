@@ -99,7 +99,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                       TipLaptopa = djelatnik.TipLaptopa.Model,
                                       Uloga = djelatnik.Uloga.Naziv
                                   }
-                                 ).Skip(ExcludeRecords).Take(pageSize).ToList();
+                                 ).OrderBy(l => l.OrganizacijskaJedinica).Skip(ExcludeRecords).Take(pageSize).ToList();
                 var uloge = DohvatiUlogeDjelatnika();
                 var djelatnikFilter = new DjelatnikFilter
                 {
@@ -135,7 +135,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                   TipLaptopa = djelatnik.TipLaptopa.Model,
                                   Uloga = djelatnik.Uloga.Naziv
                               }
-                              ).Skip(ExcludeRecords).Take(pageSize).ToList();
+                              ).OrderBy(l => l.OrganizacijskaJedinica).Skip(ExcludeRecords).Take(pageSize).ToList();
             var uloge = DohvatiUlogeDjelatnika();
             var djelatnikFilter = new DjelatnikFilter
             {
@@ -173,7 +173,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                   TipLaptopa = djelatnik.TipLaptopa.Model,
                                   Uloga = djelatnik.Uloga.Naziv
                               }
-                             ).Skip(ExcludeRecords).Take(pageSize).ToList();
+                             ).OrderBy(l => l.OrganizacijskaJedinica).Skip(ExcludeRecords).Take(pageSize).ToList();
             var uloge = DohvatiUlogeDjelatnika();
             var djelatnikFilter = new DjelatnikFilter
             {
@@ -210,7 +210,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                   TipLaptopa = djelatnik.TipLaptopa.Model,
                                   Uloga = djelatnik.Uloga.Naziv
                               }
-                             ).Skip(ExcludeRecords).Take(pageSize).ToList();
+                             ).OrderBy(l => l.OrganizacijskaJedinica).Skip(ExcludeRecords).Take(pageSize).ToList();
             var uloge = DohvatiUlogeDjelatnika();
             var djelatnikFilter = new DjelatnikFilter
             {
@@ -255,7 +255,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                   TipLaptopa = djelatnik.TipLaptopa.Model,
                                   Uloga = djelatnik.Uloga.Naziv
                               }
-                              ).Skip(ExcludeRecords).Take(pageSize).ToList();
+                              ).OrderBy(l => l.OrganizacijskaJedinica).Skip(ExcludeRecords).Take(pageSize).ToList();
             var uloge = DohvatiUlogeDjelatnika();
             var djelatnikFilter = new DjelatnikFilter
             {

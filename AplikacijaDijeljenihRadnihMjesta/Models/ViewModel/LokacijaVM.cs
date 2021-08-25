@@ -37,6 +37,10 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models.ViewModel
         {
             set; get;
         }
+        public string ListaOrganizacijskihJedinica
+        {
+            get; set;
+        }
 
     }
 }

@@ -38,7 +38,21 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             else
             {
                 TempData["OrgJedID"] = null;
-                return View(lokacijaRepository.DohvatiListuLokacija());
+                var lok = new LokacijaFilter();
+                lok = lokacijaRepository.DohvatiListuLokacija();
+                foreach (var org in lok.ListaLokacija)
+                {
+                    var lista= lokacijaRepository.DohvatiOrgJedNaLokaciji(org.Id);
+                    foreach (var l in lista)
+                    {
+                        org.ListaOrganizacijskihJedinica += "-";
+                        org.ListaOrganizacijskihJedinica +=( l + "\r\n");
+                        //org.ListaOrganizacijskihJedinica += System.Environment.NewLine;
+                    }
+
+                    //org.ListaOrganizacijskihJedinica.Remove(org.ListaOrganizacijskihJedinica.Length - 2);
+                }
+                return View(lok);
             }
                 
         }
@@ -154,6 +168,23 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             return RedirectToAction("Index");
         }
 
+        //public IActionResult DohvatiOrgJed(int? id, int? orgJedID)
+        //{
+        //    TempData["OrgJedID"] = HttpContext.Session.GetInt32(SessionOrgJedinica);
+        //    var nazivOrgJed = HttpContext.Session.GetString(SessionOrgJedinicaNaziv);
+
+        //    var lista=lokacijaRepository.DohvatiOrgJedNaLokaciji((int)id);
+        //    var orgJedinice = new LokacijaFilter();
+        //    orgJedinice.ListaOrganizacijskihJedinica = lista;
+        //    if (orgJedID != 0)
+        //    {
+        //        return RedirectToAction("Index", new
+        //        {
+        //            orgJedID = orgJedID
+        //        });
+        //    }
+        //    return RedirectToAction("Index");
+        //}
 
         //GET-EDIT
         public IActionResult Edit(int? id, int? orgJedID)

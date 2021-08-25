@@ -28,6 +28,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models.ViewModel
             get; set;
         }
         [Required(ErrorMessage = "Obavezan unos kata na kojem se nalazi radno mjesto!")]
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Kat mora imati numeričku vrijednost!")]
         public string Kat
         {
             get; set;

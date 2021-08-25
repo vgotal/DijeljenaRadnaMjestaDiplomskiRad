@@ -35,6 +35,15 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             };
             return lokacijaFilter;
         }
+        public List<string> DohvatiOrgJedNaLokaciji(int lokacijaID)
+        {
+            var lista= (from lokOrgJed in db.LokacijaOrganizacijskaJedinicas
+                                                     join org in db.OrganizacijskeJedinice on lokOrgJed.OrganizacijskeJediniceId equals org.Id
+                                                     join lok in db.Lokacije on lokOrgJed.LokacijeId equals lok.Id
+                                                     where lok.Id.Equals(lokacijaID)
+                                                     select org.Naziv).ToList();
+            return lista;
+        }
         public LokacijaFilter DohvatiListuLokacija(int orgJedID, int gradID)
         {
             var list = new LokacijaVM();
@@ -54,8 +63,10 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             var lokacijaFilter = new LokacijaFilter
             {
                 ListaLokacija = lokacije,
-                ListaGradova = gradovi
+                ListaGradova = gradovi,
+                
             };
+
             return lokacijaFilter;
         }
         public LokacijaFilter DohvatiListuLokacijaFiltriranuPoGradu( int gradID)
@@ -97,6 +108,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                 ListaLokacija = lokacije,
                 ListaGradova = gradovi
             };
+            
             return lokacijaFilter;
         }
         public List<SelectListItem> DohvatiGradove(int orgJedID)
@@ -115,8 +127,12 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
 
         public bool DodajNovuLokaciju(LokacijaVM lokacija)
         {
+            var provjera = (from lok in db.Lokacije
+                            join grad in db.Gradovi on lok.GradId equals grad.Id
+                            where lok.Adresa.Equals(lokacija.Adresa) && lok.GradId.Equals(Int32.Parse(lokacija.Grad))
+                            select lok.Id).ToList();
             
-            if (db.Lokacije.Join(db.Gradovi, l=>l.GradId, g=>g.Id, (l,g)=>new { Lok=l, Grad=g}).Where(l=> lokacija.Adresa.Equals(l.Lok.Adresa)  && lokacija.Grad.Equals(l.Grad.Naziv)).Select(l=>l.Lok.Adresa).FirstOrDefault() == null)
+            if (provjera.Count()==0)
             {
                 db.Lokacije.Add(new Lokacija { Adresa = lokacija.Adresa, GradId = Int32.Parse(lokacija.Grad) });
                 db.SaveChanges();
@@ -267,7 +283,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
            
         }
 
-
+     
         public LokacijaVM DohvatiOrgJedinice(LokacijaVM lokacija, int orgJedID)
         {
             lokacija.OrgJedinice = db.OrganizacijskeJedinice.Where(o => o.Id.Equals(orgJedID)).Select(l => new SelectListItem()

@@ -119,9 +119,10 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         public bool EditRadnoMjesto(RadnoMjestoVM radnoMjesto)
         {
             var sifra = DohvatiInicijaleGrada(radnoMjesto).InicijaliGrada + "-" + "K" + radnoMjesto.Kat + "-" + "P" + radnoMjesto.Prostorija + "-" + "BR" + radnoMjesto.BrojRadnogMjesta;
-            db.RadnaMjesta.Update(new RadnoMjesto { Id=radnoMjesto.Id, Sifra = sifra, TipLaptopaId =Int32.Parse(radnoMjesto.TipLaptopa), LokacijaId = DohvatiLokacijaID(radnoMjesto) });
-            db.SaveChanges();
-            return true;
+           
+                db.RadnaMjesta.Update(new RadnoMjesto { Id = radnoMjesto.Id, Sifra = sifra, TipLaptopaId = Int32.Parse(radnoMjesto.TipLaptopa), LokacijaId = Int32.Parse(radnoMjesto.Lokacija) });
+                db.SaveChanges();
+         return true;
         }
 
         public int DohvatiLokacijaID(RadnoMjestoVM radnoMjesto)
@@ -289,7 +290,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                      select new SelectListItem
                                      {
                                          Value = lokacija.Id.ToString(),
-                                         Text = lokacija.Adresa +" "+ grad.Naziv
+                                         Text = lokacija.Adresa +", "+ grad.Naziv
                                      }).ToList();
             return dohvaceneLokacije;
         }

@@ -22,6 +22,12 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models.ViewModel
         {
             get; set;
         }
+        public IEnumerable<string> ListaOrganizacijskihJedinica
+        {
+            get; set;
+        }
+
+
 
 
     }

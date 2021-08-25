@@ -17,7 +17,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models.ViewModel
         {
             get; set;
         }
-        [Required(ErrorMessage = "Obavezan unos oznaka grada!")]
+        [Required(ErrorMessage = "Obavezan unos oznake grada!")]
         [MaxLength(4)]
         public string Oznaka //nisam postavila da bude jedinstveno
         {

@@ -44,7 +44,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                 }
             }
             ModelState.Clear();
-            return View(grad);
+            var noviGrad = new GradVM();
+            return View(noviGrad);
         }
 
 
@@ -92,7 +93,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             }
             else
             {
-                TempData["Neuspješno"] = "Neuspješno brisanje grada jer se u tom gradu nalaze postojeće lokacije!";
+                TempData["Neuspješno"] = "Neuspješno brisanje grada jer postoje povezane lokacije!";
             }
             }
             ModelState.Clear();

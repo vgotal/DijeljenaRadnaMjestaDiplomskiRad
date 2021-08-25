@@ -37,7 +37,7 @@
         <div class="col-md-12" style="margin-bottom:10px">
 
             <label asp-for="@Model.GradID">Odaberi grad: </label>
-            <select asp-for="@Model.GradID" asp-items="@Model.ListaGradova">
+            <select class="form-select" style="width:min-content; display:inline-block!important" asp-for="@Model.GradID" asp-items="@Model.ListaGradova">
                 <option>Svi gradovi</option>
             </select>
             <input type="submit" style=" font-size: 1em !important; margin-left:10px; margin-bottom:10px;" class="btn btn-primary" value="Filtriraj" />
@@ -71,70 +71,95 @@
                     <th>
                         Grad
                     </th>
+                    <th>
+                        Organizacijske jedinice
+                    </th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var obj in Model.ListaLokacija)
                 {
-                    <tr>
-                        <td id="items" width="40%">@obj.Adresa</td>
-                        <td id="items" width="40%">@obj.Grad</td>
-                        <td class="text-center">
-                            <div class="w-75 btn-group" role="group">
-
-                                @if ((int)orgJedID != 0)
-                                {
-                                    <a data-target="#DeleteModal-@obj.Id" data-toggle="modal" class=" btn btn-danger"><i class="fas fa-trash-alt"></i></a>
-                                    <form method="post" asp-action="Delete" asp-controller="Lokacija" asp-route-Id="@obj.Id" asp-route-orgJedID="@orgJedID" >
-                                        <div class="modal" tabindex="-1" role="dialog" id="DeleteModal-@obj.Id">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content" style="margin-top: 30%;">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Potvrdite brisanje lokacije</h5>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Jeste li sigurni da želite obrisati lokaciju na adresi @obj.Adresa? </p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Ne</button>
-                                                        <button type="submit" class="btn btn-danger">Da</button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                <tr>
+                    <td id="items" width="40%">@obj.Adresa</td>
+                    <td id="items" width="40%">@obj.Grad</td>
+                    <td class="text-center">
+                        <a data-target="#DohvatiModal-@obj.Id" data-toggle="modal"  class="btn btn-info"><i class="fas fa-info"></i></a>
+                        <form method="get" asp-action="Index" asp-controller="Lokacija" asp-route-orgJedID="@orgJedID" asp-route-Id="@obj.Id">
+                            <div class="modal" tabindex="-1" role="dialog" id="DohvatiModal-@obj.Id">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content" style="margin-top: 30%;">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Popis organizacijskih jedinica na lokaciji</h5>
                                         </div>
-                                    </form>
-                                    <a asp-controller="RadnoMjesto" asp-route-LokacijaId="@obj.Id" asp-route-orgJedID="@orgJedID" asp-action="Index" class="btn btn-info"><i class="fas fa-info-circle"></i></a>
-
-                                }
-                                else
-                                {
-                                    <a data-target="#DeleteModal-@obj.Id" data-toggle="modal" class=" btn btn-danger"><i class="fas fa-trash-alt"></i></a>
-                                    <form method="post" asp-action="Delete" asp-controller="Lokacija" asp-route-Id="@obj.Id">
-                                        <div class="modal" tabindex="-1" role="dialog" id="DeleteModal-@obj.Id">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content" style="margin-top: 30%;">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Potvrdite brisanje lokacije</h5>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Jeste li sigurni da želite obrisati lokaciju na adresi @obj.Adresa? </p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Ne</button>
-                                                        <button type="submit" class="btn btn-danger">Da</button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div class="modal-body">
+                                            <p>@obj.ListaOrganizacijskihJedinica</p>
                                         </div>
-                                    </form>
-
-                                    <a asp-controller="Lokacija" asp-route-Id="@obj.Id" asp-action="Edit" class="btn btn-primary "><i class="fas fa-edit"></i></a>
-                                    <a asp-controller="RadnoMjesto" asp-route-LokacijaId="@obj.Id" asp-action="Index" class="btn btn-info"><i class="fas fa-info"></i></a>
-                                }
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" style="width:60px;" data-dismiss="modal">Odustani</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </td>
-                    </tr>
+                        </form>
+                    </td>
+                    <td class="text-center">
+                        <div class="w-100 btn-group" role="group">
+
+                           
+
+                            @if ((int)orgJedID != 0)
+                            {
+                                <a data-target="#DeleteModal-@obj.Id" data-toggle="modal" class=" btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                <form method="post" asp-action="Delete" asp-controller="Lokacija" asp-route-Id="@obj.Id" asp-route-orgJedID="@orgJedID">
+                                    <div class="modal" tabindex="-1" role="dialog" id="DeleteModal-@obj.Id">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content" style="margin-top: 30%;">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Potvrdite brisanje lokacije</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Jeste li sigurni da želite obrisati lokaciju na adresi @obj.Adresa? </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" style="width:60px;" class="btn btn-secondary" data-dismiss="modal">Ne</button>
+                                                    <button type="submit" style="width:60px;" class="btn btn-danger">Da</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <a asp-controller="RadnoMjesto" asp-route-LokacijaId="@obj.Id" asp-route-orgJedID="@orgJedID" asp-action="Index" class="btn btn-info"><i class="fas fa-info-circle"></i></a>
+
+                            }
+                            else
+                            {
+                                <a data-target="#DeleteModal-@obj.Id" data-toggle="modal" class=" btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                <form method="post" asp-action="Delete" asp-controller="Lokacija" asp-route-Id="@obj.Id">
+                                    <div class="modal" tabindex="-1" role="dialog" id="DeleteModal-@obj.Id">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content" style="margin-top: 30%;">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Potvrdite brisanje lokacije</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Jeste li sigurni da želite obrisati lokaciju na adresi @obj.Adresa? </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" style="width:60px;" class="btn btn-secondary" data-dismiss="modal">Ne</button>
+                                                    <button type="submit" style="width:60px;" class="btn btn-danger">Da</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <a asp-controller="Lokacija" asp-route-Id="@obj.Id" asp-action="Edit" class="btn btn-primary "><i class="fas fa-edit"></i></a>
+                                <a asp-controller="RadnoMjesto" asp-route-LokacijaId="@obj.Id" asp-action="Index" class="btn btn-info"><i class="fas fa-info"></i></a>
+                            }
+                        </div>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
