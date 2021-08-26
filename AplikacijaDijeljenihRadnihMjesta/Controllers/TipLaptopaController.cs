@@ -96,10 +96,10 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
 
                 if (tipLaptopaRepository.IzbrisiTipLaptopa((int)id))
                 {
-                    TempData["Uspješno"] = "Uspješno brisanje modela laptopa!";
+                    //TempData["Uspješno"] = "Uspješno brisanje modela laptopa!";
                 }
                 else {
-                    TempData["Neuspješno"] = "Neuspješna brisanje modela jer postoje djelatnici koji ga koriste, dodijelite im drugi model laptopa pa onda obrišite!";
+                    //TempData["Neuspješno"] = "Neuspješna brisanje modela jer postoje djelatnici koji ga koriste, dodijelite im drugi model laptopa pa onda obrišite!";
                     
                 }
                 ModelState.Clear();

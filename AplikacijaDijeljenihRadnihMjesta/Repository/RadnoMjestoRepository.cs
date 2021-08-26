@@ -85,6 +85,10 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             var radnoMjesto = db.RadnaMjesta.Find(id);
             if (radnoMjesto != null)
             {
+                //if (db.RezervacijeOtkazivanje.Where())
+                //{ 
+                
+                //}
                 db.RadnaMjesta.Remove(radnoMjesto);
                 db.SaveChanges();
               

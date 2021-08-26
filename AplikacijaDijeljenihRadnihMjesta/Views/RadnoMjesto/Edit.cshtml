@@ -44,7 +44,7 @@
                     <div class="col-4 colLabel">
                         <label asp-for="@Model.Lokacija">Odaberi lokaciju:</label>
                     </div>
-                    <div class="col-8">
+                    <div class="col-8 colInput">
                         <select class="form-select" asp-for="@Model.Lokacija" asp-items="@Model.Lokacije" required>
                             <option hidden selected="selected" value="@Model.Lokacija">@Model.Lokacija</option>
                         </select>

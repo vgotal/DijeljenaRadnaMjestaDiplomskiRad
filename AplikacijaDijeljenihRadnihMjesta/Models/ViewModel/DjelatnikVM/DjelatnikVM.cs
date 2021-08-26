@@ -19,11 +19,13 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models.ViewModel
         {
             get; set;
         }
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Koristite slova abecede!")]
         [Required(ErrorMessage = "Obavezan unos imena djelatnika!")]
         public string Ime
         {
             get; set;
         }
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Koristite slova abecede!")]
         [Required(ErrorMessage = "Obavezan unos prezimena djelatnika!")]
         public string Prezime
         {
