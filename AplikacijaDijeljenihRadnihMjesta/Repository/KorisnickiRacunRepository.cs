@@ -29,7 +29,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         }
         public int DohvatiBrojRadnihMjesta()
         {
-            return db.RadnaMjesta.Count();
+            return db.RadnaMjesta.Where(r=>r.Onemoguceno.Equals(false)).Count();
         }
         public int DohvatiBrojGradova()
         {
