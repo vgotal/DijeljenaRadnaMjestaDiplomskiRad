@@ -182,7 +182,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             var result = new PagedResult<RadnoMjestoVM>
             {
                 Data = radnaMjesta.ToList(),
-                TotalItems = db.RadnaMjesta.Where(r=>r.LokacijaId.Equals(lokacijaID)).Count(),
+                TotalItems = db.RadnaMjesta.Where(r=>r.LokacijaId.Equals(lokacijaID) && r.Onemoguceno.Equals(false)).Count(),
                 PageNumber = pageNumber,
                 PageSize = pageSize
             };
@@ -217,7 +217,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             var result = new PagedResult<RadnoMjestoVM>
             {
                 Data = radnaMjesta.ToList(),
-                TotalItems = db.RadnaMjesta.Where(r => r.LokacijaId.Equals(lokacijaID) && r.TipLaptopaId.Equals(pRadnaMjesta.radnoMjestoFilter.TipLaptopaID)).Count(),
+                TotalItems = db.RadnaMjesta.Where(r => r.LokacijaId.Equals(lokacijaID) && r.TipLaptopaId.Equals(pRadnaMjesta.radnoMjestoFilter.TipLaptopaID) && r.Onemoguceno.Equals(false)).Count(),
                 PageNumber = pageNumber,
                 PageSize = pageSize
             };
@@ -251,7 +251,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             var result = new PagedResult<RadnoMjestoVM>
             {
                 Data = radnaMjesta.ToList(),
-                TotalItems = db.RadnaMjesta.Where(r => r.TipLaptopaId.Equals(pRadnaMjesta.radnoMjestoFilter.TipLaptopaID)).Count(),
+                TotalItems = db.RadnaMjesta.Where(r => r.TipLaptopaId.Equals(pRadnaMjesta.radnoMjestoFilter.TipLaptopaID) && r.Onemoguceno.Equals(false)).Count(),
                 PageNumber = pageNumber,
                 PageSize = pageSize
             };
@@ -286,7 +286,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             var result = new PagedResult<RadnoMjestoVM>
             {
                 Data = radnaMjesta.ToList(),
-                TotalItems = db.RadnaMjesta.Count(),
+                TotalItems = db.RadnaMjesta.Where(r=>r.Onemoguceno.Equals(false)).Count(),
                 PageNumber = pageNumber,
                 PageSize = pageSize
             };
