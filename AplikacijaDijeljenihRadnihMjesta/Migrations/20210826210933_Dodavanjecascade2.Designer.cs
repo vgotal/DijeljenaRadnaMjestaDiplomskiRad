@@ -4,14 +4,16 @@ using AplikacijaDijeljenihRadnihMjesta.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AplikacijaDijeljenihRadnihMjesta.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210826210933_Dodavanjecascade2")]
+    partial class Dodavanjecascade2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -144,9 +146,6 @@ namespace AplikacijaDijeljenihRadnihMjesta.Migrations
 
                     b.Property<int>("LokacijaId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("Onemoguceno")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Sifra")
                         .HasColumnType("nvarchar(max)");
@@ -506,19 +505,19 @@ namespace AplikacijaDijeljenihRadnihMjesta.Migrations
                     b.HasOne("AplikacijaDijeljenihRadnihMjesta.Models.OrganizacijskaJedinica", "OrgJedinica")
                         .WithMany("Djelatnici")
                         .HasForeignKey("OrgJedinicaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("AplikacijaDijeljenihRadnihMjesta.Models.TipLaptopa", "TipLaptopa")
                         .WithMany("Djelatnici")
                         .HasForeignKey("TipLaptopaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("AplikacijaDijeljenihRadnihMjesta.Models.Uloga", "Uloga")
                         .WithMany("Djelatnici")
                         .HasForeignKey("UlogaID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("OrgJedinica");
@@ -533,7 +532,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Migrations
                     b.HasOne("AplikacijaDijeljenihRadnihMjesta.Models.Grad", "Grad")
                         .WithMany("Lokacije")
                         .HasForeignKey("GradId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Grad");
@@ -544,13 +543,13 @@ namespace AplikacijaDijeljenihRadnihMjesta.Migrations
                     b.HasOne("AplikacijaDijeljenihRadnihMjesta.Models.Lokacija", "Lokacija")
                         .WithMany("LokacijaOrganizacijskaJedinica")
                         .HasForeignKey("LokacijeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("AplikacijaDijeljenihRadnihMjesta.Models.OrganizacijskaJedinica", "OrganizacijskaJedinica")
                         .WithMany("LokacijaOrganizacijskaJedinica")
                         .HasForeignKey("OrganizacijskeJediniceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Lokacija");
@@ -563,13 +562,13 @@ namespace AplikacijaDijeljenihRadnihMjesta.Migrations
                     b.HasOne("AplikacijaDijeljenihRadnihMjesta.Models.Lokacija", "Lokacija")
                         .WithMany("RadnaMjesta")
                         .HasForeignKey("LokacijaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("AplikacijaDijeljenihRadnihMjesta.Models.TipLaptopa", "TipLaptopa")
                         .WithMany("RadnaMjesta")
                         .HasForeignKey("TipLaptopaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Lokacija");
@@ -582,19 +581,19 @@ namespace AplikacijaDijeljenihRadnihMjesta.Migrations
                     b.HasOne("AplikacijaDijeljenihRadnihMjesta.Models.RadnoMjesto", "RadnoMjesto")
                         .WithMany()
                         .HasForeignKey("RadnoMjestoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("AplikacijaDijeljenihRadnihMjesta.Models.Status", "Status")
                         .WithMany("RezervacijeOtkazivanje")
                         .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("AplikacijaDijeljenihRadnihMjesta.Models.Zahtjev", "Zahtjev")
                         .WithMany("RezervacijaOtkazivanje")
                         .HasForeignKey("ZahtjevId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("RadnoMjesto");
@@ -609,13 +608,13 @@ namespace AplikacijaDijeljenihRadnihMjesta.Migrations
                     b.HasOne("AplikacijaDijeljenihRadnihMjesta.Models.Djelatnik", "Djelatnik")
                         .WithMany()
                         .HasForeignKey("DjelatnikId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("AplikacijaDijeljenihRadnihMjesta.Models.TipZahtjeva", "TipZahtjeva")
                         .WithMany("Zahtjevi")
                         .HasForeignKey("TipZahtjevaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Djelatnik");
@@ -628,13 +627,13 @@ namespace AplikacijaDijeljenihRadnihMjesta.Migrations
                     b.HasOne("AplikacijaDijeljenihRadnihMjesta.Models.Lokacija", null)
                         .WithMany()
                         .HasForeignKey("LokacijeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("AplikacijaDijeljenihRadnihMjesta.Models.OrganizacijskaJedinica", null)
                         .WithMany()
                         .HasForeignKey("OrganizacijskeJediniceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -643,7 +642,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -652,7 +651,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -661,7 +660,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -670,13 +669,13 @@ namespace AplikacijaDijeljenihRadnihMjesta.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -685,7 +684,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 

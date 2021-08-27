@@ -29,9 +29,10 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                 db.RadnaMjesta.Add(new RadnoMjesto
                 {
                     Sifra = sifraRadnogMjesta,
-                    TipLaptopaId = Int32.Parse( radnoMjesto.TipLaptopa),
-                    LokacijaId = radnoMjesto.LokacijaId
-                }); 
+                    TipLaptopaId = Int32.Parse(radnoMjesto.TipLaptopa),
+                    LokacijaId = radnoMjesto.LokacijaId,
+                    Onemoguceno = false
+                }) ; 
                 db.SaveChanges();
                 return true;
             }
@@ -49,7 +50,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                 {
                     Sifra = sifraRadnogMjesta,
                     TipLaptopaId = Int32.Parse(radnoMjesto.TipLaptopa),
-                    LokacijaId = radnoMjesto.LokacijaId
+                    LokacijaId = radnoMjesto.LokacijaId,
+                    Onemoguceno = false
                 });
                 db.SaveChanges();
                 return true;
@@ -78,22 +80,37 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         }
 
 
-        public int IzbrisiRadnoMjesto(string sifra)
+        public RadnoMjesto PronadjiRadnoMjesto(string sifra)
         {
-            var lokacijaID = DohvatiLokacijuPoSifri(sifra);    
-            var id = db.RadnaMjesta.Where(s => s.Sifra.Equals(sifra)).Select(s => s.Id).FirstOrDefault();
-            var radnoMjesto = db.RadnaMjesta.Find(id);
+
+            //var id = db.RadnaMjesta.Where(s => s.Sifra.Equals(sifra)).Select(s => s.Id).FirstOrDefault();
+            //var radnoMjesto = db.RadnaMjesta.Find(id).;
+            var radnoMjesto = (from mjesto in db.RadnaMjesta
+                               join tip in db.TipoviLaptopa on mjesto.TipLaptopaId equals tip.Id
+                               join lokacija in db.Lokacije on mjesto.LokacijaId equals lokacija.Id
+                               where mjesto.Sifra.Equals(sifra)
+                               select mjesto ).FirstOrDefault();
+            db.SaveChanges();
+            return radnoMjesto;
+
+        }
+        public int IzbrisiRadnoMjesto(RadnoMjesto radnoMjesto)
+        {
+            db.Entry<RadnoMjesto>(radnoMjesto).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
             if (radnoMjesto != null)
             {
-                //if (db.RezervacijeOtkazivanje.Where())
-                //{ 
-                
-                //}
-                db.RadnaMjesta.Remove(radnoMjesto);
-                db.SaveChanges();
+                var lokacijaID = DohvatiLokacijuPoSifri(radnoMjesto.Sifra);
+             
+                    db.RadnaMjesta.Update(new RadnoMjesto { Id = radnoMjesto.Id, Sifra = radnoMjesto.Sifra, TipLaptopaId = radnoMjesto.TipLaptopaId, LokacijaId = radnoMjesto.LokacijaId, Onemoguceno = true });
+                    //db.RadnaMjesta.Remove(radnoMjesto);
+                    db.SaveChanges();
+               
+         
+                    return lokacijaID;
               
             }
-            return lokacijaID;
+            return 0;
+
         }
 
         public int DohvatiLokacijuPoSifri(string sifra)
@@ -124,7 +141,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         {
             var sifra = DohvatiInicijaleGrada(radnoMjesto).InicijaliGrada + "-" + "K" + radnoMjesto.Kat + "-" + "P" + radnoMjesto.Prostorija + "-" + "BR" + radnoMjesto.BrojRadnogMjesta;
            
-                db.RadnaMjesta.Update(new RadnoMjesto { Id = radnoMjesto.Id, Sifra = sifra, TipLaptopaId = Int32.Parse(radnoMjesto.TipLaptopa), LokacijaId = Int32.Parse(radnoMjesto.Lokacija) });
+                db.RadnaMjesta.Update(new RadnoMjesto { Id = radnoMjesto.Id, Sifra = sifra, TipLaptopaId = Int32.Parse(radnoMjesto.TipLaptopa), LokacijaId = Int32.Parse(radnoMjesto.Lokacija), Onemoguceno = false });
                 db.SaveChanges();
          return true;
         }
@@ -146,7 +163,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                               join tipLaptopa in db.TipoviLaptopa on radnoMjesto.TipLaptopaId equals tipLaptopa.Id
                               join lokacija in db.Lokacije on radnoMjesto.LokacijaId equals lokacija.Id
                               join grad in db.Gradovi on lokacija.GradId equals grad.Id
-                              where radnoMjesto.LokacijaId.Equals(lokacijaID)
+                              where radnoMjesto.LokacijaId.Equals(lokacijaID) && radnoMjesto.Onemoguceno.Equals(false)
                               select new RadnoMjestoVM ()
                               {
                                   Id = radnoMjesto.Id,
@@ -181,7 +198,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                join tipLaptopa in db.TipoviLaptopa on radnoMjesto.TipLaptopaId equals tipLaptopa.Id
                                join lokacija in db.Lokacije on radnoMjesto.LokacijaId equals lokacija.Id
                                join grad in db.Gradovi on lokacija.GradId equals grad.Id
-                               where radnoMjesto.LokacijaId.Equals(lokacijaID) && radnoMjesto.TipLaptopaId.Equals(pRadnaMjesta.radnoMjestoFilter.TipLaptopaID)
+                               where radnoMjesto.LokacijaId.Equals(lokacijaID) && radnoMjesto.TipLaptopaId.Equals(pRadnaMjesta.radnoMjestoFilter.TipLaptopaID) && radnoMjesto.Onemoguceno.Equals(false)
                                select new RadnoMjestoVM()
                                {
                                    Id = radnoMjesto.Id,
@@ -215,7 +232,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                join tipLaptopa in db.TipoviLaptopa on radnoMjesto.TipLaptopaId equals tipLaptopa.Id
                                join lokacija in db.Lokacije on radnoMjesto.LokacijaId equals lokacija.Id
                                join grad in db.Gradovi on lokacija.GradId equals grad.Id
-                               where radnoMjesto.TipLaptopaId.Equals(pRadnaMjesta.radnoMjestoFilter.TipLaptopaID)
+                               where radnoMjesto.TipLaptopaId.Equals(pRadnaMjesta.radnoMjestoFilter.TipLaptopaID) && radnoMjesto.Onemoguceno.Equals(false)
                                select new RadnoMjestoVM()
                                {
                                    Id = radnoMjesto.Id,
@@ -249,7 +266,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             var radnaMjesta = (from radnoMjesto in db.RadnaMjesta
                                join tipLaptopa in db.TipoviLaptopa on radnoMjesto.TipLaptopaId equals tipLaptopa.Id
                                join lokacija in db.Lokacije on radnoMjesto.LokacijaId equals lokacija.Id
-                               join grad in db.Gradovi on lokacija.GradId equals grad.Id
+                               join grad in db.Gradovi on lokacija.GradId equals grad.Id 
+                               where radnoMjesto.Onemoguceno.Equals(false)
                                select new RadnoMjestoVM()
                                {
                                    Id = radnoMjesto.Id,

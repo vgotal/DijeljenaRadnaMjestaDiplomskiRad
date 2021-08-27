@@ -205,14 +205,15 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             var lokID=0;
             if (ModelState.IsValid)
             {
-                lokID = radnoMjestoRepository.IzbrisiRadnoMjesto(Sifra);
+                var radnoMjesto2 = radnoMjestoRepository.PronadjiRadnoMjesto(Sifra);
+                lokID = radnoMjestoRepository.IzbrisiRadnoMjesto(radnoMjesto2);
                 if (lokID!=0)
                 {
                     TempData["Uspješno"] = "Uspješno izbrisano radno mjesto!";
                 }
                 else
                 {
-                    TempData["Neuspješno"] = "Neuspješno brisanje radnog mjesta!";
+                    TempData["Neuspješno"] = "Neuspješno brisanje radnog mjesta! Radno mjesto mora biti nekorišteno kako bi se moglo obrisati.";
                 }
             }
             ModelState.Clear();

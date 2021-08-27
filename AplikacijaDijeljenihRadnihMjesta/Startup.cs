@@ -33,6 +33,7 @@ namespace AplikacijaDijeljenihRadnihMjesta
                 options => options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")
                     ));
+            //services.AddScoped<AppDbContext>();
 
             services.AddSession(so =>
             {

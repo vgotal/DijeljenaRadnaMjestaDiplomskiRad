@@ -35,5 +35,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models
         {
             get; set;
         }
+
+        public bool Onemoguceno { get; set; }
     }
     }

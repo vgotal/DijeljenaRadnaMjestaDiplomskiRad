@@ -29,21 +29,11 @@ namespace AplikacijaDijeljenihRadnihMjesta.Data
                 .HasForeignKey(bc => bc.OrganizacijskeJediniceId);
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-            //modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
-            modelBuilder.Entity<RadnoMjesto>()
-                .HasOne(i => i.Lokacija)
-                .WithMany(c => c.RadnaMjesta)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<RadnoMjesto>()
-                .HasOne(i => i.TipLaptopa)
-                .WithMany(c => c.RadnaMjesta)
-                .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<RezervacijaOtkazivanje>()
-               .HasOne(r => r.RadnoMjesto)
-               .WithMany()
-               .OnDelete(DeleteBehavior.Restrict);
+            //foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            //{
+            //    relationship.DeleteBehavior = DeleteBehavior.NoAction;
+            //}
+           
         }
         public DbSet<Djelatnik> Djelatnici
         {
