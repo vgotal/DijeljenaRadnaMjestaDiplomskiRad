@@ -49,11 +49,11 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         {
             if (orgJedinicaRepository.DodajNovuOrgJedinicu(orgJedinica))
             {
-                TempData["Uspješno"] = "Uspješno dodana nova lokacija!";
+                TempData["Uspješno"] = "Uspješno dodana nova organizacijska jedinica!";
             }
             else
             {
-                TempData["Neuspješno"] = "Lokacija već postoji!";
+                TempData["Neuspješno"] = "Organizacijska jedinica već postoji!";
             }
             ModelState.Clear();
             return View();

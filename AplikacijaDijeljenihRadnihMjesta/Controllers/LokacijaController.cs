@@ -198,11 +198,16 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
                     HttpContext.Session.SetInt32(SessionStaraOrgJedinicaID, (int)orgJedID);
                     var OrgJed = lokacijaRepository.DohvatiOrgJedinice((int)orgJedID);
                     TempData["OrgJedID"] = HttpContext.Session.GetInt32(SessionOrgJedinica);
-                    return View(new LokacijaVM { Id = lokacija.Id, Adresa = lokacija.Adresa, Gradovi = gradovi, Grad = lokacijaRepository.DohvatiNazivGrada(lokacija), OrgJedinica = lokacijaRepository.DohvatiNazivOrgJedinice((int)orgJedID), OrgJedinice = OrgJed, });
+                    var lokacijaModel = new LokacijaVM{ Id = lokacija.Id, Adresa = lokacija.Adresa, Gradovi = gradovi, Grad = lokacijaRepository.DohvatiNazivGrada(lokacija), OrgJedinica = lokacijaRepository.DohvatiNazivOrgJedinice((int)orgJedID), OrgJedinice = OrgJed };
+                    lokacijaModel = lokacijaRepository.DohvatiPripadajuceOrgJedinice(lokacijaModel);
+                    return View(lokacijaModel);
                 }
                 else
                 {
-                    return View(new LokacijaVM { Id = lokacija.Id, Adresa = lokacija.Adresa, Gradovi = gradovi, Grad = lokacijaRepository.DohvatiNazivGrada(lokacija), OrgJedinica = lokacijaRepository.DohvatiNazivOrgJedinicePoID(lokacija.Id), OrgJedinice= lokacijaRepository.DohvatiOrgJedinice() });
+                    var lokacijaModel = new LokacijaVM{ Id = lokacija.Id, Adresa = lokacija.Adresa, Gradovi = gradovi, Grad = lokacijaRepository.DohvatiNazivGrada(lokacija), OrgJedinica = lokacijaRepository.DohvatiNazivOrgJedinicePoID(lokacija.Id), OrgJedinice = lokacijaRepository.DohvatiOrgJedinice() };
+                    lokacijaModel = lokacijaRepository.DohvatiPripadajuceOrgJedinice(lokacijaModel);
+                    return View(lokacijaModel);
+                    
                 }
             }
             return NotFound();
@@ -220,12 +225,20 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             if (lokacijaRepository.EditLokacija(lokacija))
                 {
                     TempData["Uspješno"] = "Uspješno promijenjene informacije o lokaciji!";
+                if (lokacija.povratnaInfo != null)
+                {
+                    TempData["Info"] = lokacija.povratnaInfo;
+                }
                 }
             else
                 {
                     TempData["Neuspješno"] = "Neuspješna promjena informacija o lokaciji, ta lokacija već postoji";
+                if (lokacija.povratnaInfo != null)
+                {
+                    TempData["Info"] = lokacija.povratnaInfo;
                 }
-            ModelState.Clear();
+            }
+
             lokacija.Gradovi = lokacijaRepository.DohvatiGradove();
             if (TempData["OrgJedID"]!=null )
             {
@@ -235,6 +248,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             {
                 lokacija.OrgJedinice = lokacijaRepository.DohvatiOrgJedinice();
             }
+            lokacija = lokacijaRepository.DohvatiPripadajuceOrgJedinice(lokacija);
             return View(lokacija);
         }
 

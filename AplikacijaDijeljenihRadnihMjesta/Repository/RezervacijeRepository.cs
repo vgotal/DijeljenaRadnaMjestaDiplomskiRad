@@ -161,6 +161,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                 if (provjera == 0)
                                 {
                                     neuspjesneRezervacije.Add(rezervacija.ZeljeniDatum.ToShortDateString());
+                                //rezervacija.OdgovorCheckBox = true;
                                 }
                                 else
                                     UspjesneRezervacija.Add(rezervacija);
@@ -189,7 +190,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                             }
                             if (stanjaRezervacija.TryGetValue("neuspjesneRezervacije", out string neuspjesneRezervacij) && neuspjesneRezervacij.Length > 0)
                             {
-                                model.PovratnaInfoNeuspjeh = $"Rezervacije nisu moguće za datume: {neuspjesneRezervacij}";
+                                model.PovratnaInfoNeuspjeh = $"Rezervacije nisu moguće za datume: {neuspjesneRezervacij}, nema slobodnih radnih mjesta";
                                 model.Datumi = neuspjesneRezervacij;
                             }
                         }

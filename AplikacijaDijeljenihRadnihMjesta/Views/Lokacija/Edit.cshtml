@@ -41,15 +41,27 @@
                         <label asp-for="Grad">Grad</label>
                     </div>
                     <div class="col-8 colInput">
-                        <select class="form-select" class="form-select" asp-for="Grad" asp-items="@Model.Gradovi " required>
+                        <select class="form-select" asp-for="Grad" asp-items="@Model.Gradovi " required>
                             <option hidden selected="selected" value="@Model.Grad">@Model.Grad</option>
                         </select>
+                    </div>
+                    <div class="col-4 colLabel">
+                        <label asp-for="OrgJedinica">Postojeće organizacijske jedinice</label>
+                    </div>
+                    <div class="col-8 colInput">
+                        @Html.TextAreaFor(m=>m.ListaPripadajucihOrganizacijskihJedinica , new
+                   {
+                       disabled = "disabled",
+                       @style = "color:black;width:100%;"
+
+                   })
+
                     </div>
                     <div class="col-4 colLabel">
                         <label asp-for="OrgJedinica">Organizacijska jedinica</label>
                     </div>
                     <div class="col-8 colInput">
-                        <select class="form-select" class="form-select" asp-for="OrgJedinica" asp-items="@Model.OrgJedinice" required>
+                        <select class="form-select" asp-for="OrgJedinica" asp-items="@Model.OrgJedinice" required>
                             <option hidden selected="selected" value="@Model.OrgJedinica">@Model.OrgJedinica</option>
                         </select>
                     </div>

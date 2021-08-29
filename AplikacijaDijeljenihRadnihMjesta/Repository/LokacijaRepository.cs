@@ -193,19 +193,46 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         }
         public bool EditLokacija(LokacijaVM lokacija)
         {
+            
             var provjera = (from lok in db.Lokacije
                             join grad in db.Gradovi on lok.GradId equals grad.Id
                             join lokOrgJed in db.LokacijaOrganizacijskaJedinicas on lok.Id equals lokOrgJed.LokacijeId
                             join orgJed in db.OrganizacijskeJedinice on lokOrgJed.OrganizacijskeJediniceId equals orgJed.Id
-                            where lok.Adresa.Equals(lok.Adresa) && lokacija.Grad.Equals(grad.Naziv) && lokacija.OrgJedinica.Equals(orgJed.Id.ToString())
-                            select(lok.Adresa)).ToList().Count();
-           if(provjera==0)
+                            where lok.Adresa.Equals(lokacija.Adresa) && lokacija.Grad.Equals(grad.Naziv) && lokacija.OrgJedinica.Equals(orgJed.Id.ToString())
+                            select (lok.Adresa)).ToList().Count();
+            if (provjera == 0)
             {
-                db.Lokacije.Update(new Lokacija { Id = lokacija.Id, Adresa = lokacija.Adresa, GradId = DohvatiIdGrada(lokacija) });
+                db.Lokacije.Update(new Lokacija { Id = lokacija.Id, Adresa = lokacija.Adresa, GradId = Int32.Parse(lokacija.Grad) });
+                if (db.LokacijaOrganizacijskaJedinicas.Where(l => l.LokacijeId.Equals(lokacija.Id) && l.OrganizacijskeJediniceId.Equals(DohvatiIDOrgJedinice(lokacija.OrgJedinica))).Count() == 0)
+                {
+                    db.LokacijaOrganizacijskaJedinicas.Add(new LokacijaOrganizacijskaJedinica { LokacijeId = lokacija.Id, OrganizacijskeJediniceId = Int32.Parse(lokacija.OrgJedinica) });
+                }
+                else {
+                    lokacija.povratnaInfo = $"Lokacija je već dio te organizacijske jedinice! Pogledajte pod postojeće organizacijske jedinice.";
+                }
+                
                 db.SaveChanges();
                 return true;
-            }
+        }
             return false;
+        }
+
+        public LokacijaVM DohvatiPripadajuceOrgJedinice(LokacijaVM lokacija)
+        {
+            List<string> listaOrgJedinica = (from orgJed in db.OrganizacijskeJedinice
+                                             join lokOrgJed in db.LokacijaOrganizacijskaJedinicas on orgJed.Id equals lokOrgJed.OrganizacijskeJediniceId
+                                             where lokOrgJed.LokacijeId.Equals(lokacija.Id)
+                                             select orgJed.Naziv).ToList();
+            if (listaOrgJedinica != null)
+            {
+                foreach (var lok in listaOrgJedinica)
+                {
+                    lokacija.ListaPripadajucihOrganizacijskihJedinica+=lok;
+                    lokacija.ListaPripadajucihOrganizacijskihJedinica += ", ";
+                }
+            }
+           
+            return lokacija;
         }
 
         public string DohvatiNazivGrada(Lokacija lokacija)
@@ -222,7 +249,15 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                          where orgJed.Id.Equals(OrgJedID)
                          select orgJed.Naziv).FirstOrDefault();
         }
-      
+
+        public int DohvatiIDOrgJedinice(string naziv)
+        {
+            return (from orgJed in db.OrganizacijskeJedinice
+                    where orgJed.Naziv.Equals(naziv)
+                    select orgJed.Id).FirstOrDefault();
+        }
+
+
         public string DohvatiNazivOrgJedinicePoID(int lokacijaID)
         {
             return (from lok in db.Lokacije
