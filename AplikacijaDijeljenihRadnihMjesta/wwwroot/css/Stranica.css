@@ -15,13 +15,34 @@
     background:white !important;
 
 }
+
+th {
+    padding: 10px !important;
+    vertical-align: middle;
+}
 .btn-info {
-    background: #27bedc !important;
+    background: #3c9df1a6 !important;
     color: white !important;
+    border: 0px !important;
+    width: 40px !important;
 }
 .btn-danger {
-    background: #e44252!important;
+    background: #d54654 !important;
 }
+
+a.dropdown-item:focus {
+    background-color: #2973b2 !important;
+}
+
+a.page-link {
+    color: #2973b2 !important;
+}
+
+.page-item.active .page-link {
+    background-color: #2973b2 !important;
+    border-color: #2973b2 !important;
+}
+
 .fas fa-plus {
     color: #2973b2 !important;
 }
@@ -55,7 +76,6 @@ td {
 }
 
 .formTitle {
-    padding-left: 50px;
     margin-top: 15px;
     color: #215C8E !important;
     margin-bottom:15px;

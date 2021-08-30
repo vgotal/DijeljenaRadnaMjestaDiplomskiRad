@@ -51,7 +51,7 @@
             <select class="form-select" style="width:min-content; display:inline-block!important" asp-for="@Model.radnoMjestoFilter.TipLaptopaID" asp-items="@Model.radnoMjestoFilter.ListaTipovaLaptopa">
                 <option>Svi modeli</option>
             </select>
-            <input type="submit" style=" font-size: 1em !important; margin-left:10px; margin-bottom:10px;" class="btn btn-primary" value="Filtriraj" />
+            <input type="submit" style=" font-size: 1em !important; margin-left:10px; margin-bottom:4.5px;" class="btn btn-primary" value="Filtriraj" />
             @if ((int)lokacijaID == 0)
             {
                 <a style="float:right;text-align:right!important;  color: #2973b2 !important;" asp-controller="RadnoMjesto" asp-route-LokacijaId="@lokacijaID" asp-action="Create">
@@ -108,8 +108,8 @@
                                                     <p>Jeste li sigurni da želite obrisati radno mjesto pod šifrom: @obj.Sifra? </p>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" style="width:60px;" class="btn btn-secondary" data-dismiss="modal">Ne</button>
-                                                    <button type="submit" style="width:60px;" class="btn btn-danger">Da</button>
+                                                    <button type="button" style="width:min-content;" class="btn btn-primary" data-dismiss="modal">Odustani</button>
+                                                    <button type="submit" style="width:min-content;" class="btn btn-danger">Obriši</button>
                                                 </div>
                                             </div>
                                         </div>

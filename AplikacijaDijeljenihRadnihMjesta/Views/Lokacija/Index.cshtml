@@ -74,7 +74,10 @@
                     <th>
                         Organizacijske jedinice
                     </th>
-                    <th></th>
+                    <th>
+                        Radna mjesta
+                    </th>
+                    <th>Akcija</th>
                 </tr>
             </thead>
             <tbody>
@@ -84,7 +87,7 @@
                     <td id="items" width="40%">@obj.Adresa</td>
                     <td id="items" width="40%">@obj.Grad</td>
                     <td class="text-center">
-                        <a data-target="#DohvatiModal-@obj.Id" data-toggle="modal"  class="btn btn-info"><i class="fas fa-info"></i></a>
+                        <a data-target="#DohvatiModal-@obj.Id" data-toggle="modal" class="btn btn-info"><i class="fas fa-info"></i></a>
                         <form method="get" asp-action="Index" asp-controller="Lokacija" asp-route-orgJedID="@orgJedID" asp-route-Id="@obj.Id">
                             <div class="modal" tabindex="-1" role="dialog" id="DohvatiModal-@obj.Id">
                                 <div class="modal-dialog" role="document">
@@ -96,7 +99,7 @@
                                             <p>@obj.ListaOrganizacijskihJedinica</p>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" style="width:min-content;" data-dismiss="modal">Odustani</button>
+                                            <button type="button" class="btn btn-primary" style="width:min-content;" data-dismiss="modal">U redu</button>
                                         </div>
                                     </div>
                                 </div>
@@ -104,9 +107,12 @@
                         </form>
                     </td>
                     <td class="text-center">
+                        <a asp-controller="RadnoMjesto" asp-route-LokacijaId="@obj.Id" asp-action="Index" class="btn btn-info"><i class="fas fa-info"></i></a>
+                    </td>
+                    <td class="text-center">
                         <div class="w-100 btn-group" role="group">
 
-                           
+
 
                             @if ((int)orgJedID != 0)
                             {
@@ -122,8 +128,8 @@
                                                     <p>Jeste li sigurni da želite obrisati lokaciju na adresi @obj.Adresa? </p>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" style="width:60px;" class="btn btn-secondary" data-dismiss="modal">Ne</button>
-                                                    <button type="submit" style="width:60px;" class="btn btn-danger">Da</button>
+                                                    <button type="button" style="width:min-content;" class="btn btn-primary" data-dismiss="modal">Odustani</button>
+                                                    <button type="submit" style="width:min-content;" class="btn btn-danger">Obriši</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -146,8 +152,8 @@
                                                     <p>Jeste li sigurni da želite obrisati lokaciju na adresi @obj.Adresa? </p>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" style="width:60px;" class="btn btn-secondary" data-dismiss="modal">Ne</button>
-                                                    <button type="submit" style="width:60px;" class="btn btn-danger">Da</button>
+                                                    <button type="button" style="width:min-content;" class="btn btn-primary" data-dismiss="modal">Ne</button>
+                                                    <button type="submit" style="width:min-content;" class="btn btn-danger">Da</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -155,7 +161,6 @@
                                 </form>
 
                                 <a asp-controller="Lokacija" asp-route-Id="@obj.Id" asp-action="Edit" class="btn btn-primary "><i class="fas fa-edit"></i></a>
-                                <a asp-controller="RadnoMjesto" asp-route-LokacijaId="@obj.Id" asp-action="Index" class="btn btn-info"><i class="fas fa-info"></i></a>
                             }
                         </div>
                     </td>

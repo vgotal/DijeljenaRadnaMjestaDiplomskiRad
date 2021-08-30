@@ -49,6 +49,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
                         org.ListaOrganizacijskihJedinica +=( l + "\r\n");
                         //org.ListaOrganizacijskihJedinica += System.Environment.NewLine;
                     }
+                    org.ListaOrganizacijskihJedinica = string.Join(", ",lista);
 
                     //org.ListaOrganizacijskihJedinica.Remove(org.ListaOrganizacijskihJedinica.Length - 2);
                 }

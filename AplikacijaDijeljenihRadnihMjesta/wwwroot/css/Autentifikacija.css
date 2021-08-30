@@ -8,12 +8,20 @@ img {
     padding: 0 !important;
     background: radial-gradient(#653d84, #332042);
 }
+a.dropdown-item:focus {
+    background-color: #2973b2 !important;
+}
+
 
 .login {
     height: 100%;
     max-width: 100%;
     position: relative;
     background: #bacadd;
+}
+
+.btn-primary {
+    background-color:#458cd7 !important;
 }
 
 .login_box {
@@ -91,7 +99,6 @@ img {
     display: block;
     margin: auto;
     margin-top: 120px;
-    background: #002e99 !important;
     color: #fff;
     font-weight: bold;
     -webkit-box-shadow: 0px 9px 15px -11px rgba(88,54,114,1);

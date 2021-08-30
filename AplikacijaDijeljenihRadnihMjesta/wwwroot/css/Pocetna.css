@@ -17,6 +17,11 @@
     
 }
 
+.data-card:hover .btnShowMore {
+    color: white !important;
+    font-weight: bold !important;
+}
+
 .data-card {
     display: flex;
     flex-direction: column;
