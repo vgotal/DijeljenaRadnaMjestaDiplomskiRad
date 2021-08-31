@@ -63,7 +63,9 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
 
         public bool EditGrad(GradVM grad, int gradID)
         {
-            if (db.Gradovi.Where(g => g.Naziv.Equals(grad.Naziv) ).Count() == 0)
+            if ((db.Gradovi.Where(g => g.Naziv.Equals(grad.Naziv) && !g.Id.Equals(grad.Id)).Count() == 0
+                && db.Gradovi.Where(g => g.Oznaka.Equals(grad.Oznaka) && !g.Id.Equals(grad.Id)).Count() == 0)
+                || db.Gradovi.Where(g => g.Naziv.Equals(grad.Naziv) && g.Oznaka.Equals(grad.Oznaka) && g.Id.Equals(grad.Id)).Count() == 1)
             {
                 db.Gradovi.Update(new Grad { Id = gradID, Naziv = grad.Naziv, Oznaka = grad.Oznaka });
                 db.SaveChanges();
