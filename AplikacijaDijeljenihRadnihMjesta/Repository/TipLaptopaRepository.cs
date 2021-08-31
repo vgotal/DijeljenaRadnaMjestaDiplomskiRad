@@ -63,9 +63,14 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
 
         public bool EditTipLaptopa(TipLaptopaVM tipLaptopa)
         {
+           // db.Entry<RadnoMjesto>(radnoMjesto).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+            if (db.TipoviLaptopa.Where(m=>m.Model.Equals(tipLaptopa.Model)).Count()==0)
+            {
                 db.TipoviLaptopa.Update(new TipLaptopa { Id = tipLaptopa.Id, Model = tipLaptopa.Model });
                 db.SaveChanges();
-                return true; 
+                return true;
+            }
+            return false;
         }
 
 

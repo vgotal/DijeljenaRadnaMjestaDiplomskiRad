@@ -63,9 +63,14 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
 
         public bool EditGrad(GradVM grad, int gradID)
         {
-            db.Gradovi.Update(new Grad {Id=gradID, Naziv=grad.Naziv, Oznaka=grad.Oznaka });
-            db.SaveChanges();
-            return true;
+            if (db.Gradovi.Where(g => g.Naziv.Equals(grad.Naziv) && g.Oznaka.Equals(grad.Oznaka)).Count() == 0)
+            {
+                db.Gradovi.Update(new Grad { Id = gradID, Naziv = grad.Naziv, Oznaka = grad.Oznaka });
+                db.SaveChanges();
+                return true;
+            }
+            else
+                return false;
         }
     }
 }

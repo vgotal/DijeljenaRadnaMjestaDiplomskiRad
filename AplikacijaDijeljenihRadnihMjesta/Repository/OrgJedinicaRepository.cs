@@ -65,9 +65,14 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
 
         public bool EditOrgJedinicu(OrgJedinicaVM orgJedinica, int orgJedID)
         {
-            db.OrganizacijskeJedinice.Update(new OrganizacijskaJedinica { Id = orgJedID, Naziv = orgJedinica.Naziv });
-            db.SaveChanges();
-            return true;
+            if (db.OrganizacijskeJedinice.Where(l => l.Naziv.Equals(orgJedinica.Naziv)).Count() == 0)
+            {
+                db.OrganizacijskeJedinice.Update(new OrganizacijskaJedinica { Id = orgJedID, Naziv = orgJedinica.Naziv });
+                db.SaveChanges();
+                return true;
+            }
+            else return false;
+           
         }
         public OrganizacijskaJedinica DohvatiOrgJedinicuPoID(int id)
         {

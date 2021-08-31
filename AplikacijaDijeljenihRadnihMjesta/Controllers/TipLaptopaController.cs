@@ -77,7 +77,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
                 }
                 else
                 {
-                    TempData["Neuspješno"] = "Neuspješna promjena naziva modela";
+                    TempData["Neuspješno"] = "Neuspješna promjena naziva modela! Pogledajte postoji li takav model laptopa.";
                 }
             }
             ModelState.Clear();

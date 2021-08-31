@@ -287,7 +287,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
                 }
                 else
                 {
-                    TempData["Neuspješno"] = "Neuspješna promjena informacija o radnom mjestu";
+                    TempData["Neuspješno"] = "Neuspješna promjena informacija o radnom mjestu! Provjerite postoji li već takvo radno mjesto.";
                 }
             
             ModelState.Clear();

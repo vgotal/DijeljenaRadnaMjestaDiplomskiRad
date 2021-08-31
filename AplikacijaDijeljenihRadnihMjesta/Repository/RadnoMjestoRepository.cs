@@ -140,10 +140,13 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         public bool EditRadnoMjesto(RadnoMjestoVM radnoMjesto)
         {
             var sifra = DohvatiInicijaleGrada(radnoMjesto).InicijaliGrada + "-" + "K" + radnoMjesto.Kat + "-" + "P" + radnoMjesto.Prostorija + "-" + "BR" + radnoMjesto.BrojRadnogMjesta;
-           
+            if (db.RadnaMjesta.Where(r=>r.Sifra.Equals(sifra) && r.TipLaptopaId.Equals(Int32.Parse(radnoMjesto.TipLaptopa)) && r.LokacijaId.Equals(Int32.Parse(radnoMjesto.Lokacija)) && r.Onemoguceno.Equals(false)).Count()==0)
+            {
                 db.RadnaMjesta.Update(new RadnoMjesto { Id = radnoMjesto.Id, Sifra = sifra, TipLaptopaId = Int32.Parse(radnoMjesto.TipLaptopa), LokacijaId = Int32.Parse(radnoMjesto.Lokacija), Onemoguceno = false });
                 db.SaveChanges();
-         return true;
+                return true;
+            }
+            return false;
         }
 
         public int DohvatiLokacijaID(RadnoMjestoVM radnoMjesto)

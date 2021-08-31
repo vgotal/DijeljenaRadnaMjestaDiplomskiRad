@@ -85,7 +85,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
                 }
                 else
                 {
-                    TempData["Neuspješno"] = "Neuspješna promjena naziva organizacijske jedinice!";
+                    TempData["Neuspješno"] = "Neuspješna promjena naziva organizacijske jedinice! Pogledajte postoji li organizacijska jedinica s tim nazivom.";
                 }
             }
             ModelState.Clear();

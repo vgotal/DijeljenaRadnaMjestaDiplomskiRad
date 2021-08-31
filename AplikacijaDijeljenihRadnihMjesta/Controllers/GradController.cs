@@ -75,7 +75,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                 }
                 else
                 {
-                    TempData["Neuspješno"] = "Neuspješna promjena naziva grada!";
+                    TempData["Neuspješno"] = "Neuspješna promjena naziva grada! Provjerite postoji li već grad s tim imenom.";
                 }
             }
             ModelState.Clear();
