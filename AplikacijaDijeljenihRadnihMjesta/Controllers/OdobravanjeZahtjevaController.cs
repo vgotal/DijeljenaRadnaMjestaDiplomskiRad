@@ -81,7 +81,11 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             }
             if (zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva.RezervacijeOtkazivanje != null)
             {
-                odobravanjeZahtjevaRepository.PotvrdiZahtjev(zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva);
+               odobravanjeZahtjevaRepository.PotvrdiZahtjev(zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva);
+                if (zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva.povratnaInfo != null)
+                {
+                    TempData["Info"] = zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva.povratnaInfo;
+                }
 
             }
             if (zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva.Status != null)
@@ -98,7 +102,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
    
             
             var datumi = odobravanjeZahtjevaRepository.DohvatiDatumOdobravanja(zahtjeviOdobravanjeSPaginacijom.odobravanjeZahtjeva);
-            //ModelState.Clear();
+            
             return View(zahtjeviOdobravanjeSPaginacijom);
         }
     }

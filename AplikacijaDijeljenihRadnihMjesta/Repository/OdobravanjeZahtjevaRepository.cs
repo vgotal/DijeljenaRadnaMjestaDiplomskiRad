@@ -138,23 +138,35 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         {
                 foreach (var zahtjev in zahtjevi.RezervacijeOtkazivanje)
                 {
-                    
-                    if (zahtjev.OdgovorCheckBoxOdobreno == true)
+
+                if (zahtjev.OdgovorCheckBoxOdobreno && zahtjev.OdgovorCheckBoxOtkazano)
+                {
+                    zahtjevi.povratnaInfo = "Ne možete istovremeno odobriti i otkazati korisnikov zahtjev!";
+                }
+                else if (zahtjev.OdgovorCheckBoxOdobreno==false && zahtjev.OdgovorCheckBoxOtkazano==false)
+                {
+                    zahtjevi.povratnaInfo = "Morate označiti jedno od polja!!";
+
+                }
+
+                else {
+
+                    if (zahtjev.OdgovorCheckBoxOdobreno)
                     {
-                        var zah=db.RezervacijeOtkazivanje.Find(zahtjev.Id);
+                        var zah = db.RezervacijeOtkazivanje.Find(zahtjev.Id);
                         zah.StatusId = 1;
                         zah.Komentar = zahtjev.Komentar;
                         db.SaveChanges();
                         request.ToEmail = zahtjev.DjelatnikEmail;
                         request.Subject = "Potvrda rezervacije/otkazivanja";
                         request.Body = $" <b> <h3> Odobren zahtjev </h3></b> <br />   Zahtjev je odobren za dan/e:<b> {zah.Datum.ToShortDateString()}</b>";
-                    mailServices.SendEmailAsync(request);
+                        mailServices.SendEmailAsync(request);
                         var zahtjevZaOtkazivanje = (from rezervacije in db.RezervacijeOtkazivanje
                                                     join radnoMjesto in db.RadnaMjesta on rezervacije.RadnoMjestoId equals radnoMjesto.Id
                                                     join lokacija in db.Lokacije on radnoMjesto.LokacijaId equals lokacija.Id
                                                     join zahtjevOtkazivanje in db.Zahtjevi on rezervacije.ZahtjevId equals zahtjevOtkazivanje.Id
                                                     join tipZahtjeva in db.TipoviZahtjeva on zahtjevOtkazivanje.TipZahtjevaId equals tipZahtjeva.Id
-                                                    where rezervacije.Id == zah.Id   
+                                                    where rezervacije.Id == zah.Id
                                                     && zahtjevOtkazivanje.TipZahtjevaId == 2
                                                     select tipZahtjeva.Id).FirstOrDefault();
                         var zahjtevZaOtkazivanjeLokacijaID = (from rezervacije in db.RezervacijeOtkazivanje
@@ -162,7 +174,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                                               join lokacija in db.Lokacije on radnoMjesto.LokacijaId equals lokacija.Id
                                                               join zahtjevOtkazivanje in db.Zahtjevi on rezervacije.ZahtjevId equals zahtjevOtkazivanje.Id
                                                               join tipZahtjeva in db.TipoviZahtjeva on zahtjevOtkazivanje.TipZahtjevaId equals tipZahtjeva.Id
-                                                              where rezervacije.Id == zah.Id 
+                                                              where rezervacije.Id == zah.Id
                                                               && zahtjevOtkazivanje.TipZahtjevaId == 2
                                                               select lokacija.Id).FirstOrDefault();
                         var zahjtevZaOtkazivanjeDjelatnikID = (from rezervacije in db.RezervacijeOtkazivanje
@@ -170,7 +182,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                                                                join lokacija in db.Lokacije on radnoMjesto.LokacijaId equals lokacija.Id
                                                                join zahtjevOtkazivanje in db.Zahtjevi on rezervacije.ZahtjevId equals zahtjevOtkazivanje.Id
                                                                join tipZahtjeva in db.TipoviZahtjeva on zahtjevOtkazivanje.TipZahtjevaId equals tipZahtjeva.Id
-                                                               where rezervacije.Id == zah.Id 
+                                                               where rezervacije.Id == zah.Id
                                                                && zahtjevOtkazivanje.TipZahtjevaId == 2
                                                                select zahtjevOtkazivanje.DjelatnikId).FirstOrDefault();
                         if (zahtjevZaOtkazivanje == 2)
@@ -178,18 +190,22 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
                             db.Database.ExecuteSqlInterpolated($"exec [dbo].[Otkazivanjezahtjeva] {zah.Datum:yyyy-MM-dd},{zahjtevZaOtkazivanjeLokacijaID},{zahjtevZaOtkazivanjeDjelatnikID}, { zah.ProvjeraOtkazivanjaRezerviranja}, {zah.Komentar}");
                             db.SaveChanges();
                         }
-                }
-                else if (zahtjev.OdgovorCheckBoxOtkazano == true)
+                    }
+                    else if (zahtjev.OdgovorCheckBoxOtkazano == true)
                     {
-                    var zahtjevRezOtk = db.RezervacijeOtkazivanje.Find(zahtjev.Id);
-                    zahtjevRezOtk.StatusId = 2;
-                    zahtjevRezOtk.Komentar = zahtjev.Komentar;
-                    db.SaveChanges();
-                    request.ToEmail = zahtjev.DjelatnikEmail;
-                    request.Subject = "Potvrda rezervacije/otkazivanja";
-                    request.Body = $" <b> <h3> Odbijen zahtjev </h3></b> <br />   Zahtjev je odbijen za dan:<b> {zahtjevRezOtk.Datum.ToShortDateString()}</b> uz komentar:{zahtjevRezOtk.Komentar}" ;
-                    mailServices.SendEmailAsync(request);
-                } 
+                        var zahtjevRezOtk = db.RezervacijeOtkazivanje.Find(zahtjev.Id);
+                        zahtjevRezOtk.StatusId = 2;
+                        zahtjevRezOtk.Komentar = zahtjev.Komentar;
+                        db.SaveChanges();
+                        request.ToEmail = zahtjev.DjelatnikEmail;
+                        request.Subject = "Potvrda rezervacije/otkazivanja";
+                        request.Body = $" <b> <h3> Odbijen zahtjev </h3></b> <br />   Zahtjev je odbijen za dan:<b> {zahtjevRezOtk.Datum.ToShortDateString()}</b> uz komentar:{zahtjevRezOtk.Komentar}";
+                        mailServices.SendEmailAsync(request);
+                    }
+
+                }
+
+                    
                 }
            
 
