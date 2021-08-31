@@ -6,11 +6,14 @@
     {
         ViewData["index"] = "ADMIN";
         ViewData["oboje"] = true;
+        ViewData["ImePrezime"] = Model.ImePrezime;
+
     }
     else
     {
         ViewData["index"] = "DJELATNIK";
         ViewData["oboje"] = false;
+        ViewData["ImePrezime"] = Model.ImePrezime;
     }
 }
 

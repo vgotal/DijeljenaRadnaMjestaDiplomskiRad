@@ -5,7 +5,8 @@
 @{
     var orgJedID = (TempData["OrgJedID"]);
     ViewData["index"] = "ADMIN";
-   
+    ViewData["ImePrezime"] = TempData["ImePrezime"];
+
 }
 <form method="post" asp-action="Edit">
     <input asp-for="Id" hidden />

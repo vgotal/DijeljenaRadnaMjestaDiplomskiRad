@@ -23,6 +23,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             //try
             //{
 
@@ -39,6 +40,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         //GET-CREATE
         public IActionResult Create()
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             return View();
         }
 
@@ -47,6 +49,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(OrgJedinicaVM orgJedinica)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             if (orgJedinicaRepository.DodajNovuOrgJedinicu(orgJedinica))
             {
                 TempData["Uspješno"] = "Uspješno dodana nova organizacijska jedinica!";
@@ -62,6 +65,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         //GET-EDIT
         public IActionResult Edit(int id)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             if (id != 0)
             {
                 var orgJedinica = orgJedinicaRepository.DohvatiOrgJedinicuPoID(id);
@@ -76,6 +80,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(OrgJedinicaVM orgJed)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             if (ModelState.IsValid)
             {
                 var orgJedID = HttpContext.Session.GetInt32(SessionOrgJed);
@@ -95,6 +100,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         //GET-DELETE
         public IActionResult Delete(int id)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             if (ModelState.IsValid)
             {
                 if (orgJedinicaRepository.IzbrisiOrgJedinicu(id))
@@ -113,6 +119,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         //GET-DODAJLOKACIJE
         public IActionResult DodajLokacije(int orgJedID)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             TempData["OrgJedID"] = orgJedID;
             var lista = orgJedinicaRepository.DohvatiListuLokacija(orgJedID);
             HttpContext.Session.SetInt32(SessionOrgJed, orgJedID);
@@ -125,6 +132,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DodajLokacije(LokacijaORgJedinicaVM orgJedinica)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             var orgJedID = HttpContext.Session.GetInt32(SessionOrgJed);
             TempData["OrgJedID"] = orgJedID;
             if (orgJedinicaRepository.DodajNovuLokacijuUOrgJedinicu(orgJedinica, (int)orgJedID))

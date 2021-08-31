@@ -56,8 +56,16 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
             {
                 DjelatnikID = id;
                 return id;
-            }
+            } 
             return 0;  //vidi kako poboljšati
+        }
+
+
+        public string DohvatiImeIPrezime(int id)
+        {
+            var ime = db.Djelatnici.Where(d => d.Id.Equals(id)).Select(d => d.Ime).FirstOrDefault();
+            var prezime= db.Djelatnici.Where(d => d.Id.Equals(id)).Select(d => d.Prezime).FirstOrDefault();
+            return ime + " " + prezime;
         }
 
         public string DohvatiUloguDjelatnika(int id)

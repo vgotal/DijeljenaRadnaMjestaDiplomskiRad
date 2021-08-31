@@ -3,6 +3,7 @@
 <partial name="Upozorenja" view-data="ViewData" />
 @{
     ViewData["index"] = "ADMIN";
+    ViewData["ImePrezime"] = TempData["ImePrezime"];
 }
 
 <form method="post" asp-action="Edit">

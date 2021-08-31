@@ -30,6 +30,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             var djelatniciSPaginacijom = new PaginacijaDjelatnik();
             djelatniciSPaginacijom.djelatnikFilter = new DjelatnikFilter();
             var uloga=0;
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             HttpContext.Session.SetInt32(SessionOrgJedID, 0);
             if (orgJedID != 0 && orgJedID != null)
             {
@@ -71,7 +72,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [HttpPost]
         public IActionResult Index(PaginacijaDjelatnik paginacijaDjelatnik, int? orgJedID, int pageNumber = 1, int pageSize = 4)
         {
-
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             if (orgJedID != 0 && paginacijaDjelatnik.djelatnikFilter.Uloga == null)
             {
                 if (paginacijaDjelatnik.djelatnikFilter.Uloga != null)
@@ -119,6 +120,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [HttpGet]
          public IActionResult Create(int orgJedID)
          {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             TempData["OrgJedID"] = orgJedID;
             var djelatnik = new DjelatnikVM();
             djelatnik = djelatnikRepository.PopuniFiltereSPodatcima(orgJedID, djelatnik);
@@ -129,6 +131,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(DjelatnikVM djelatnik)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             var orgJedID = HttpContext.Session.GetInt32(SessionOrgJedID);
             if (ModelState.IsValid)
             {
@@ -151,6 +154,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         //GET-EDIT
         public IActionResult Edit(int? id, int? orgJedID)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             TempData["OrgJedID"] = orgJedID;
             var djelatnik = djelatnikRepository.DohvatiDjelatnika((int)id);
             var modeliLaptopa= djelatnikRepository.PopuniListuModeliLaptopa();
@@ -177,6 +181,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(DjelatnikVM djelatnik)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             TempData["OrgJedID"] = HttpContext.Session.GetInt32(SessionOrgJedID);
             var orgJedID = TempData["OrgJedID"];
             var staraLozinka = HttpContext.Session.GetString(SessionStaraLozinkaDjelatnika);
@@ -206,6 +211,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [HttpPost]
         public IActionResult Delete(int id, int? orgJedID)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             TempData["OrgJedID"] = orgJedID;
             if (ModelState.IsValid)
             {

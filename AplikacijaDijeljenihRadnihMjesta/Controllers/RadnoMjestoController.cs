@@ -23,6 +23,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [HttpGet]
         public IActionResult Index(int LokacijaId, int? orgJedID, int pageNumber = 1, int pageSize = 4)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             var radnaMjestaSPaginacijom = new PaginacijaRadnoMjesto();
             radnaMjestaSPaginacijom.radnoMjestoFilter = new RadnoMjestoFilter();
             TempData["LokacijaID"] = LokacijaId;
@@ -78,7 +79,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [HttpPost]
         public IActionResult Index(PaginacijaRadnoMjesto radnaMjestaSPaginacijom,  int? lokacijaID, int? tipLaptopaID, int pageNumber = 1, int pageSize = 4)
         {
-
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             if (lokacijaID != 0 && radnaMjestaSPaginacijom.radnoMjestoFilter.TipLaptopaID == 0)
             {
                 HttpContext.Session.SetInt32(SessionLokacija, (int)lokacijaID);
@@ -121,6 +122,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         //GET-CREATE
         public IActionResult Create(int LokacijaId, int? orgJedID)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             var lista = new RadnoMjestoVM();
             lista.tipoviLaptopa = radnoMjestoRepository.DohvatiTipoveLaptopa();
 
@@ -146,7 +148,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(RadnoMjestoVM radnoMjesto, int? orgJedID, int? lokacijaID)
         {
-            
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             if (radnoMjesto.LokacijaId != 0)
             {
                 radnoMjesto.LokacijaId = (int)HttpContext.Session.GetInt32(SessionLokacija);
@@ -201,6 +203,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         //GET-DELETE
         public IActionResult Delete(string Sifra, int? lokacijaID, int? orgJedID) 
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             TempData["OrgJedID"] = orgJedID;
             var lokID=0;
             if (ModelState.IsValid)
@@ -239,6 +242,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         //GET-EDIT
         public IActionResult Edit(string Sifra, int? orgJedID, int? lokacijaID) 
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             if (Sifra != null)
             {
                 var radnoMjesto = radnoMjestoRepository.DohvatiRadnoMjestoPoSifri(Sifra);
@@ -274,6 +278,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(RadnoMjestoVM radnomjesto)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             TempData["OrgJedID"] = HttpContext.Session.GetInt32(SessionOrgJedID);
             var orgJedID = TempData["OrgJedID"];
             radnomjesto.LokacijaId = (int)HttpContext.Session.GetInt32(SessionLokacija);

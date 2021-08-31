@@ -18,12 +18,14 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         [HttpGet]
         public IActionResult Index()
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             return View(gradRepository.DohvatiListuGradova());
         }
 
         //GET-CREATE
         public IActionResult Create()
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             return View();
         }
 
@@ -32,6 +34,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         [ValidateAntiForgeryToken]
         public IActionResult Create(GradVM grad)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             if (ModelState.IsValid)
             {
                 if (gradRepository.DodajNoviGrad(grad))
@@ -52,6 +55,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         //GET-EDIT
         public IActionResult Edit(int id)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             if (id != 0)
             {
                 var grad = gradRepository.DohvatiGradPoId(id);
@@ -66,6 +70,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         [ValidateAntiForgeryToken]
         public IActionResult Edit(GradVM grad)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             if (ModelState.IsValid)
             {
                 var gradId = HttpContext.Session.GetInt32(SessionGrad);
@@ -85,6 +90,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Repository
         //GET-DELETE
         public IActionResult Delete(int id)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             if (ModelState.IsValid)
             {
                 if (gradRepository.IzbrisiGrad(id))

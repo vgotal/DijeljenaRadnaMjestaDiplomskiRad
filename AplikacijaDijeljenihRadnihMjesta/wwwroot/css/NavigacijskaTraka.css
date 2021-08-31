@@ -26,6 +26,14 @@ ul.pagination {
     margin-left: 5%;
     color: white !important;
 }
+.username {
+    margin-left:200px;
+    float:right !important;
+    padding: 5px !important;
+}
+.username:hover {
+    font-weight: normal !important;
+}
 
 .nav-link {
     color: white !important;
@@ -37,6 +45,22 @@ ul.pagination {
 }
 .nav.navbar.navbar-expand-lg navbar-light {
     background: #2973b2;
+}
+
+.dropdown-menu {
+    display: none;
+    text-align: center !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translate(-50%, 0) !important;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.drodpdown-item {
+    text-align: center !important;
 }
 
 

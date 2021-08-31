@@ -6,7 +6,7 @@
     var lokacijaID = 0;
     if (TempData["LokacijaID"] != null)
     {
-       
+
         lokacijaID = (int)@TempData["LokacijaID"];
 
     }
@@ -22,6 +22,7 @@
 
     ViewData["Controller"] = "RadnoMjesto";
     ViewData["Action"] = "Index";
+    ViewData["ImePrezime"] = TempData["ImePrezime"];
     }
 
 <partial name="Upozorenja" view-data="ViewData" />

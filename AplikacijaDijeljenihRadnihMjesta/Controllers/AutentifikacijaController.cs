@@ -36,10 +36,12 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
             {
                 HttpContext.Session.SetString("potvrda", "true");
                 TempData["index"] = true;
+                TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             }
             else
             {
                 TempData["index"] = false;
+                TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
                 HttpContext.Session.SetString("potvrda", "false");
             }
                
@@ -67,16 +69,20 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
                     {
                         racun.DjelatnikId = id;
                         racun.Uloga = "Administrator";
+                        racun.ImePrezime = korisnickiRacunRepository.DohvatiImeIPrezime(id);
                         HttpContext.Session.SetString("Uloga", racun.Uloga);
+                        HttpContext.Session.SetString("ImePrezime", racun.ImePrezime);
                         return RedirectToAction("Pocetna", racun);
                     }
                     else
                     {
                         racun.DjelatnikId = id;
                         racun.Uloga = "Djelatnik";
+                        racun.ImePrezime = korisnickiRacunRepository.DohvatiImeIPrezime(id);
                         HttpContext.Session.SetString("Uloga", racun.Uloga);
                         TempData["index"] = false;
                         HttpContext.Session.SetString("potvrda", "false");
+                        HttpContext.Session.SetString("ImePrezime", racun.ImePrezime);
                         return RedirectToAction("Index", "Zahtjevi");
                     }
 

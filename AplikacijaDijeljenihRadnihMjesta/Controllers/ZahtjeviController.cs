@@ -25,7 +25,9 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
 
         //[HttpGet]
         public IActionResult Index(int pageNumber = 1, int pageSize = 4)
-        {var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
+        {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
+            var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
             var djelatnikUloga = pregledZahtjevaRepository.DohvatiDjelatnikovuUlogu((int)djelatnikID);
             if (djelatnikUloga == "Administrator")
             {
@@ -73,8 +75,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [HttpPost]
         public IActionResult Index(PaginacijaZahtjev zahtjeviSPaginacijom,  int pageNumber = 1, int pageSize = 4)
         {
-          
 
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
             var djelatnikUloga = pregledZahtjevaRepository.DohvatiDjelatnikovuUlogu((int)djelatnikID);
             if (djelatnikUloga == "Administrator")
@@ -134,6 +136,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
 
         public IActionResult Detalji(int zahtjevID)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
             var djelatnikUloga = pregledZahtjevaRepository.DohvatiDjelatnikovuUlogu((int)djelatnikID);
             if (djelatnikUloga == "Administrator")

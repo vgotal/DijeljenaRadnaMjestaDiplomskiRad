@@ -58,5 +58,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models.ViewModel
         {
             get; set;
         }
+
+        public string ImePrezime { get; set; }
     }
 }

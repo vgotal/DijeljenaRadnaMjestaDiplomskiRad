@@ -19,5 +19,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Models.Paginacija
         {
             get; set;
         }
+
+     
     }
 }

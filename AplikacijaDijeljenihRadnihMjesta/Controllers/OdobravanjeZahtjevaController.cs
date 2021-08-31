@@ -27,6 +27,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
 
         public IActionResult Index(int pageNumber = 1, int pageSize = 5)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             //ModelState.Clear();
             var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
             var djelatnikUloga = odobravanjeZahtjevaRepository.DohvatiDjelatnikovuUlogu((int)djelatnikID);
@@ -53,7 +54,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [HttpPost]
         public IActionResult Index(PaginacijaOdobravanjeZahtjeva zahtjeviOdobravanjeSPaginacijom, int pageNumber = 1, int pageSize = 5)
         {
-           
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
             var djelatnik = new Djelatnik();
             if (djelatnikID != 0 && djelatnikID != null)

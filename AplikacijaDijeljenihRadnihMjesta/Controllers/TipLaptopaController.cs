@@ -2,6 +2,7 @@
 using AplikacijaDijeljenihRadnihMjesta.Models;
 using AplikacijaDijeljenihRadnihMjesta.Models.ViewModel;
 using AplikacijaDijeljenihRadnihMjesta.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -21,12 +22,14 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             return View(tipLaptopaRepository.DohvatiListuTipovaLaptopa());
         }
 
         //GET-CREATE
         public IActionResult Create()
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             return View();
         }
 
@@ -35,6 +38,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(TipLaptopaVM tipLaptopa)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             if (ModelState.IsValid)
             {
                 if (tipLaptopaRepository.DodajNoviTipLaptopa(tipLaptopa))
@@ -55,6 +59,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         //GET-EDIT
         public IActionResult Edit(int? id)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             if (id != null)
             {
                 var tipLaptopa = tipLaptopaRepository.DohvatiTipLaptopaPoId(id);
@@ -69,6 +74,8 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(TipLaptopaVM tipLaptopa)
         {
+
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             if (ModelState.IsValid)
             {
                 if (tipLaptopaRepository.EditTipLaptopa(tipLaptopa))
@@ -87,7 +94,9 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         //GET-DELETE
         [HttpPost]
         public IActionResult Delete(int? id)
-        {   if (id == null)
+        {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
+            if (id == null)
             { 
                 return NotFound();
             }

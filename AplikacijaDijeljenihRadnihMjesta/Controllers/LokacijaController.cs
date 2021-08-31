@@ -26,7 +26,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [HttpGet]
         public IActionResult Index(int? orgJedID, string nazivOrgJed)
         {
-
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             if (orgJedID != 0 && orgJedID != null)
             {
                 HttpContext.Session.SetInt32(SessionOrgJedinica, (int)orgJedID);
@@ -60,7 +60,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [HttpPost]
         public IActionResult Index(int? orgJedID, int? GradID)
         {
-
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             if (orgJedID != 0 && GradID == null)
             {
                 var nazivOrgJed = HttpContext.Session.GetString(SessionOrgJedinicaNaziv);
@@ -88,7 +88,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         public IActionResult Create(int? orgJedID)
         {
             TempData["OrgJedID"] = HttpContext.Session.GetInt32(SessionOrgJedinica);
-
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             var lista = new LokacijaVM();
             lokacijaRepository.DohvatiGradove(lista);
             if (orgJedID != 0)
@@ -107,6 +107,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(LokacijaVM lokacija)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             if (lokacijaRepository.DodajNovuLokaciju(lokacija))
             {
                 TempData["OrgJedID"] = HttpContext.Session.GetInt32(SessionOrgJedinica);
@@ -131,6 +132,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         //GET-DELETE
         public IActionResult Delete(int? id, int? orgJedID)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             TempData["OrgJedID"] = HttpContext.Session.GetInt32(SessionOrgJedinica);
             var nazivOrgJed = HttpContext.Session.GetString(SessionOrgJedinicaNaziv);
             if (ModelState.IsValid)
@@ -190,6 +192,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         //GET-EDIT
         public IActionResult Edit(int? id, int? orgJedID)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             var lokacija = lokacijaRepository.DohvatiLokacijuPoId(id); //lokacija iz baze
             var gradovi = lokacijaRepository.DohvatiGradove();
             if (id != null)
@@ -221,6 +224,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(LokacijaVM lokacija)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             TempData["OrgJedID"] = HttpContext.Session.GetInt32(SessionOrgJedinica);
             var orgJedID = TempData["OrgJedID"];
             if (lokacijaRepository.EditLokacija(lokacija))

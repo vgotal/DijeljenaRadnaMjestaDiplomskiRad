@@ -30,6 +30,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         public IActionResult Index()
         {
             ModelState.Clear();
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
             var djelatnikUloga = rezervacijeRepository.DohvatiDjelatnikovuUlogu((int)djelatnikID);
             if (djelatnikUloga == "Administrator")
@@ -46,6 +47,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [HttpPost]
         public IActionResult Index(RezervacijaVM rezervacija) 
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
             var djelatnik = new Djelatnik();
             if (djelatnikID != 0 && djelatnikID != null)

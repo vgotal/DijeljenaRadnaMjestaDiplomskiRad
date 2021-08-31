@@ -1,55 +1,66 @@
 ﻿
 <link rel="stylesheet" type="text/css" href="~/css/NavigacijskaTraka.css" media="screen" 7 />
-<nav class="navbar navbar-expand-lg navbar-light ">
-    @if ((string)ViewData["index"] == "ADMIN")
-    {
-    <a class="navbar-brand" href="@Url.Action("Pocetna","Autentifikacija")"> <img src="~/Slike/laptopIcon.png" style="width: 40px;margin-right:10px;" class=" row-link"  data-toggle="tooltip" title="Pritisni za uređivanje podataka!" data-placement="right">Dijeljena radna mjesta</a>
+@{
+
+    var imePrezime=ViewData["ImePrezime"];
+}
+
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        @if ((string) ViewData["index"] == "ADMIN")
+            {
+        <a class="navbar-brand" href="@Url.Action("Pocetna", "Autentifikacija")"> <img src="~/Slike/laptopIcon.png" style="width: 40px;margin-right:10px;" class=" row-link" data-toggle="tooltip" title="Pritisni za uređivanje podataka!" data-placement="right">Dijeljena radna mjesta</a>
     }
     else
     {
-        <a class="navbar-brand"><img src="~/Slike/laptopIcon.png" style="width: 40px;margin-right:10px;" class=" row-link" data-toggle="tooltip" title="Pritisni za uređivanje podataka!" data-placement="right">Dijeljena radna mjesta</a>
-    }
+<a class="navbar-brand"><img src="~/Slike/laptopIcon.png" style="width: 40px;margin-right:10px;" class=" row-link" data-toggle="tooltip" title="Pritisni za uređivanje podataka!" data-placement="right">Dijeljena radna mjesta</a>
+}
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active ">
-                <a class="nav-link" asp-area="" asp-controller="Zahtjevi" asp-action="Index">Pregled zahtjeva <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" asp-area="" asp-controller="Rezervacije" asp-action="Index">Rezervacija <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" asp-area="" asp-controller="Otkazivanje" asp-action="Index">Otkazivanje <span class="sr-only">(current)</span></a>
-            </li>
-            @if ((string)ViewData["index"] == "ADMIN")
-            {
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Zahtjevi
-                    </a>
-
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" asp-area="" asp-controller="Djelatnik" asp-action="Index">Djelatnik</a>
-                        <a class="dropdown-item" asp-area="" asp-controller="TipLaptopa" asp-action="Index">Tip laptopa</a>
-                        <a class="dropdown-item" asp-area="" asp-controller="RadnoMjesto" asp-action="Index">Radno mjesto</a>
-                        <a class="dropdown-item" asp-area="" asp-controller="Grad" asp-action="Index">Grad</a>
-                        <a class="dropdown-item" asp-area="" asp-controller="Lokacija" asp-action="Index">Lokacija</a>
-                        <a class="dropdown-item" asp-area="" asp-controller="OrganizacijskaJedinica" asp-action="Index">Organizacijska jedinica</a>
-                        <a class="dropdown-item" asp-area="" asp-controller="OdobravanjeZahtjeva" asp-action="Index">Odobravanje zahtjeva</a>
-                    </div>
-
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active ">
+                    <a class="nav-link" asp-area="" asp-controller="Zahtjevi" asp-action="Index">Pregled zahtjeva <span class="sr-only">(current)</span></a>
                 </li>
-            }
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="" asp-controller="Rezervacije" asp-action="Index">Rezervacija <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="" asp-controller="Otkazivanje" asp-action="Index">Otkazivanje <span class="sr-only">(current)</span></a>
+                </li>
+                @if ((string)ViewData["index"] == "ADMIN")
+                {
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-area="" asp-controller="OdobravanjeZahtjeva" asp-action="Index">Odobravanje <span class="sr-only">(current)</span></a>
+                    </li>
 
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Ostalo
+                        </a>
 
-            <li class="nav-item active">
-                <a class="nav-link" style="text-align:right;" asp-controller="Autentifikacija" asp-action="Prijava"><i class="fas fa-sign-out-alt" style="font-size:20px"></i> <span class="sr-only">(current)</span></a>
-            </li>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" asp-area="" asp-controller="Djelatnik" asp-action="Index">Djelatnik</a>
+                            <a class="dropdown-item" asp-area="" asp-controller="TipLaptopa" asp-action="Index">Tip laptopa</a>
+                            <a class="dropdown-item" asp-area="" asp-controller="RadnoMjesto" asp-action="Index">Radno mjesto</a>
+                            <a class="dropdown-item" asp-area="" asp-controller="Grad" asp-action="Index">Grad</a>
+                            <a class="dropdown-item" asp-area="" asp-controller="Lokacija" asp-action="Index">Lokacija</a>
+                            <a class="dropdown-item" asp-area="" asp-controller="OrganizacijskaJedinica" asp-action="Index">Organizacijska jedinica</a>
+                            @*<a class="dropdown-item" asp-area="" asp-controller="OdobravanjeZahtjeva" asp-action="Index">Odobravanje zahtjeva</a>*@
 
-        </ul>
-    </div>
-</nav>
+                        </div>
+
+                    </li>
+                }
+                <li class="nav-item username"> <a> <label style="color:white; vertical-align:middle;"> @imePrezime</label></a></li>
+
+                <li class="nav-item active">
+                    @*<label> @imePrezime</label>*@
+                    <a class="nav-link" style="text-align:right;display:inline-block;" asp-controller="Autentifikacija" asp-action="Prijava"> <i class="fas fa-sign-out-alt" style="font-size:20px"></i> <span class="sr-only">(current)</span></a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>

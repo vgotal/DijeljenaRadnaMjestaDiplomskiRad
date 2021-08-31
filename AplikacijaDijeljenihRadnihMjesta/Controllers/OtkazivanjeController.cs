@@ -21,6 +21,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         public IActionResult Index()
         {
             ModelState.Clear();
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
             var djelatnikUloga = otkazivanjeRepository.DohvatiDjelatnikovuUlogu((int)djelatnikID);
             if (djelatnikUloga == "Administrator")
@@ -36,6 +37,7 @@ namespace AplikacijaDijeljenihRadnihMjesta.Controllers
         [HttpPost]
         public IActionResult Index(OtkazivanjeVM otkazivanje)
         {
+            TempData["ImePrezime"] = HttpContext.Session.GetString("ImePrezime");
             var djelatnikID = HttpContext.Session.GetInt32("DjelatnikID");
             var djelatnikUloga = otkazivanjeRepository.DohvatiDjelatnikovuUlogu((int)djelatnikID);
             if (djelatnikUloga == "Administrator")
